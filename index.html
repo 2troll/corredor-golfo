@@ -727,8 +727,8 @@ footer h3{font-family:var(--mono);font-size:.7rem;letter-spacing:.14em;text-tran
       un precio en firme hay que negociar con dos hoteles.</li>
     <li><b>El mapa competitivo sólo cubre el mercado abierto.</b> La operación que va por
       recomendación no aparece en ninguna búsqueda.</li>
-    <li><b>La disponibilidad del operador tiene fecha.</b> El permiso de residencia en Japón del
-      autor vence en abril de 2027. Es la limitación más importante de todas para un plan a
+    <li><b>La disponibilidad del operador en destino tiene fecha.</b> Su permiso de residencia
+      en Japón vence en abril de 2027. Es la limitación más importante de todas para un plan a
       veinticuatro meses, y por eso figura aquí y no en una nota al pie.</li>
   </ul>
   <div class="aviso"><p><b>Qué haría que este informe se quedara corto:</b> que el corredor aéreo
@@ -1077,7 +1077,7 @@ function cotiza(){
 function comoTexto(){
   const r=ULT; if(!r)return'';
   const li=r.L.map(([c,v,d,ref])=>`  ${c.padEnd(32)} ${yen(v).padStart(14)}   [${T[ref].tipo}] ${d}`);
-  return ['MARSA — presupuesto orientativo',
+  return ['Presupuesto orientativo · Kansai para el Golfo',
    `${r.p.n} · ${r.p.dias} días · ${r.pax} personas · ${r.hab} habitaciones`,
    `Alojamiento a ${yen(r.hotel)} por habitación y noche`,'',...li,'',
    `  ${'Coste directo'.padEnd(32)} ${yen(r.coste).padStart(14)}`,
@@ -1097,7 +1097,7 @@ function descargar(){
   try{
     const b=new Blob([comoTexto()],{type:'text/plain;charset=utf-8'});
     const u=URL.createObjectURL(b), a=document.createElement('a');
-    a.href=u; a.download='presupuesto-marsa.txt';
+    a.href=u; a.download='presupuesto-kansai.txt';
     document.body.appendChild(a); a.click(); a.remove();
     setTimeout(()=>URL.revokeObjectURL(u),1500);
     s.textContent='Descargado'; s.classList.add('ver');
