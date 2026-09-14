@@ -313,8 +313,8 @@ footer h3{font-family:var(--mono);font-size:.7rem;letter-spacing:.14em;text-tran
     anticipa hoteles antes de cobrar.</p></div>
   <p>Un mercado de cincuenta y cinco mil personas no sostiene una operación con nómina. Sostiene
     perfectamente un servicio bajo demanda y sin coste fijo sobre una capacidad que ya existe: en el
-    escenario base, nueve viajes dejan <b>3.443.900 ¥ de margen al operador</b> y 2.066.300 ¥ de
-    honorarios a la consultora, con los dos porcentajes como supuestos declarados (apartado 16).
+    escenario base, <span id="base-viajes">—</span> viajes dejan <b><span id="base-margen">—</span> de
+    margen al operador</b> y <span id="base-hon">—</span> de honorarios a la consultora, con los dos porcentajes como supuestos declarados (apartado 16).
     Que la cifra sea modesta es el resultado honesto: un informe que prometiera diez veces eso
     sería más agradable de leer y no serviría para decidir nada.</p>
 </div></section>
@@ -537,24 +537,28 @@ footer h3{font-family:var(--mono);font-size:.7rem;letter-spacing:.14em;text-tran
   <p>No son tres versiones del mismo viaje. El de cuatro días no mueve de hotel y existe para el
     emiratí que entra por Kansai; el de ocho entra por Tokio y sale por Kansai; el de doce está
     dimensionado para tres generaciones viajando juntas, que es el tamaño de grupo real del Golfo
-    y el que rompe los vehículos de seis plazas.</p>
+    y el que no cabe en un taxi: nueve personas y el guía son diez pasajeros, y el jumbo taxi lleva
+    nueve. Por eso va en microbús.</p>
   <p class="pista">Precio del operador = coste directo + margen del operador (supuesto); lo factura el
     operador japonés del grupo al cliente final. Honorarios de consultoría = porcentaje supuesto del
     precio del operador, facturados aparte por HARUNANA. No hay comisión de agencia sumada al precio.
     Sin billete internacional.</p>
-  <div class="aviso med"><p><b>Problema abierto, sin resolver.</b> El producto de doce días lleva a
-    nueve personas en un vehículo de nueve plazas y no queda asiento para el guía. El estudio no lo ha
-    resuelto y esta página tampoco: las cifras de ese producto siguen calculadas con ese vehículo.</p></div>
+  <div class="aviso"><p><b>Corregido el 14 de septiembre de 2026.</b> El producto de doce días llevaba
+    a nueve personas en un jumbo taxi de nueve plazas de pasajero y el guía no cabía. Ahora va en un
+    microbús de la categoría コミューター車, de hasta catorce plazas, con la tarifa publicada por el
+    近畿運輸局 y los kilómetros como supuesto. Dos taxis salían más caros, y bajar el producto a ocho
+    personas contradecía su definición: de nueve a doce. La comparación está en el apartado 16 del
+    informe.</p></div>
 </div></section>
 
 <section id="costes"><div class="env">
   <header><span class="clave">12</span><h2>Lo que cuesta cada cosa, con su origen</h2>
-    <span class="tras">12 partidas</span></header>
+    <span class="tras"><span class="n-partidas">—</span> partidas</span></header>
   <p>Un modelo de costes es creíble o no lo es según lo que hace con lo que no sabe. Cada línea
     va etiquetada: <span class="orig dato">dato</span> si hay tarifa publicada por el proveedor,
     <span class="orig observado">observado</span> si es precio consultado con fecha y condiciones
     declaradas, y <span class="orig supuesto">supuesto</span> si lo hemos puesto nosotros. Quedan
-    cuatro supuestos de coste de doce partidas, y dos de precio: el margen del operador y los
+    <span class="n-sup">—</span> supuestos de coste de <span class="n-partidas">—</span> partidas, y dos de precio: el margen del operador y los
     honorarios de la consultora.</p>
   <div class="tabla-caja"><table>
     <thead><tr><th>Concepto</th><th class="n">Importe</th><th>Unidad</th><th>Fuente</th></tr></thead>
@@ -585,7 +589,7 @@ footer h3{font-family:var(--mono);font-size:.7rem;letter-spacing:.14em;text-tran
 <section id="mesa"><div class="env">
   <header><span class="clave">13</span><h2>Simule los costes del operador</h2>
     <span class="tras">Simulación orientativa · no es oferta</span></header>
-  <p>Los ocho conceptos salen de la fórmula del apartado anterior. Cambie lo que quiera y la
+  <p>Los conceptos salen de la fórmula del apartado anterior. Cambie lo que quiera y la
     simulación se rehace. <b>Es una simulación orientativa de los costes del operador, no una oferta
     ni un presupuesto de la consultora</b>: el viaje lo cotiza y lo factura el operador japonés del
     grupo a nombre del cliente final, y HARUNANA factura aparte sus honorarios.</p>
@@ -827,12 +831,13 @@ footer h3{font-family:var(--mono);font-size:.7rem;letter-spacing:.14em;text-tran
       pandemia con serie completa. Es poco. Es también todo lo que hay.</li>
     <li><b>2025 está contaminado por la Expo de Osaka.</b> Cualquier comparación contra 2025
       exagera las caídas.</li>
-    <li><b>El modelo de costes tiene cuatro supuestos de coste, dos de precio y ninguna tarifa
-      contratada.</b> El margen del operador y los honorarios de la consultora son supuestos: HARUNANA
+    <li><b>El modelo de costes tiene <span class="n-sup">—</span> supuestos de coste, dos de precio y
+      ninguna tarifa contratada.</b> El margen del operador y los honorarios de la consultora son supuestos: HARUNANA
       no ha dado tarifa de honorarios. Antes de dar un precio en firme hay que negociar con dos
       hoteles.</li>
-    <li><b>El producto de doce días no deja asiento para el guía.</b> Nueve personas en un vehículo
-      de nueve plazas. Es un problema abierto y las cifras de ese producto siguen calculadas así.</li>
+    <li><b>El microbús del producto de doce días va al mínimo publicado.</b> La tarifa del
+      近畿運輸局 es lo menos que puede cobrar un operador, y la hora de cochera y los kilómetros de cada
+      jornada son supuestos. Una cotización real puede salir por encima.</li>
     <li><b>El apartado legal no es asesoramiento jurídico.</b> Sigue abierta la pregunta de fondo del
       modelo: que la consultora quede fuera de la 旅行業法 y qué cubre exactamente la licencia del
       operador del grupo.</li>
@@ -904,7 +909,7 @@ const SERIE={
 /* Copia literal de ~/projects/golfo-datos/salida/para-web.json (sólo los
    campos que usa esta página). No se teclea: se pega desde el fichero, y la
    verificación comprueba que coincide con él. */
-const GOLFO={"generado":"2026-09-10","fuente":"JNTO, 国籍/月別 訪日外客数 · agregado GCC6か国, 2023-2025","robustez_top3":[40.3,8.6,0,78.9,0,16.9,0,0,0,0,55.2,100],"repartos_probados":10000,"umbrales":[{"clave":"kansai4","nombre":"Kansai esencial","dias":4,"pax_diseno":6,"pct_fijo":46,"minimo":5,"precio_operador_pax":163900,"honorarios_pax":16400,"total_cliente_pax":180300},{"clave":"clasica8","nombre":"Ruta clásica de ocho días","dias":8,"pax_diseno":6,"pct_fijo":41,"minimo":5,"precio_operador_pax":355000,"honorarios_pax":35500,"total_cliente_pax":390500},{"clave":"familia12","nombre":"Familia extensa, doce días","dias":12,"pax_diseno":9,"pct_fijo":36,"minimo":6,"precio_operador_pax":517300,"honorarios_pax":51700,"total_cliente_pax":569100}],"modelo_precio":{"margen_operador":0.2,"margen_operador_tipo":"supuesto","honorarios_consultoria":0.1,"honorarios_consultoria_unidad":"fracción del precio del operador, por expediente","honorarios_consultoria_tipo":"supuesto","comision_agencia":0,"moneda":"JPY"},"rejilla_divisa":{"variacion_yen_pct":[-15,-10,-5,0,5,10,15],"margen_operador_sobre_precio_pct":[29.2,25.0,20.8,16.7,12.5,8.3,4.2]},"fiestas_por_mes":[0,2,4,0,4,0,0,0,1,0,2,5],"fiestas_anio":2027,"fiestas":[{"pais":"Kuwait","fiesta":"Día Nacional y Liberación","fecha":"2027-02-25","dias":2,"tipo":"nacional"},{"pais":"Todo el Golfo","fiesta":"Eid al-Fitr","fecha":"2027-03-10","dias":4,"tipo":"islamica"},{"pais":"Todo el Golfo","fiesta":"Eid al-Adha","fecha":"2027-05-17","dias":4,"tipo":"islamica"},{"pais":"Arabia Saudí","fiesta":"Día Nacional","fecha":"2027-09-23","dias":1,"tipo":"nacional"},{"pais":"Omán","fiesta":"Día Nacional","fecha":"2027-11-18","dias":2,"tipo":"nacional"},{"pais":"Emiratos","fiesta":"Día de la Unión","fecha":"2027-12-02","dias":2,"tipo":"nacional"},{"pais":"Baréin","fiesta":"Día Nacional","fecha":"2027-12-16","dias":2,"tipo":"nacional"},{"pais":"Catar","fiesta":"Día Nacional","fecha":"2027-12-18","dias":1,"tipo":"nacional"}]};
+const GOLFO={"generado":"2026-09-14","fuente":"JNTO, 国籍/月別 訪日外客数 · agregado GCC6か国, 2023-2025","robustez_top3":[40.3,8.6,0,78.9,0,16.9,0,0,0,0,55.2,100],"repartos_probados":10000,"umbrales":[{"clave":"kansai4","nombre":"Kansai esencial","dias":4,"pax_diseno":6,"pct_fijo":46,"minimo":5,"precio_operador_pax":163900,"honorarios_pax":16400,"total_cliente_pax":180300},{"clave":"clasica8","nombre":"Ruta clásica de ocho días","dias":8,"pax_diseno":6,"pct_fijo":41,"minimo":5,"precio_operador_pax":355000,"honorarios_pax":35500,"total_cliente_pax":390500},{"clave":"familia12","nombre":"Familia extensa, doce días","dias":12,"pax_diseno":9,"pct_fijo":37,"minimo":6,"precio_operador_pax":528900,"honorarios_pax":52900,"total_cliente_pax":581800}],"modelo_precio":{"margen_operador":0.2,"margen_operador_tipo":"supuesto","honorarios_consultoria":0.1,"honorarios_consultoria_unidad":"fracción del precio del operador, por expediente","honorarios_consultoria_tipo":"supuesto","comision_agencia":0,"moneda":"JPY"},"rejilla_divisa":{"variacion_yen_pct":[-15,-10,-5,0,5,10,15],"margen_operador_sobre_precio_pct":[29.2,25.0,20.8,16.7,12.5,8.3,4.2]},"fiestas_por_mes":[0,2,4,0,4,0,0,0,1,0,2,5],"fiestas_anio":2027,"fiestas":[{"pais":"Kuwait","fiesta":"Día Nacional y Liberación","fecha":"2027-02-25","dias":2,"tipo":"nacional"},{"pais":"Todo el Golfo","fiesta":"Eid al-Fitr","fecha":"2027-03-10","dias":4,"tipo":"islamica"},{"pais":"Todo el Golfo","fiesta":"Eid al-Adha","fecha":"2027-05-17","dias":4,"tipo":"islamica"},{"pais":"Arabia Saudí","fiesta":"Día Nacional","fecha":"2027-09-23","dias":1,"tipo":"nacional"},{"pais":"Omán","fiesta":"Día Nacional","fecha":"2027-11-18","dias":2,"tipo":"nacional"},{"pais":"Emiratos","fiesta":"Día de la Unión","fecha":"2027-12-02","dias":2,"tipo":"nacional"},{"pais":"Baréin","fiesta":"Día Nacional","fecha":"2027-12-16","dias":2,"tipo":"nacional"},{"pais":"Catar","fiesta":"Día Nacional","fecha":"2027-12-18","dias":1,"tipo":"nacional"}],"escenario_base":{"viajes":9,"margen_operador":3478300,"honorarios":2087000}};
 
 const TARIFAS=[
  ['guia_4h','Guía titulado, base hasta 4 horas (grupo de 1 a 9)',30800,'grupo','dato',
@@ -913,12 +918,16 @@ const TARIFAS=[
   'Tarifa publicada por la JFG'],
  ['guia_pernocta','Guía, recargo por pernocta fuera de base',5500,'noche','dato',
   'Tarifa publicada por la JFG'],
- ['vehiculo_9_8h','Jumbo taxi de 9 plazas con conductor, 8 h',66400,'día','dato',
-  'JPS 京都観光貸切タクシー, tarifa publicada. Peajes y aparcamiento aparte'],
- ['vehiculo_9_10h','Jumbo taxi de 9 plazas con conductor, 10 h',83000,'día','dato',
+ ['vehiculo_9_8h','Jumbo taxi de 9 plazas de pasajero con conductor, 8 h',66400,'día','dato',
+  'JPS 京都観光貸切タクシー, tarifa publicada: 【乗客定員】9名様, sin contar al conductor. Peajes y aparcamiento aparte'],
+ ['vehiculo_9_10h','Jumbo taxi de 9 plazas de pasajero con conductor, 10 h',83000,'día','dato',
   'JPS 京都観光貸切タクシー, tarifa publicada'],
  ['vehiculo_6_8h','Vehículo grande de 6 plazas con conductor, 8 h',61600,'día','dato',
   'JPS 京都観光貸切タクシー, tarifa publicada'],
+ ['comuter_10h_tiempo','Microbús コミューター車 (hasta 14 plazas) con conductor, 10 h: 12 h facturables',69960,'día','dato',
+  '近畿運輸局, tarifas del 26-9-2025: 5.300 ¥ por hora, con 2 h de 点呼点検 y el 10 % de IVA añadidos. Consultado el 14-9-2026'],
+ ['comuter_10h_extra','Microbús コミューター車: 1 h de cochera y 120 km por jornada',20350,'día','supuesto',
+  'Supuesto propio sobre las tarifas del 近畿運輸局: 5.300 ¥ por hora y 110 ¥ por km, más IVA'],
  ['tren_tokio_kioto','Shinkansen Nozomi Tokio-Kioto, asiento reservado',14170,'persona','dato',
   'Tarifa oficial de JR Central: billete más suplemento'],
  ['hotel_habitacion','Habitación doble o familiar, Osaka, ventana de diciembre',26400,
@@ -928,6 +937,8 @@ const TARIFAS=[
   'persona y día','supuesto','Supuesto propio sobre la oferta halal de Osaka y Kioto'],
  ['entradas','Entradas y transporte local',2500,'persona y día','supuesto','Supuesto propio'],
  ['traslado_kix','Traslado de aeropuerto',30000,'trayecto','supuesto','Supuesto propio'],
+ ['traslado_kix_comuter','Traslado de aeropuerto en microbús コミューター車',43670,'trayecto','supuesto',
+  'Supuesto propio sobre las tarifas del 近畿運輸局: 3 h de servicio, 2 de 点呼点検 y 120 km, más IVA'],
  ['sim_y_extras','eSIM, consigna e imprevistos',1500,'persona y día','supuesto','Supuesto propio'],
 ];
 const T=Object.fromEntries(TARIFAS.map(t=>[t[0],{v:t[2],tipo:t[4],fuente:t[5],n:t[1]}]));
@@ -937,9 +948,13 @@ const PROG={
    dias:4,noches:3,pax:6,hab:3,bom:{dg:3,hg:8,pg:0,dv:3,veh:'vehiculo_9_8h',kix:2,tren:0}},
  clasica8:{n:'Ruta clásica de ocho días',sub:'Entra por Tokio, sale por Kansai. El producto por defecto.',
    dias:8,noches:7,pax:6,hab:3,bom:{dg:7,hg:8,pg:4,dv:6,veh:'vehiculo_9_8h',kix:1,tren:6}},
- familia12:{n:'Familia extensa, doce días',sub:'Tres generaciones, nueve personas. El tamaño real del Golfo.',
-   dias:12,noches:11,pax:9,hab:5,bom:{dg:11,hg:10,pg:7,dv:10,veh:'vehiculo_9_10h',kix:1,tren:9}},
+ familia12:{n:'Familia extensa, doce días',sub:'Tres generaciones, nueve personas y el guía, en microbús. El tamaño real del Golfo.',
+   dias:12,noches:11,pax:9,hab:5,bom:{dg:11,hg:10,pg:7,dv:10,
+     veh:['comuter_10h_tiempo','comuter_10h_extra'],tras:'traslado_kix_comuter',kix:1,tren:9}},
 };
+/* Mismo nombre de línea que negocio.LINEA_VEHICULO del estudio: la parte
+   supuesta del vehículo va en su propia línea, con su etiqueta. */
+const LINEA_VEH={comuter_10h_extra:'Vehículo: cochera y kilómetros'};
 /* Modelo de la consultora: no hay comisión de agencia. El precio del viaje es
    el del operador (coste + su margen) y los honorarios van en factura aparte.
    Los dos porcentajes son supuestos y salen de para-web.json. */
@@ -1020,13 +1035,14 @@ function veredicto(m){
 function presupuesto(clave,pax,hab,hotel,margen){
   const p=PROG[clave],b=p.bom;
   const gd=T.guia_4h.v+Math.max(0,b.hg-4)*T.guia_hora_extra.v;
-  const bil=Math.round(b.tren*pax/p.pax);
+  const bil=Math.round(b.tren*pax/p.pax), tras=b.tras||'traslado_kix';
   const L=[
    ['Guía titulado en árabe',b.dg*gd+b.pg*T.guia_pernocta.v,
     `${b.dg} jornadas de ${b.hg} h a ${yen(gd)}`+(b.pg?` + ${b.pg} pernoctas`:''),'guia_4h'],
-   ['Vehículo con conductor',b.dv*T[b.veh].v,`${b.dv} días a ${yen(T[b.veh].v)}`,b.veh],
-   ['Traslados de aeropuerto',b.kix*T.traslado_kix.v,
-    `${b.kix} trayecto(s) a ${yen(T.traslado_kix.v)}`,'traslado_kix'],
+   ...[].concat(b.veh).map(v=>[LINEA_VEH[v]||'Vehículo con conductor',b.dv*T[v].v,
+    `${b.dv} días a ${yen(T[v].v)}`,v]),
+   ['Traslados de aeropuerto',b.kix*T[tras].v,
+    `${b.kix} trayecto(s) a ${yen(T[tras].v)}`,tras],
    ['Shinkansen',bil*T.tren_tokio_kioto.v,
     bil?`${bil} billetes a ${yen(T.tren_tokio_kioto.v)}`:'no aplica en este programa','tren_tokio_kioto'],
    ['Alojamiento',p.noches*hab*hotel,
@@ -1321,7 +1337,7 @@ function comoTexto(){
    ...(r.pax<u.minimo?[`AVISO: por debajo del mínimo de ${u.minimo} personas. El ${u.pct_fijo} % del coste es fijo`,
      'por salida; vehículo y guía se cotizan aparte.','']:[]),
    'Importes redondeados al centenar, cada uno por separado.',
-   'Tarifas publicadas: JFG (guías titulados), JR Central, JPS 京都観光貸切タクシー.',
+   'Tarifas publicadas: JFG (guías titulados), JR Central, JPS 京都観光貸切タクシー, 近畿運輸局 (microbús).',
    'Alojamiento: precio observado el 8-9-2026 para la ventana del 10 al 13 de diciembre.',
    'Cambio del 8-9-2026: 1 AED = 41,887 ¥ · 1 USD = 154,36 ¥.',
    'Para cotizar en firme hay que fijar el cambio en el contrato.'].join('\n');
@@ -1505,6 +1521,18 @@ $('#tema').addEventListener('click',()=>{
   requestAnimationFrame(()=>{serie();estacion();gasto();});
 });
 
+/* Cifras sueltas del texto que salen de los datos y no se teclean: el escenario
+   base (para-web.json) y cuántas partidas y supuestos tiene la tabla de tarifas. */
+function pintaCifrasTexto(){
+  const e=GOLFO.escenario_base;
+  $('#base-viajes').textContent=e.viajes;
+  $('#base-margen').textContent=yenC(e.margen_operador);
+  $('#base-hon').textContent=yenC(e.honorarios);
+  document.querySelectorAll('.n-partidas').forEach(n=>n.textContent=TARIFAS.length);
+  document.querySelectorAll('.n-sup').forEach(n=>
+    n.textContent=TARIFAS.filter(t=>t[4]==='supuesto').length);
+}
+
 /* ── Arranque ──────────────────────────────────────────────────────────── */
 $('#f-prog').innerHTML=Object.entries(PROG)
   .map(([k,p])=>`<option value="${k}">${p.n}</option>`).join('');
@@ -1521,7 +1549,7 @@ $('#bajar').addEventListener('click',descargar);
 $('#copiar').addEventListener('click',()=>copiar());
 
 pintaMeses(); pintaHiyri(); pintaRutas(); pintaProductos(); pintaTarifas(); pintaHalal();
-pintaRobustez(); pintaUmbrales(); pintaDivisa();
+pintaRobustez(); pintaUmbrales(); pintaDivisa(); pintaCifrasTexto();
 cotiza(); serie(); estacion(); gasto(); indiceVivo();
 setTimeout(globo,60);
 </script>
