@@ -275,7 +275,7 @@ footer h3{font-family:var(--mono);font-size:.7rem;letter-spacing:.14em;text-tran
 <main>
 
 <header class="portada"><div class="env">
-  <p class="epig">Consultoría de viajes privados · Dubái → Kansai</p>
+  <p class="epig">Consultoría turística · Dubái → Kansai</p>
   <h1>Sí, pero como servicio de <em>ticket alto</em> y sin coste fijo.</h1>
   <p class="entradilla">El mercado del Golfo hacia Japón es pequeño y en 2026 ha caído un 38,6 %.
     Pero la caída tiene causa conocida y fecha de reversión, el visitante de la región es el
@@ -317,8 +317,8 @@ footer h3{font-family:var(--mono);font-size:.7rem;letter-spacing:.14em;text-tran
 <section id="tamano"><div class="env">
   <header><span class="clave">01</span><h2>Tamaño y trayectoria</h2>
     <span class="tras">JNTO · llegadas mensuales</span></header>
-  <p>Entre enero y julio de 2026 llegaron 25.107 visitantes de los seis países del Consejo de
-    Cooperación del Golfo, frente a 40.884 en el mismo periodo de 2025. En el mismo intervalo el
+  <p>Entre enero y julio de 2026 llegaron 18.655 visitantes de los seis países del Consejo de
+    Cooperación del Golfo, frente a 30.384 en el mismo periodo de 2025. En el mismo intervalo el
     conjunto de Japón apenas se movió, así que no es un efecto general.</p>
   <div class="aviso med"><p><b>Cuidado con el titular regional.</b> JNTO agrupa bajo «Oriente
     Medio» a Israel, Turquía y el CCG. Ese agregado <i>sube</i> un 15 % porque Turquía crece un
@@ -393,8 +393,9 @@ footer h3{font-family:var(--mono);font-size:.7rem;letter-spacing:.14em;text-tran
       aria-label="Índice de estacionalidad del Golfo frente a España"></svg>
     <figcaption>Para cada mercado y cada año de 2023 a 2025 se divide la cifra del mes entre la
       media mensual de ese año y se multiplica por cien; luego se promedian los tres años. La
-      correlación de Pearson entre las dos curvas es de sólo <b>0,25</b>: agosto es el mes más
-      flojo del Golfo (74) y el más fuerte de España (169).</figcaption>
+      correlación de Pearson entre las dos curvas es de sólo <b>0,25</b>. El mes más flojo del
+      Golfo es marzo (52,5); agosto, con 74, es donde más se separan: es el más fuerte de España
+      (169).</figcaption>
   </figure>
   <div class="aviso"><p><b>La explicación es logística antes que cultural.</b> Agosto es el mes
     más caro y más saturado de Japón, con calor extremo y humedad. La familia del Golfo que huye
@@ -404,9 +405,11 @@ footer h3{font-family:var(--mono);font-size:.7rem;letter-spacing:.14em;text-tran
 <section id="hiyri"><div class="env">
   <header><span class="clave">05</span><h2>El calendario que manda de verdad</h2>
     <span class="tras">Calculado en su navegador</span></header>
-  <p>El factor dominante del calendario comercial no es la estación: es el Ramadán, que se
-    desplaza once días cada año y arrastra la demanda con él. Entre marzo y abril de 2024 la
-    diferencia fue de <b>6,6 veces</b> entre dos meses consecutivos.</p>
+  <p>El Ramadán se desplaza once días cada año y se nota en las llegadas: en 2024 cayó en marzo,
+    y abril tuvo <b>6,6 veces</b> los visitantes de marzo. Pero eso es un caso, no una medida. Con
+    los tres años de 2023 a 2025 el efecto sale con el signo esperado y sin significación:
+    <b>−1,5 % por día de Ramadán</b> en el mes, con un intervalo de −3,7 a +0,6 y p = 0,16. Hace
+    falta más serie para fijar su tamaño.</p>
   <div class="rejilla" id="hiyri-tarjetas"></div>
   <div class="aviso med"><p>Las fechas se calculan con el algoritmo tabular civil, que es
     aritmético y reproducible. <b>No sustituye al avistamiento real de la luna</b>: los ministerios
@@ -757,8 +760,8 @@ footer h3{font-family:var(--mono);font-size:.7rem;letter-spacing:.14em;text-tran
     <li>Tipos de cambio medios de mercado del 8 de septiembre de 2026. Para cotizar en firme hay
       que fijar el cambio en el contrato.</li>
   </ol>
-  <p style="margin-top:1.4rem">Documento de trabajo preparado sin coste para una consultora de
-    viajes privados con sede en Dubái. Las cifras de mercado son públicas y verificables; los
+  <p style="margin-top:1.4rem">Documento de trabajo preparado sin coste para una consultora
+    turística con sede en Dubái. Las cifras de mercado son públicas y verificables; los
     supuestos propios van marcados como tales en todo el documento.</p>
 </div></footer>
 </main>
@@ -774,12 +777,15 @@ const MES=['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','di
 const MESL=['enero','febrero','marzo','abril','mayo','junio','julio','agosto',
             'septiembre','octubre','noviembre','diciembre'];
 
-/* Serie mensual del CCG. 2026 se corta en julio, que es el último publicado. */
+/* Serie mensual del CCG, copiada de golfo-datos/datos/series.csv, que la extrae
+   del Excel de JNTO (GCC6か国). 2026 se corta en julio, el último publicado.
+   No se redondea ni se suaviza: una versión anterior llevaba una curva
+   inventada, y un dato así lo detecta cualquiera que abra el Excel. */
 const SERIE={
- 2023:[3050,3180,2640,6550,5500,5700,6050,3700,4150,5900,6950,6650],
- 2024:[3400,3520,2930,7280,6110,6330,6720,4110,4610,6550,7720,7390],
- 2025:[3760,3890,3240,8050,6760,7000,7430,4550,5100,7250,8540,8170],
- 2026:[3420,2390,1990,2300,4180,5290,5540,null,null,null,null,null]};
+ 2023:[1510,1560,2024,2693,2644,3089,3909,2427,2167,3582,3835,3772],
+ 2024:[2236,2736,891,5918,4550,4709,4118,2373,2380,4175,5500,5075],
+ 2025:[3208,2717,2819,6322,5279,4879,5160,3301,5003,5210,6111,5915],
+ 2026:[4107,1247,1404,1819,3578,2600,3900,null,null,null,null,null]};
 
 const TARIFAS=[
  ['guia_4h','Guía titulado, base hasta 4 horas (grupo de 1 a 9)',30800,'grupo','dato',
@@ -870,8 +876,8 @@ const fdate=d=>d.toLocaleDateString('es-ES',{day:'numeric',month:'long',timeZone
 
 function veredicto(m){
   const g=IDX_G[m],e=IDX_E[m];
-  if(MESES_RAM.has(m))return{n:'mal',t:`<b>Ramadán cubre ${MESL[m]}.</b> La demanda cae de forma predecible todos los años: es mes de preparar, no de vender. Índice del Golfo ${g}.`};
-  if(m===M_FITR)return{n:'',t:`<b>Cae el Eid al-Fitr.</b> El mes siguiente al Ramadán multiplica las llegadas: es la mejor ventana del año, aunque el índice de tres años (${g}) todavía no lo recoja porque el Ramadán se mueve.`};
+  if(MESES_RAM.has(m))return{n:'mal',t:`<b>Ramadán cubre ${MESL[m]}.</b> Se esperan menos llegadas, aunque con tres años el efecto aún no es significativo (p = 0,16): mes de preparar más que de vender. Índice del Golfo ${g}.`};
+  if(m===M_FITR)return{n:'',t:`<b>Cae el Eid al-Fitr.</b> Buena ventana: en 2024 el mes del Eid tuvo 6,6 veces las llegadas del anterior. Con tres años es una observación, no una medida, y el mes que gana con cualquier criterio es diciembre. Índice ${g}.`};
   if(m===M_ADHA)return{n:'',t:`<b>Cae el Eid al-Adha</b>, la segunda fiesta grande. Ventana corta y de ticket alto. Índice ${g}.`};
   if(g>=110&&e<=110)return{n:'',t:`<b>${MESL[m].charAt(0).toUpperCase()+MESL[m].slice(1)} es de los buenos:</b> índice del Golfo ${g}, por encima de su media, y España en ${e}, así que no compite por la misma agenda.`};
   if(g<90)return{n:'mal',t:`<b>Mes flojo para el Golfo</b> (índice ${g}). Se puede operar, pero no es donde está el dinero — y España está en ${e}.`};
@@ -935,9 +941,9 @@ function serie(){
     fill="${col('--coral')}"/>`)});
   // el mes del Ramadán de cada año, que es el que manda
   g.push(`<text x="${px(3)}" y="${py(SERIE[2025][3])-12}" text-anchor="middle" font-size="10.5"
-    fill="${col('--marea')}" font-family="var(--mono)">abr 2025 · 8.050</text>`);
+    fill="${col('--marea')}" font-family="var(--mono)">abr 2025 · 6.322</text>`);
   g.push(`<text x="${px(3)}" y="${py(SERIE[2026][3])+20}" text-anchor="middle" font-size="10.5"
-    fill="${col('--coral')}" font-family="var(--mono)">abr 2026 · 2.300 (−71,5 %)</text>`);
+    fill="${col('--coral')}" font-family="var(--mono)">abr 2026 · 1.819 (−71,2 %)</text>`);
   g.push(`<text x="700" y="${py(SERIE[2025][11])-8}" text-anchor="end" font-size="10"
     fill="${col('--tinta3')}" font-family="var(--mono)">2023-2025</text>`);
   s.innerHTML=g.join('');
