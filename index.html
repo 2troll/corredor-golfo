@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="description" content="Estudio de viabilidad del mercado emisor del Golfo hacia Japón: tamaño, estacionalidad, corredor aéreo, costes y márgenes. Con cotizador en vivo.">
+<meta name="description" content="Estudio de viabilidad del mercado emisor del Golfo hacia Japón: tamaño, estacionalidad, corredor aéreo, costes del operador y honorarios de la consultora. Con simulador orientativo de costes.">
 <meta name="color-scheme" content="light dark">
 <meta property="og:title" content="El corredor del Golfo">
-<meta property="og:description" content="Estudio de viabilidad del mercado emisor del Golfo hacia Japón, con cotizador en vivo.">
+<meta property="og:description" content="Estudio de viabilidad del mercado emisor del Golfo hacia Japón, con simulador orientativo de costes del operador.">
 <meta property="og:type" content="article">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230d1f2a'/%3E%3Ccircle cx='16' cy='16' r='9' fill='none' stroke='%231f6b5e' stroke-width='2'/%3E%3Cpath d='M16 7v18M7 16h18' stroke='%231f6b5e' stroke-width='1.2' opacity='.6'/%3E%3C/svg%3E">
 <title>El corredor del Golfo</title>
@@ -113,6 +113,7 @@ section > .env > header{display:flex;gap:.9rem;align-items:baseline;margin-botto
   flex-wrap:wrap}
 section h2{font-size:clamp(1.7rem,2.9vw,2.3rem);letter-spacing:-.008em}
 .clave{font-family:var(--mono);font-size:.74rem;color:var(--marea);letter-spacing:.08em}
+section h3{font-size:clamp(1.3rem,2vw,1.55rem);margin:2rem 0 .8rem}
 .tras{margin-inline-start:auto;font-family:var(--mono);font-size:.7rem;color:var(--tinta3);
   letter-spacing:.06em;text-transform:uppercase}
 
@@ -258,8 +259,8 @@ footer h3{font-family:var(--mono);font-size:.7rem;letter-spacing:.14em;text-tran
   <a href="#competencia"><i>10</i>Competencia</a>
   <a href="#producto"><i>11</i>Los tres productos</a>
   <a href="#costes"><i>12</i>Costes y márgenes</a>
-  <a href="#mesa"><i>13</i>Mesa de cotización</a>
-  <a href="#modelos"><i>14</i>Los dos modelos</a>
+  <a href="#mesa"><i>13</i>Simulador de costes</a>
+  <a href="#modelos"><i>14</i>Dos tipos de encargo</a>
   <a href="#cuenta"><i>15</i>Cuenta del año 1</a>
   <a href="#escenarios"><i>16</i>Escenarios</a>
   <a href="#legal"><i>17</i>Marco legal</a>
@@ -279,13 +280,13 @@ footer h3{font-family:var(--mono);font-size:.7rem;letter-spacing:.14em;text-tran
   <h1>Sí, pero como servicio de <em>ticket alto</em> y sin coste fijo.</h1>
   <p class="entradilla">El mercado del Golfo hacia Japón es pequeño y en 2026 ha caído un 38,6 %.
     Pero la caída tiene causa conocida y fecha de reversión, el visitante de la región es el
-    <b>segundo que más gasta</b> de los veintitrés que mide Japón, y no hay un solo operador que
-    reúna base en Kansai, guía árabe residente y tarifa neta para agencias. La ventana para entrar
+    <b>segundo que más gasta</b> de los veintitrés que mide Japón, y nadie reúne base en Kansai, guía
+    árabe residente, operador con licencia en Japón y consultora de diseño en los Emiratos. La ventana para entrar
     va de noviembre de 2026 a mayo de 2027.</p>
   <div class="sellos">
     <span class="sello ok">Veredicto: adelante</span>
     <span class="sello">21 apartados</span>
-    <span class="sello">Cotizador en vivo</span>
+    <span class="sello">Simulador de costes</span>
     <span class="sello">Fuentes citadas una a una</span>
   </div>
 </div></header>
@@ -303,13 +304,17 @@ footer h3{font-family:var(--mono);font-size:.7rem;letter-spacing:.14em;text-tran
     <div class="tarj ac"><span class="et">Estancia media</span>
       <span class="v">12,5</span><span class="n">noches, frente a 8,7 del conjunto</span></div>
   </div>
-  <div class="aviso"><p><b>Qué recomienda este informe.</b> Entrar, pero no montando una
-    estructura: vendiendo jornadas desde el primer día y registrándose como operador en paralelo,
-    porque el registro cuesta 16.000 ¥ —lo confirmó la Prefectura de Osaka por escrito— y eso se
-    devuelve con <b>0,4 jornadas de guía</b>. La barrera nunca fue la tasa: es el riesgo de caja y
-    quedar bajo la ley japonesa de agencias de viaje.</p></div>
+  <div class="aviso"><p><b>Qué recomienda este informe.</b> Entrar, pero sin montar estructura.
+    HARUNANA <b>no opera ni vende el viaje</b>: lo diseña y lo asigna a la empresa del grupo con
+    licencia de agencia de viajes en Japón, que lo contrata y lo factura directamente al cliente; la
+    consultora factura aparte sus honorarios. Sobre ese modelo, empezar con <b>jornadas de guía en
+    árabe</b> —39.600 ¥ la jornada, sin riesgo de caja— y pasar a viajes completos en cuanto una
+    agencia emisora los pida. La barrera no es un registro: es el riesgo de caja del operador, que
+    anticipa hoteles antes de cobrar.</p></div>
   <p>Un mercado de cincuenta y cinco mil personas no sostiene una operación con nómina. Sostiene
-    perfectamente un servicio bajo demanda con margen del 20 % sobre una capacidad que ya existe.
+    perfectamente un servicio bajo demanda y sin coste fijo sobre una capacidad que ya existe: en el
+    escenario base, nueve viajes dejan <b>3.443.900 ¥ de margen al operador</b> y 2.066.300 ¥ de
+    honorarios a la consultora, con los dos porcentajes como supuestos declarados (apartado 16).
     Que la cifra sea modesta es el resultado honesto: un informe que prometiera diez veces eso
     sería más agradable de leer y no serviría para decidir nada.</p>
 </div></section>
@@ -399,7 +404,22 @@ footer h3{font-family:var(--mono);font-size:.7rem;letter-spacing:.14em;text-tran
   </figure>
   <div class="aviso"><p><b>La explicación es logística antes que cultural.</b> Agosto es el mes
     más caro y más saturado de Japón, con calor extremo y humedad. La familia del Golfo que huye
-    de los 45 °C de Riad no elige un destino a 35 °C con 80 % de humedad pudiendo ir a Londres.</p></div>
+    de los 45 °C de Riad no elige un destino a 35 °C con 80 % de humedad pudiendo ir a Londres.</p></div>
+  <h3>Qué meses aguantan cualquier criterio</h3>
+  <p>Decir «diciembre y abril» obliga a elegir cuánto pesan la demanda del Golfo, el choque con el
+    mercado hispanohablante y el Ramadán, y con unos pesos gana un mes y con otros gana otro. En vez
+    de elegir, se han probado <b id="rob-n"></b> repartos de pesos al azar y se ha contado cuántas
+    veces queda cada mes entre los tres mejores de 2027. Al lado, por una vía independiente de las
+    llegadas, los días de fiesta que tiene el Golfo cada mes.</p>
+  <div class="tabla-caja"><table>
+    <thead><tr><th>Mes</th><th class="n">Entre los tres mejores</th><th class="n">Días de fiesta</th>
+      <th>Qué fiestas, 2027</th></tr></thead>
+    <tbody id="tabla-robustez"></tbody></table></div>
+  <div class="aviso" id="robustez-lectura"></div>
+  <p class="pista">Fuente: ~/projects/golfo-datos, salida/para-web.json, generado el 10-9-2026
+    (<i>Rscript R/calendario.R 2027</i> para los repartos; <i>python/fiestas.py 2027</i> para las
+    fiestas). Las fiestas nacionales son fijas y públicas; los dos Eid se calculan con la regla
+    tabular, con un día de margen.</p>
 </div></section>
 
 <section id="hiyri"><div class="env">
@@ -501,8 +521,8 @@ footer h3{font-family:var(--mono);font-size:.7rem;letter-spacing:.14em;text-tran
     <div class="tarj"><span class="et">Operadores localizados</span><span class="v">8</span></div>
     <div class="tarj av"><span class="et">De amenaza alta</span><span class="v">3</span></div>
     <div class="tarj ac"><span class="et">Que reúnan las cuatro cosas</span><span class="v">0</span>
-      <span class="n">base en Kansai · guía árabe residente · tarifa neta para agencias ·
-      brazo comercial en los Emiratos</span></div>
+      <span class="n">base en Kansai · guía árabe residente · operador con licencia en Japón ·
+      consultora de diseño en los Emiratos</span></div>
   </div>
   <div class="aviso med"><p>El mapa competitivo sólo cubre el <b>mercado abierto</b>: operadores
     con presencia digital pública. En este nicho hay operación que va por recomendación y por
@@ -518,6 +538,13 @@ footer h3{font-family:var(--mono);font-size:.7rem;letter-spacing:.14em;text-tran
     emiratí que entra por Kansai; el de ocho entra por Tokio y sale por Kansai; el de doce está
     dimensionado para tres generaciones viajando juntas, que es el tamaño de grupo real del Golfo
     y el que rompe los vehículos de seis plazas.</p>
+  <p class="pista">Precio del operador = coste directo + margen del operador (supuesto); lo factura el
+    operador japonés del grupo al cliente final. Honorarios de consultoría = porcentaje supuesto del
+    precio del operador, facturados aparte por HARUNANA. No hay comisión de agencia sumada al precio.
+    Sin billete internacional.</p>
+  <div class="aviso med"><p><b>Problema abierto, sin resolver.</b> El producto de doce días lleva a
+    nueve personas en un vehículo de nueve plazas y no queda asiento para el guía. El estudio no lo ha
+    resuelto y esta página tampoco: las cifras de ese producto siguen calculadas con ese vehículo.</p></div>
 </div></section>
 
 <section id="costes"><div class="env">
@@ -527,17 +554,41 @@ footer h3{font-family:var(--mono);font-size:.7rem;letter-spacing:.14em;text-tran
     va etiquetada: <span class="orig dato">dato</span> si hay tarifa publicada por el proveedor,
     <span class="orig observado">observado</span> si es precio consultado con fecha y condiciones
     declaradas, y <span class="orig supuesto">supuesto</span> si lo hemos puesto nosotros. Quedan
-    cuatro supuestos de doce.</p>
+    cuatro supuestos de coste de doce partidas, y dos de precio: el margen del operador y los
+    honorarios de la consultora.</p>
   <div class="tabla-caja"><table>
     <thead><tr><th>Concepto</th><th class="n">Importe</th><th>Unidad</th><th>Fuente</th></tr></thead>
     <tbody id="tabla-tarifas"></tbody></table></div>
+  <h3>El tamaño mínimo del grupo</h3>
+  <p>El coste de una salida no crece con las personas: crece a trozos. Guía, vehículo y traslados
+    cuestan lo mismo con dos pasajeros que con seis; camas, comidas, trenes y entradas no. Por eso el
+    precio por persona sólo funciona por encima de un tamaño de grupo, y por debajo el operador pierde
+    dinero en la salida. Los honorarios de la consultora no cambian ese umbral: no cubren costes del
+    operador.</p>
+  <div class="tabla-caja"><table>
+    <thead><tr><th>Producto</th><th class="n">Diseñado para</th><th class="n">% fijo</th>
+      <th class="n">Grupo mínimo</th><th>Qué pasa por debajo</th></tr></thead>
+    <tbody id="tabla-umbrales"></tbody></table></div>
+  <p class="pista">Precio por persona fijado al tamaño de diseño con el margen del operador supuesto;
+    una habitación por cada dos personas. Grupo mínimo y % fijo: golfo-datos, salida/para-web.json.
+    Las pérdidas se calculan en esta página con la misma fórmula que el apartado 16 del informe.</p>
+  <h3>Lo que se lleva el tipo de cambio</h3>
+  <p>Si el operador fija su precio en dirhams o en dólares y paga en yenes, cuando el yen se aprecia
+    ese mismo precio compra menos yenes y su margen baja sin que nadie toque nada:</p>
+  <div class="tabla-caja"><table><thead id="divisa-cab"></thead>
+    <tbody id="divisa-cuerpo"></tbody></table></div>
+  <p class="pista">Margen del operador sobre su precio, con precio = coste + margen del operador
+    supuesto. Rejilla de escenarios, no de probabilidades. Los honorarios de consultoría no entran: no
+    tienen coste en yenes. Fuente: golfo-datos, salida/para-web.json.</p>
 </div></section>
 
 <section id="mesa"><div class="env">
-  <header><span class="clave">13</span><h2>Cotice usted mismo</h2>
-    <span class="tras">Se recalcula al instante</span></header>
-  <p>Los ocho conceptos salen de la fórmula del apartado anterior. Cambie lo que quiera: el
-    presupuesto se rehace y puede descargarlo para pegarlo en un correo.</p>
+  <header><span class="clave">13</span><h2>Simule los costes del operador</h2>
+    <span class="tras">Simulación orientativa · no es oferta</span></header>
+  <p>Los ocho conceptos salen de la fórmula del apartado anterior. Cambie lo que quiera y la
+    simulación se rehace. <b>Es una simulación orientativa de los costes del operador, no una oferta
+    ni un presupuesto de la consultora</b>: el viaje lo cotiza y lo factura el operador japonés del
+    grupo a nombre del cliente final, y HARUNANA factura aparte sus honorarios.</p>
   <div class="mesa">
     <form class="mandos" id="mandos" autocomplete="off">
       <label class="campo"><span>Programa</span>
@@ -552,23 +603,26 @@ footer h3{font-family:var(--mono);font-size:.7rem;letter-spacing:.14em;text-tran
         <select id="f-hotel">
           <option value="10300">10.300 · suelo observado en Kioto</option>
           <option value="26400" selected>26.400 · certificado en Osaka</option>
-          <option value="41000">41.000 · temporada de cerezo</option>
+          <option value="45000">45.000 · temporada de cerezo</option>
         </select></label>
-      <label class="campo"><span>Margen del operador</span>
+      <label class="campo"><span>Margen del operador · supuesto</span>
         <select id="f-margen">
           <option value="0.15">15 %</option>
           <option value="0.20" selected>20 %</option>
-          <option value="0.25">25 %</option>
+          <option value="0.25">25 %</option>
         </select></label>
+      <div class="campo"><span>Honorarios de consultoría · supuesto</span>
+        <p class="pista" id="pista-hon" style="margin:0"></p></div>
       <p class="pista" id="pista-prog"></p>
     </form>
     <div>
+      <div id="aviso-minimo" class="aviso mal" hidden></div>
       <div class="tabla-caja"><table>
         <thead><tr><th>Concepto</th><th class="n">Importe</th></tr></thead>
         <tbody id="lineas"></tbody></table></div>
       <div class="rejilla" id="totales"></div>
       <div class="botones">
-        <button class="bt pri" id="bajar" type="button">Descargar el presupuesto</button>
+        <button class="bt pri" id="bajar" type="button">Descargar la simulación</button>
         <button class="bt" id="copiar" type="button">Copiar al portapapeles</button>
         <span class="soplo" id="soplo"></span>
       </div>
@@ -577,44 +631,58 @@ footer h3{font-family:var(--mono);font-size:.7rem;letter-spacing:.14em;text-tran
 </div></section>
 
 <section id="modelos"><div class="env">
-  <header><span class="clave">14</span><h2>Dos modelos de negocio, no uno</h2>
+  <header><span class="clave">14</span><h2>Dos tipos de encargo, no uno</h2>
     <span class="tras">La bifurcación que hay que decidir</span></header>
+  <p>En ninguno de los dos la consultora contrata servicios ni toca el dinero del viaje: contrata y
+    factura el operador japonés del grupo. Lo que cambia es el riesgo de caja del operador y el tamaño
+    del ticket.</p>
   <div class="tabla-caja"><table>
-    <thead><tr><th>&nbsp;</th><th>Modo guía</th><th>Modo paquete</th></tr></thead>
+    <thead><tr><th>&nbsp;</th><th>Jornada de guía en árabe</th><th>Viaje completo</th></tr></thead>
     <tbody>
       <tr><td>Qué se vende</td><td>la jornada</td><td>el viaje entero</td></tr>
-      <tr><td>Ingreso por día operado</td><td class="n">39.600 ¥</td><td class="n">44.400 ¥</td></tr>
-      <tr><td>Margen</td><td>prácticamente todo</td><td>20 % sobre el coste</td></tr>
-      <tr><td>Riesgo de caja</td><td><b>ninguno</b>: no se toca dinero de terceros</td>
-        <td>se anticipan hoteles antes de cobrar</td></tr>
-      <tr><td>Registro de 旅行サービス手配業</td><td>no hace falta</td><td><b>obligatorio</b></td></tr>
+      <tr><td>Qué deja por día<span class="det">ruta de ocho días</span></td>
+        <td>39.600 ¥ que retribuyen al guía</td>
+        <td>44.400 ¥ de margen del operador, más 26.600 ¥ de honorarios</td></tr>
+      <tr><td>Quién factura qué</td><td>el operador del grupo factura la jornada, sin margen de
+        operador ni honorarios</td><td>el operador factura el viaje al cliente final; HARUNANA
+        factura aparte sus honorarios</td></tr>
+      <tr><td>Riesgo de caja</td><td><b>ninguno</b>: no hay proveedores que anticipar</td>
+        <td>del operador, que anticipa hoteles y proveedores</td></tr>
+      <tr><td>Requisito legal</td><td>guiar cobrando no exige permiso</td>
+        <td>contratar hoteles y transporte lo hace el operador con su licencia de agencia de viajes;
+        <b>alcance a confirmar</b> (apartado 17)</td></tr>
     </tbody></table></div>
-  <div class="aviso"><p><b>El error caro sería montar la estructura de operador antes de tener
-    demanda.</b> El error barato es empezar vendiendo jornadas y descubrir a los seis meses que
-    hay que registrarse. De los dos errores posibles hay que elegir el segundo.</p></div>
+  <p class="pista">Margen del operador (20 %) y honorarios (10 % del precio del operador): supuestos
+    propios. En Japón no hay comisión de prescripción, porque el operador es del grupo. Fuente:
+    apartado 16 del informe.</p>
+  <div class="aviso"><p><b>El error caro sería que el operador comprometiera hoteles y vehículos antes
+    de tener demanda.</b> El error barato es empezar vendiendo jornadas y tardar unas semanas más en el
+    primer viaje completo. De los dos errores posibles hay que elegir el segundo.</p></div>
 </div></section>
 
 <section id="cuenta"><div class="env">
   <header><span class="clave">15</span><h2>La cuenta del primer año</h2>
-    <span class="tras">Escenario base · 9 operaciones</span></header>
-  <p>Nueve operaciones equivalen a <b>68 jornadas operadas</b> al año. Las mismas jornadas,
-    vendidas de dos maneras:</p>
+    <span class="tras">Escenario base · 9 viajes</span></header>
+  <p>Nueve viajes equivalen a <b>68 jornadas</b> al año. Las mismas jornadas, vendidas de dos
+    maneras:</p>
   <div class="rejilla">
-    <div class="tarj"><span class="et">Modo guía · facturación</span><span class="v">2.680.100 ¥</span>
-      <span class="n">y es todo margen: no hay coste de terceros</span></div>
-    <div class="tarj hondo"><span class="et">Modo paquete · margen</span><span class="v">3.427.900 ¥</span>
-      <span class="n">sobre 20.663.400 ¥ de facturación, ya descontada la tasa</span></div>
-    <div class="tarj ac"><span class="et">Diferencia anual</span><span class="v">+747.800 ¥</span>
-      <span class="n">por el mismo número de días trabajados</span></div>
-    <div class="tarj ac"><span class="et">La tasa se devuelve en</span><span class="v">0,4</span>
-      <span class="n">jornadas de guía. Menos de media jornada</span></div>
+    <div class="tarj"><span class="et">Solo jornadas · lo que paga el cliente</span><span class="v">2.680.100 ¥</span>
+      <span class="n">retribuye al guía: no es margen del operador ni lleva honorarios</span></div>
+    <div class="tarj hondo"><span class="et">Viajes completos · margen del operador</span><span class="v">3.443.900 ¥</span>
+      <span class="n">sobre 20.663.400 ¥ de precio de los viajes, que factura el operador</span></div>
+    <div class="tarj ac"><span class="et">Viajes completos · honorarios</span><span class="v">2.066.300 ¥</span>
+      <span class="n">los factura HARUNANA aparte. Supuesto: 10 % del precio del operador</span></div>
+    <div class="tarj ac"><span class="et">Lo que añade el viaje completo</span><span class="v">5.510.200 ¥</span>
+      <span class="n">margen más honorarios, unos 81.400 ¥ por jornada, además de pagar al guía</span></div>
   </div>
-  <div class="aviso"><p><b>Esto cambia la lectura de la barrera de entrada.</b> El registro no es
-    la barrera: cuesta 16.000 ¥ y se recupera en media jornada. La barrera es el riesgo de caja y
-    quedar bajo el régimen de la ley de agencias, con sus obligaciones de garantía y de gestor
-    titulado. Por eso el papel conviene tramitarlo <b>en paralelo desde el principio</b>, no cuando
-    una agencia lo exija: así la primera petición de paquete no obliga a hacer esperar semanas a un
-    cliente del Golfo.</p></div>
+  <div class="aviso"><p><b>La barrera para dar ese paso no es un registro.</b> La tasa del alta de
+    旅行サービス手配業 (16.000 ¥, confirmada por la Prefectura de Osaka) no entra en esta cuenta: no la
+    paga la consultora, que no contrata servicios en Japón, ni el guía. Contrata el operador del grupo,
+    que según HARUNANA tiene licencia de agencia de viajes en Japón; si esa licencia cubre por sí sola
+    todo lo que hace falta es una pregunta abierta (apartado 17). <b>La barrera real es el riesgo de
+    caja del operador</b>, que anticipa hoteles antes de cobrar. Por eso se empieza con jornadas: no
+    porque haga falta registrarse, sino porque no hay riesgo de caja y se factura desde el primer
+    día.</p></div>
 </div></section>
 
 <section id="escenarios"><div class="env">
@@ -624,19 +692,25 @@ footer h3{font-family:var(--mono);font-size:.7rem;letter-spacing:.14em;text-tran
     presente una proyección para esto está adivinando. Lo que sí se puede hacer es fijar tres
     niveles, decir en voz alta qué hace falta para alcanzar cada uno y calcular qué deja.</p>
   <div class="tabla-caja"><table>
-    <thead><tr><th>Escenario</th><th class="n">Ops. año 1</th><th class="n">Facturación</th>
-      <th class="n">Margen año 1</th><th class="n">Margen año 2</th></tr></thead>
+    <thead><tr><th>Escenario</th><th class="n">Viajes<br>año 1 / 2</th>
+      <th class="n">Precio de los viajes<br>año 1</th><th class="n">Margen del operador<br>año 1 / 2</th>
+      <th class="n">Honorarios<br>año 1 / 2 <span class="orig supuesto">supuesto</span></th></tr></thead>
     <tbody>
       <tr><td>Conservador<span class="det">Una por ventana comercial. Es lo que sale de estar
-        disponible y contestar</span></td><td class="n">4</td><td class="n">6.227.100 ¥</td>
-        <td class="n">1.037.800 ¥</td><td class="n">1.816.200 ¥</td></tr>
+        disponible y contestar</span></td><td class="n">4<br>7</td><td class="n">6.227.100 ¥</td>
+        <td class="n">1.037.800 ¥<br>1.816.200 ¥</td><td class="n">622.700 ¥<br>1.089.700 ¥</td></tr>
       <tr class="tot"><td>Base<span class="det">Con ronda comercial activa y presencia en una
-        feria</span></td><td class="n">9</td><td class="n">20.663.400 ¥</td>
-        <td class="n">3.443.900 ¥</td><td class="n">6.122.500 ¥</td></tr>
+        feria</span></td><td class="n">9<br>16</td><td class="n">20.663.400 ¥</td>
+        <td class="n">3.443.900 ¥<br>6.122.500 ¥</td><td class="n">2.066.300 ¥<br>3.673.500 ¥</td></tr>
       <tr><td>Optimista<span class="det">Con dos agencias emisoras dando volumen recurrente</span></td>
-        <td class="n">16</td><td class="n">42.023.400 ¥</td><td class="n">7.003.900 ¥</td>
-        <td class="n">12.256.800 ¥</td></tr>
+        <td class="n">16<br>28</td><td class="n">42.023.400 ¥</td>
+        <td class="n">7.003.900 ¥<br>12.256.800 ¥</td><td class="n">4.202.300 ¥<br>7.354.100 ¥</td></tr>
     </tbody></table></div>
+  <p class="pista">Precio de los viajes: lo que factura el operador japonés del grupo a los clientes
+    finales. Margen del operador: lo que le queda tras pagar a todos los proveedores, incluida la
+    jornada de guía a tarifa de mercado. Honorarios: lo que HARUNANA factura aparte al cliente por el
+    diseño y la gestión. En Japón no hay comisión de prescripción. Antes de impuestos. Fuente:
+    apartado 17 del informe.</p>
   <div class="aviso med"><p><b>No es un negocio que dé para vivir</b>, y decirlo es parte del
     trabajo. Es un complemento de alto margen sobre una capacidad que ya existe. El reparto por
     meses no se inventa: se calcula con el índice de estacionalidad del apartado 4, poniendo a cero
@@ -644,23 +718,50 @@ footer h3{font-family:var(--mono);font-size:.7rem;letter-spacing:.14em;text-tran
 </div></section>
 
 <section id="legal"><div class="env">
-  <header><span class="clave">17</span><h2>Qué permiso hace falta, y qué cuesta</h2>
-    <span class="tras">Prefectura de Osaka · respuesta escrita del 10-9-2026</span></header>
+  <header><span class="clave">17</span><h2>Quién necesita qué permiso, y qué queda abierto</h2>
+    <span class="tras">No es asesoramiento jurídico</span></header>
+  <p>Este apartado es el mapa de lo que hay que preguntarle a un 行政書士 antes de facturar el primer
+    viaje, no una conclusión legal. El modelo: <b>la consultora diseña el itinerario y asigna un
+    operador con licencia en Japón, que contrata y factura el viaje directamente al cliente</b>. El
+    dinero del viaje va del cliente al operador y nunca pasa por la consultora.</p>
+  <div class="tabla-caja"><table>
+    <thead><tr><th>Actividad</th><th>¿Hace falta permiso?</th><th>Quién y por qué</th></tr></thead>
+    <tbody>
+      <tr><td>Guiar en árabe cobrando por ello</td><td><b>No</b></td>
+        <td>La reforma de la 通訳案内士法, en vigor desde el 4-1-2018, eliminó el monopolio. Lo que sigue
+        protegido es el título.</td></tr>
+      <tr><td>Contratar hoteles y transporte por encargo de una agencia emisora extranjera</td>
+        <td><b>Sí</b></td><td>Es 旅行サービス手配業 (land operator). <b>En este modelo lo hace el
+        operador del grupo</b>, nunca la consultora ni el guía.</td></tr>
+      <tr><td>Vender el viaje completo directamente al viajero</td><td>Sí, y más exigente</td>
+        <td>Es 旅行業 (agencia de viajes). Según HARUNANA, es la licencia que tiene la empresa del
+        grupo que opera en Japón.</td></tr>
+      <tr><td>Asesorar, diseñar el itinerario y seleccionar el operador, cobrando honorarios al
+        cliente</td><td><b>Pregunta abierta</b></td><td>Es lo que hace la consultora, que no contrata
+        servicios en Japón ni cobra el viaje. Que eso la deje fuera de la 旅行業法 es razonable, pero
+        ninguna de las fuentes consultadas lo dice.</td></tr>
+      <tr><td>Cobrar al operador una comisión de prescripción</td><td>No aplica en Japón</td>
+        <td>El operador es del grupo: no hay comisión.</td></tr>
+    </tbody></table></div>
   <div class="rejilla">
-    <div class="tarj ac"><span class="et">Tasa del alta</span><span class="v">16.000 ¥</span>
-      <span class="n">旅行サービス手配業, confirmado por el propio negociado que la otorga</span></div>
+    <div class="tarj"><span class="et">Tasa del alta de land operator</span><span class="v">16.000 ¥</span>
+      <span class="n">旅行サービス手配業, confirmada por escrito por la Prefectura de Osaka el 10-9-2026.
+      Afecta a quien contrata servicios, no a la consultora</span></div>
     <div class="tarj"><span class="et">Autónomo vs. sociedad</span><span class="v">Igual</span>
       <span class="n">mismos requisitos; lo que cambia es la documentación</span></div>
     <div class="tarj"><span class="et">Gestor titulado</span><span class="v">Exigido</span>
       <span class="n">旅行サービス手配業務取扱管理者, con curso de entidad registrada</span></div>
   </div>
-  <div class="aviso"><p><b>Regla práctica mientras tanto:</b> en modo guía se factura la jornada
-    y no hay que registrar nada. En cuanto se contrate un hotel en nombre de un tercero, hay que
-    tener el registro hecho. No al revés.</p></div>
-  <div class="aviso med"><p>Lo que este apartado <b>no</b> puede cerrar: el tratamiento del
-    消費税 japonés sobre servicios prestados a una empresa extranjera. Es una pregunta para un
-    行政書士, no para este informe. El criterio que se aplica mientras tanto —exportación de
-    servicios, fuera del impuesto— se hace constar en cada factura para que quede por escrito.</p></div>
+  <div class="aviso"><p><b>Regla práctica mientras tanto:</b> la consultora no contrata hoteles,
+    transporte ni guías en Japón, no emite bonos ni facturas del viaje y no cobra su importe: factura
+    solo sus honorarios. Todo lo demás lo contrata y lo factura el operador del grupo, a nombre del
+    cliente final. No al revés.</p></div>
+  <div class="aviso med"><p>Lo que este apartado <b>no</b> puede cerrar: si la licencia de agencia de
+    viajes del operador del grupo cubre también el trabajo de land operator sin registro aparte; si la
+    consultora queda fuera de la 旅行業法 también cuando recomienda hoteles por su nombre; y el
+    tratamiento del 消費税 sobre servicios a clientes y empresas extranjeros, que depende de dónde se
+    considere prestado el servicio y requiere confirmación de un asesor fiscal. Son preguntas para un
+    行政書士, no para esta página.</p></div>
 </div></section>
 
 <section id="halal"><div class="env">
@@ -726,12 +827,19 @@ footer h3{font-family:var(--mono);font-size:.7rem;letter-spacing:.14em;text-tran
       pandemia con serie completa. Es poco. Es también todo lo que hay.</li>
     <li><b>2025 está contaminado por la Expo de Osaka.</b> Cualquier comparación contra 2025
       exagera las caídas.</li>
-    <li><b>El modelo de costes tiene cuatro supuestos y ninguna tarifa contratada.</b> Antes de dar
-      un precio en firme hay que negociar con dos hoteles.</li>
+    <li><b>El modelo de costes tiene cuatro supuestos de coste, dos de precio y ninguna tarifa
+      contratada.</b> El margen del operador y los honorarios de la consultora son supuestos: HARUNANA
+      no ha dado tarifa de honorarios. Antes de dar un precio en firme hay que negociar con dos
+      hoteles.</li>
+    <li><b>El producto de doce días no deja asiento para el guía.</b> Nueve personas en un vehículo
+      de nueve plazas. Es un problema abierto y las cifras de ese producto siguen calculadas así.</li>
+    <li><b>El apartado legal no es asesoramiento jurídico.</b> Sigue abierta la pregunta de fondo del
+      modelo: que la consultora quede fuera de la 旅行業法 y qué cubre exactamente la licencia del
+      operador del grupo.</li>
     <li><b>El mapa competitivo sólo cubre el mercado abierto.</b> La operación que va por
       recomendación no aparece en ninguna búsqueda.</li>
-    <li><b>La disponibilidad del operador en destino tiene fecha.</b> Su permiso de residencia
-      en Japón vence en abril de 2027. Es la limitación más importante de todas para un plan a
+    <li><b>La disponibilidad del guía tiene fecha.</b> El permiso de residencia en Japón del guía
+      arabófono residente de este planteamiento vence en abril de 2027. Es la limitación más importante de todas para un plan a
       veinticuatro meses, y por eso figura aquí y no en una nota al pie.</li>
   </ul>
   <div class="aviso"><p><b>Qué haría que este informe se quedara corto:</b> que el corredor aéreo
@@ -759,6 +867,12 @@ footer h3{font-family:var(--mono);font-size:.7rem;letter-spacing:.14em;text-tran
       de diciembre de 2026.</li>
     <li>Tipos de cambio medios de mercado del 8 de septiembre de 2026. Para cotizar en firme hay
       que fijar el cambio en el contrato.</li>
+    <li>Modelo de precio del estudio (datos/costes.json): precio del operador = coste directo + margen
+      del operador; honorarios de consultoría en factura aparte. Los dos porcentajes son supuestos
+      propios. En Japón no hay comisión de prescripción.</li>
+    <li>~/projects/golfo-datos, salida/para-web.json, generado el 10 de septiembre de 2026: calendario
+      robusto, fiestas del Golfo de 2027, grupo mínimo por producto, modelo de precio y rejilla de
+      divisa.</li>
   </ol>
   <p style="margin-top:1.4rem">Documento de trabajo preparado sin coste para una consultora
     turística con sede en Dubái. Las cifras de mercado son públicas y verificables; los
@@ -787,6 +901,11 @@ const SERIE={
  2025:[3208,2717,2819,6322,5279,4879,5160,3301,5003,5210,6111,5915],
  2026:[4107,1247,1404,1819,3578,2600,3900,null,null,null,null,null]};
 
+/* Copia literal de ~/projects/golfo-datos/salida/para-web.json (sólo los
+   campos que usa esta página). No se teclea: se pega desde el fichero, y la
+   verificación comprueba que coincide con él. */
+const GOLFO={"generado":"2026-09-10","fuente":"JNTO, 国籍/月別 訪日外客数 · agregado GCC6か国, 2023-2025","robustez_top3":[40.3,8.6,0,78.9,0,16.9,0,0,0,0,55.2,100],"repartos_probados":10000,"umbrales":[{"clave":"kansai4","nombre":"Kansai esencial","dias":4,"pax_diseno":6,"pct_fijo":46,"minimo":5,"precio_operador_pax":163900,"honorarios_pax":16400,"total_cliente_pax":180300},{"clave":"clasica8","nombre":"Ruta clásica de ocho días","dias":8,"pax_diseno":6,"pct_fijo":41,"minimo":5,"precio_operador_pax":355000,"honorarios_pax":35500,"total_cliente_pax":390500},{"clave":"familia12","nombre":"Familia extensa, doce días","dias":12,"pax_diseno":9,"pct_fijo":36,"minimo":6,"precio_operador_pax":517300,"honorarios_pax":51700,"total_cliente_pax":569100}],"modelo_precio":{"margen_operador":0.2,"margen_operador_tipo":"supuesto","honorarios_consultoria":0.1,"honorarios_consultoria_unidad":"fracción del precio del operador, por expediente","honorarios_consultoria_tipo":"supuesto","comision_agencia":0,"moneda":"JPY"},"rejilla_divisa":{"variacion_yen_pct":[-15,-10,-5,0,5,10,15],"margen_operador_sobre_precio_pct":[29.2,25.0,20.8,16.7,12.5,8.3,4.2]},"fiestas_por_mes":[0,2,4,0,4,0,0,0,1,0,2,5],"fiestas_anio":2027,"fiestas":[{"pais":"Kuwait","fiesta":"Día Nacional y Liberación","fecha":"2027-02-25","dias":2,"tipo":"nacional"},{"pais":"Todo el Golfo","fiesta":"Eid al-Fitr","fecha":"2027-03-10","dias":4,"tipo":"islamica"},{"pais":"Todo el Golfo","fiesta":"Eid al-Adha","fecha":"2027-05-17","dias":4,"tipo":"islamica"},{"pais":"Arabia Saudí","fiesta":"Día Nacional","fecha":"2027-09-23","dias":1,"tipo":"nacional"},{"pais":"Omán","fiesta":"Día Nacional","fecha":"2027-11-18","dias":2,"tipo":"nacional"},{"pais":"Emiratos","fiesta":"Día de la Unión","fecha":"2027-12-02","dias":2,"tipo":"nacional"},{"pais":"Baréin","fiesta":"Día Nacional","fecha":"2027-12-16","dias":2,"tipo":"nacional"},{"pais":"Catar","fiesta":"Día Nacional","fecha":"2027-12-18","dias":1,"tipo":"nacional"}]};
+
 const TARIFAS=[
  ['guia_4h','Guía titulado, base hasta 4 horas (grupo de 1 a 9)',30800,'grupo','dato',
   'Tarifa publicada por la JFG · 協同組合 全日本通訳案内士連盟, IVA incluido'],
@@ -797,6 +916,8 @@ const TARIFAS=[
  ['vehiculo_9_8h','Jumbo taxi de 9 plazas con conductor, 8 h',66400,'día','dato',
   'JPS 京都観光貸切タクシー, tarifa publicada. Peajes y aparcamiento aparte'],
  ['vehiculo_9_10h','Jumbo taxi de 9 plazas con conductor, 10 h',83000,'día','dato',
+  'JPS 京都観光貸切タクシー, tarifa publicada'],
+ ['vehiculo_6_8h','Vehículo grande de 6 plazas con conductor, 8 h',61600,'día','dato',
   'JPS 京都観光貸切タクシー, tarifa publicada'],
  ['tren_tokio_kioto','Shinkansen Nozomi Tokio-Kioto, asiento reservado',14170,'persona','dato',
   'Tarifa oficial de JR Central: billete más suplemento'],
@@ -813,13 +934,18 @@ const T=Object.fromEntries(TARIFAS.map(t=>[t[0],{v:t[2],tipo:t[4],fuente:t[5],n:
 
 const PROG={
  kansai4:{n:'Kansai esencial',sub:'Osaka, Kioto y Nara sin cambiar de hotel. Para el emiratí que entra por KIX.',
-   dias:4,noches:3,pax:6,hab:3,bom:{dg:3,hg:8,pg:0,dv:2,veh:'vehiculo_9_8h',kix:2,tren:0}},
+   dias:4,noches:3,pax:6,hab:3,bom:{dg:3,hg:8,pg:0,dv:3,veh:'vehiculo_9_8h',kix:2,tren:0}},
  clasica8:{n:'Ruta clásica de ocho días',sub:'Entra por Tokio, sale por Kansai. El producto por defecto.',
    dias:8,noches:7,pax:6,hab:3,bom:{dg:7,hg:8,pg:4,dv:6,veh:'vehiculo_9_8h',kix:1,tren:6}},
  familia12:{n:'Familia extensa, doce días',sub:'Tres generaciones, nueve personas. El tamaño real del Golfo.',
-   dias:12,noches:11,pax:9,hab:5,bom:{dg:11,hg:9,pg:7,dv:10,veh:'vehiculo_9_10h',kix:2,tren:9}},
+   dias:12,noches:11,pax:9,hab:5,bom:{dg:11,hg:10,pg:7,dv:10,veh:'vehiculo_9_10h',kix:1,tren:9}},
 };
-const MARGEN=0.20, COMISION=0.15, AED=41.887, USD=154.36;
+/* Modelo de la consultora: no hay comisión de agencia. El precio del viaje es
+   el del operador (coste + su margen) y los honorarios van en factura aparte.
+   Los dos porcentajes son supuestos y salen de para-web.json. */
+const MARGEN=GOLFO.modelo_precio.margen_operador,
+      HONOR=GOLFO.modelo_precio.honorarios_consultoria, AED=41.887, USD=154.36;
+const UMB=Object.fromEntries(GOLFO.umbrales.map(u=>[u.clave,u]));
 
 const RUTAS=[
  ['Emirates','Dubái (DXB)','Osaka Kansai (KIX)',7,'KIX','operativa',25.25,55.36],
@@ -844,6 +970,12 @@ const $=s=>document.querySelector(s);
    para que la columna de importes lea como una sola. */
 const yen=v=>Math.round(v).toLocaleString('es-ES',{useGrouping:true,
   minimumFractionDigits:0}).replace(/^(\d)(\d{3})$/,'$1.$2')+' ¥';
+/* El informe redondea al centenar todo importe calculado; si aquí se
+   redondeara a la unidad, 163.920 no leería como el 163.900 del informe. */
+const yenC=v=>yen(Math.round(v/100)*100);
+const pct1=v=>v.toLocaleString('es-ES',{minimumFractionDigits:1,maximumFractionDigits:1})+'\u00a0%';
+const lista=a=>a.length<2?a.join(''):a.slice(0,-1).join(', ')+' y '+a[a.length-1];
+const may=t=>t.charAt(0).toUpperCase()+t.slice(1);
 const col=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
 
 /* ── Calendario hiyrí, tabular civil, sin librería ─────────────────────── */
@@ -884,7 +1016,7 @@ function veredicto(m){
   return{n:'med',t:`<b>Mes trabajable con competencia interna:</b> el Golfo en ${g} y España en ${e}. Hay que elegir a quién se atiende.`};
 }
 
-/* ── Presupuesto ───────────────────────────────────────────────────────── */
+/* ── Simulación de costes del operador (orientativa, no es oferta) ────── */
 function presupuesto(clave,pax,hab,hotel,margen){
   const p=PROG[clave],b=p.bom;
   const gd=T.guia_4h.v+Math.max(0,b.hg-4)*T.guia_hora_extra.v;
@@ -907,8 +1039,19 @@ function presupuesto(clave,pax,hab,hotel,margen){
     `${p.dias} días × ${pax} personas a ${yen(T.sim_y_extras.v)}`,'sim_y_extras'],
   ];
   const coste=L.reduce((a,x)=>a+x[1],0);
-  const marg=coste*margen, neto=coste+marg, pvp=neto/(1-COMISION);
-  return{L,coste,marg,neto,pvp,pax,hab,hotel,margen,p};
+  const marg=coste*margen, precio=coste+marg, hon=precio*HONOR, total=precio+hon;
+  return{L,coste,marg,precio,hon,total,pax,hab,hotel,margen,p,clave};
+}
+/* Con el precio por persona fijado al tamaño de diseño, qué deja la salida
+   con cada grupo real. Misma regla que negocio.umbral_grupo del estudio: una
+   habitación por cada dos personas y el alojamiento observado. */
+function umbral(clave,margen){
+  const p=PROG[clave], h=T.hotel_habitacion.v;
+  const precioPax=presupuesto(clave,p.pax,p.hab,h,margen).precio/p.pax, filas=[];
+  for(let n=2;n<=p.pax;n++)
+    filas.push([n,precioPax*n-presupuesto(clave,n,Math.ceil(n/2),h,margen).coste]);
+  const ok=filas.find(f=>f[1]>0);
+  return{minimo:ok?ok[0]:null,filas,precioPax};
 }
 
 /* ── Gráficos en SVG, dibujados a la escala ────────────────────────────── */
@@ -1011,7 +1154,10 @@ function pintaMeses(){
       aria-pressed="${i===mesSel}"><b>${MES[i]}</b><span class="v">${v}</span>
       <i style="height:${Math.round(v/max*100*.45)}%"></i></button>`).join('');
   const ver=veredicto(mesSel);
-  const c=$('#veredicto-mes'); c.className='aviso '+ver.n; c.innerHTML='<p>'+ver.t+'</p>';
+  const c=$('#veredicto-mes'); c.className='aviso '+ver.n;
+  c.innerHTML='<p>'+ver.t+`<span class="det">Entre los tres mejores meses en el
+    ${Math.round(GOLFO.robustez_top3[mesSel])}\u00a0% de los repartos de pesos probados ·
+    ${GOLFO.fiestas_por_mes[mesSel]} días de fiesta del Golfo en ${GOLFO.fiestas_anio}.</span></p>`;
 }
 function pintaHiyri(){
   const et={ramadan:['Ramadán','mes de preparar, no de vender','mal'],
@@ -1033,11 +1179,59 @@ function pintaRutas(){
 }
 function pintaProductos(){
   $('#productos').innerHTML=Object.entries(PROG).map(([k,p])=>{
-    const r=presupuesto(k,p.pax,p.hab,26400,MARGEN);
-    return `<div class="tarj"><span class="et">${p.dias} días · ${p.pax} personas</span>
+    const r=presupuesto(k,p.pax,p.hab,T.hotel_habitacion.v,MARGEN), u=UMB[k];
+    return `<div class="tarj"><span class="et">${p.dias} días · ${p.pax} personas · mínimo ${u.minimo}</span>
       <span class="v" style="font-size:1.35rem;font-family:var(--cuerpo);font-weight:600">${p.n}</span>
-      <span class="n">${p.sub}<br><b>${yen(r.neto/p.pax)}</b> por persona, tarifa neta</span></div>`;
+      <span class="n">${p.sub}<br>Por persona: <b>${yenC(r.precio/p.pax)}</b> precio del operador
+      + ${yenC(r.hon/p.pax)} de honorarios <span class="orig supuesto">supuesto</span>
+      = <b>${yenC(r.total/p.pax)}</b> que paga el cliente</span></div>`;
   }).join('');
+}
+function pintaRobustez(){
+  const R=GOLFO.robustez_top3, F=GOLFO.fiestas_por_mes;
+  const porMes=Array.from({length:12},()=>[]), nac=Array(12).fill(0), paises=Array.from({length:12},()=>[]);
+  GOLFO.fiestas.forEach(f=>{const m=+f.fecha.slice(5,7)-1; porMes[m].push(f);
+    if(f.tipo==='nacional'){nac[m]+=f.dias; paises[m].push(f.pais);}});
+  const orden=R.map((v,m)=>[v,m]).sort((a,b)=>b[0]-a[0]), top=orden.slice(0,3).map(x=>x[1]);
+  const n=GOLFO.repartos_probados;
+  $('#rob-n').textContent=yen(n).replace(' ¥','');
+  $('#tabla-robustez').innerHTML=R.map((v,m)=>
+    `<tr${top.includes(m)?' class="tot"':''}><td>${may(MESL[m])}</td>
+     <td class="n">${v?Math.round(v)+'\u00a0%':'nunca'}</td><td class="n">${F[m]||'—'}</td>
+     <td>${porMes[m].map(f=>`${f.pais} · ${f.fiesta} (${f.dias})`).join('<br>')||'—'}</td></tr>`).join('');
+  const nunca=R.map((v,m)=>v?null:MESL[m]).filter(Boolean);
+  const mNac=nac.indexOf(Math.max(...nac));
+  let t=`<b>${may(MESL[top[0]])} entra entre los tres mejores meses en el ${Math.round(R[top[0]])}\u00a0%
+    de los ${yen(n).replace(' ¥','')} repartos</b>, ${MESL[top[1]]} en el ${Math.round(R[top[1]])}\u00a0% y
+    ${MESL[top[2]]} en el ${Math.round(R[top[2]])}\u00a0%. ${may(lista(nunca))} no entran nunca.
+    Y por la otra vía, ${MESL[mNac]} concentra <b>${nac[mNac]} días de fiesta nacional</b> del Golfo,
+    de ${lista(paises[mNac])}.`;
+  if(mNac===top[0]) t+=` Dos caminos independientes —las llegadas y el calendario laboral— señalan el
+    mismo mes.`;
+  $('#robustez-lectura').innerHTML='<p>'+t+'</p>';
+}
+function pintaUmbrales(){
+  $('#tabla-umbrales').innerHTML=GOLFO.umbrales.map(u=>{
+    const c=umbral(u.clave,MARGEN), perd=Object.fromEntries(c.filas.filter(f=>f[1]<=0));
+    let nota;
+    if(u.minimo<=2) nota='Deja dinero desde dos personas.';
+    else { const b=u.minimo-1;
+      nota=`Con ${b} personas la salida pierde ${yenC(-perd[b])}`+(b>2?`; con 2, pierde ${yenC(-perd[2])}.`:'.'); }
+    if(c.minimo!==u.minimo){
+      console.error('Grupo mínimo distinto del de para-web.json',u.clave,c.minimo,u.minimo);
+      nota+=` <b>Atención: el cálculo de esta página da ${c.minimo}.</b>`;
+    }
+    return `<tr><td><b>${u.nombre}</b> · ${u.dias} días</td><td class="n">${u.pax_diseno}</td>
+      <td class="n">${u.pct_fijo}\u00a0%</td><td class="n"><b>${u.minimo} personas</b></td><td>${nota}</td></tr>`;
+  }).join('');
+}
+function pintaDivisa(){
+  const d=GOLFO.rejilla_divisa;
+  $('#divisa-cab').innerHTML='<tr><th>El yen se aprecia</th>'+d.variacion_yen_pct.map(v=>
+    `<th class="n">${v===0?'sin cambio':(v>0?'+':'−')+Math.abs(v)+'\u00a0%'}</th>`).join('')+'</tr>';
+  $('#divisa-cuerpo').innerHTML='<tr><td>Margen del operador sobre su precio</td>'+
+    d.margen_operador_sobre_precio_pct.map((m,i)=>{const v=d.variacion_yen_pct[i];
+      return `<td class="n">${v===0||v===15?'<b>'+pct1(m)+'</b>':pct1(m)}</td>`;}).join('')+'</tr>';
 }
 function pintaTarifas(){
   $('#tabla-tarifas').innerHTML=TARIFAS.map(t=>
@@ -1059,37 +1253,74 @@ function cotiza(){
   const k=$('#f-prog').value, pax=+$('#f-pax').value||6, hab=+$('#f-hab').value||3;
   const r=presupuesto(k,pax,hab,+$('#f-hotel').value,+$('#f-margen').value);
   ULT=r;
+  const pm=Math.round(r.margen*100), ph=Math.round(HONOR*100), u=UMB[k];
   $('#pista-prog').textContent=PROG[k].sub;
+  $('#pista-hon').textContent=`${ph} % del precio del operador, en factura aparte. HARUNANA no ha dado tarifa: es un marcador de posición.`;
   $('#lineas').innerHTML=r.L.map(([c,v,d,ref])=>
     `<tr><td>${c}<span class="orig ${T[ref].tipo}">${T[ref].tipo}</span>
-      <span class="det">${d}</span></td><td class="n">${yen(v)}</td></tr>`).join('')
-   +`<tr class="tot"><td>Coste directo</td><td class="n">${yen(r.coste)}</td></tr>`
-   +`<tr><td>Margen del operador<span class="det">${Math.round(r.margen*100)}\u00a0%</span></td>
-      <td class="n">${yen(r.marg)}</td></tr>`
-   +`<tr class="tot"><td><b>Tarifa neta a la agencia</b></td><td class="n"><b>${yen(r.neto)}</b></td></tr>`;
+      <span class="det">${d}</span></td><td class="n">${yenC(v)}</td></tr>`).join('')
+   +`<tr class="tot"><td>Coste directo</td><td class="n">${yenC(r.coste)}</td></tr>`
+   +`<tr><td>Margen del operador<span class="orig supuesto">supuesto</span>
+      <span class="det">${pm}\u00a0% sobre el coste directo</span></td><td class="n">${yenC(r.marg)}</td></tr>`
+   +`<tr class="tot"><td><b>Precio del operador</b><span class="det">lo cotiza y lo factura el operador
+      japonés del grupo al cliente final</span></td><td class="n"><b>${yenC(r.precio)}</b></td></tr>`
+   +`<tr><td>Honorarios de consultoría<span class="orig supuesto">supuesto</span>
+      <span class="det">${ph}\u00a0% del precio del operador · los factura HARUNANA aparte</span></td>
+      <td class="n">${yenC(r.hon)}</td></tr>`
+   +`<tr class="tot"><td><b>Total que paga el cliente</b><span class="det">en dos facturas: la del
+      operador y la de la consultora</span></td><td class="n"><b>${yenC(r.total)}</b></td></tr>`;
   $('#totales').innerHTML=`
-    <div class="tarj"><span class="et">Neto · por persona</span>
-      <span class="v" style="font-size:1.5rem">${yen(r.neto/pax)}</span></div>
-    <div class="tarj hondo"><span class="et">PVP orientativo · por persona</span>
-      <span class="v" style="font-size:1.5rem">${yen(r.pvp/pax)}</span>
-      <span class="n">con comisión de agencia del ${Math.round(COMISION*100)}\u00a0%</span></div>
-    <div class="tarj"><span class="et">En dirhams · por persona</span>
-      <span class="v" style="font-size:1.5rem">${Math.round(r.pvp/pax/AED).toLocaleString('es-ES')}</span>
+    <div class="tarj"><span class="et">Precio del operador · por persona</span>
+      <span class="v" style="font-size:1.5rem" data-cifra="operador">${yenC(r.precio/pax)}</span>
+      <span class="n">lo cobra el operador: coste + ${pm}\u00a0% de margen</span></div>
+    <div class="tarj"><span class="et">Honorarios · por persona</span>
+      <span class="v" style="font-size:1.5rem" data-cifra="honorarios">${yenC(r.hon/pax)}</span>
+      <span class="n">los cobra HARUNANA, en factura aparte · supuesto del ${ph}\u00a0%</span></div>
+    <div class="tarj hondo"><span class="et">Total que paga el cliente · por persona</span>
+      <span class="v" style="font-size:1.5rem" data-cifra="total">${yenC(r.total/pax)}</span>
+      <span class="n">las dos facturas juntas. Cada cifra va redondeada al centenar por separado</span></div>
+    <div class="tarj"><span class="et">Total en dirhams · por persona</span>
+      <span class="v" style="font-size:1.5rem">${Math.round(r.total/pax/AED).toLocaleString('es-ES')}</span>
       <span class="n">AED · 1 AED = ${AED} ¥ el 8-9-2026</span></div>
-    <div class="tarj"><span class="et">En dólares · por persona</span>
-      <span class="v" style="font-size:1.5rem">${Math.round(r.pvp/pax/USD).toLocaleString('es-ES')}</span>
+    <div class="tarj"><span class="et">Total en dólares · por persona</span>
+      <span class="v" style="font-size:1.5rem">${Math.round(r.total/pax/USD).toLocaleString('es-ES')}</span>
       <span class="n">USD · 1 USD = ${USD} ¥</span></div>`;
+  const av=$('#aviso-minimo');
+  if(pax<u.minimo){
+    const perd=umbral(k,r.margen).filas.find(f=>f[0]===pax);
+    av.innerHTML=`<p><b>Por debajo del mínimo: ${u.nombre} necesita al menos ${u.minimo} personas.</b>
+      El ${u.pct_fijo}\u00a0% del coste es fijo por salida —guía, vehículo y traslados cuestan lo mismo
+      con dos pasajeros que con ${u.pax_diseno}—, así que al precio por persona calculado para
+      ${u.pax_diseno} el operador perdería ${perd?yenC(Math.max(0,-perd[1])):'dinero'} con ${pax}
+      (una habitación por cada dos). Aquí el coste se recalcula para ${pax} personas y por eso el precio
+      por persona sube. Por debajo del mínimo, vehículo y guía se cotizan aparte.</p>`;
+    av.hidden=false;
+  } else { av.hidden=true; av.innerHTML=''; }
 }
 function comoTexto(){
   const r=ULT; if(!r)return'';
-  const li=r.L.map(([c,v,d,ref])=>`  ${c.padEnd(32)} ${yen(v).padStart(14)}   [${T[ref].tipo}] ${d}`);
-  return ['Presupuesto orientativo · Kansai para el Golfo',
+  const u=UMB[r.clave];
+  const fila=(t,v)=>`  ${t.padEnd(46)} ${yenC(v).padStart(14)}`;
+  const li=r.L.map(([c,v,d,ref])=>`${fila(c,v)}   [${T[ref].tipo}] ${d}`);
+  const pm=Math.round(r.margen*100), ph=Math.round(HONOR*100);
+  return ['SIMULACIÓN ORIENTATIVA DE COSTES DEL OPERADOR · Kansai para el Golfo',
+   'No es una oferta ni un presupuesto de HARUNANA TRAVEL AND CONSULTING — FZCO.',
+   'El viaje lo cotiza y lo factura el operador japonés del grupo a nombre del cliente final;',
+   'los honorarios de consultoría se facturan aparte. No hay comisión de agencia.','',
    `${r.p.n} · ${r.p.dias} días · ${r.pax} personas · ${r.hab} habitaciones`,
    `Alojamiento a ${yen(r.hotel)} por habitación y noche`,'',...li,'',
-   `  ${'Coste directo'.padEnd(32)} ${yen(r.coste).padStart(14)}`,
-   `  ${('Margen del operador '+Math.round(r.margen*100)+' %').padEnd(32)} ${yen(r.marg).padStart(14)}`,
-   `  ${'TARIFA NETA A LA AGENCIA'.padEnd(32)} ${yen(r.neto).padStart(14)}`,
-   `  ${'PVP orientativo por persona'.padEnd(32)} ${yen(r.pvp/r.pax).padStart(14)}`,'',
+   fila('Coste directo',r.coste),
+   fila(`Margen del operador ${pm} % [supuesto]`,r.marg),
+   fila('PRECIO DEL OPERADOR (lo factura el operador)',r.precio),
+   fila(`Honorarios de consultoría ${ph} % [supuesto]`,r.hon)+'   factura aparte de HARUNANA',
+   fila('TOTAL QUE PAGA EL CLIENTE',r.total),'',
+   'Por persona:',
+   fila('  Precio del operador',r.precio/r.pax),
+   fila('  Honorarios de consultoría',r.hon/r.pax),
+   fila('  Total que paga el cliente',r.total/r.pax),'',
+   ...(r.pax<u.minimo?[`AVISO: por debajo del mínimo de ${u.minimo} personas. El ${u.pct_fijo} % del coste es fijo`,
+     'por salida; vehículo y guía se cotizan aparte.','']:[]),
+   'Importes redondeados al centenar, cada uno por separado.',
    'Tarifas publicadas: JFG (guías titulados), JR Central, JPS 京都観光貸切タクシー.',
    'Alojamiento: precio observado el 8-9-2026 para la ventana del 10 al 13 de diciembre.',
    'Cambio del 8-9-2026: 1 AED = 41,887 ¥ · 1 USD = 154,36 ¥.',
@@ -1103,7 +1334,7 @@ function descargar(){
   try{
     const b=new Blob([comoTexto()],{type:'text/plain;charset=utf-8'});
     const u=URL.createObjectURL(b), a=document.createElement('a');
-    a.href=u; a.download='presupuesto-kansai.txt';
+    a.href=u; a.download='simulacion-costes-operador-kansai.txt';
     document.body.appendChild(a); a.click(); a.remove();
     setTimeout(()=>URL.revokeObjectURL(u),1500);
     s.textContent='Descargado'; s.classList.add('ver');
@@ -1290,6 +1521,7 @@ $('#bajar').addEventListener('click',descargar);
 $('#copiar').addEventListener('click',()=>copiar());
 
 pintaMeses(); pintaHiyri(); pintaRutas(); pintaProductos(); pintaTarifas(); pintaHalal();
+pintaRobustez(); pintaUmbrales(); pintaDivisa();
 cotiza(); serie(); estacion(); gasto(); indiceVivo();
 setTimeout(globo,60);
 </script>
