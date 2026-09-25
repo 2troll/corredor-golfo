@@ -187,6 +187,29 @@ tr.tot td{border-block:1px solid var(--tinta);font-weight:600;background:var(--p
 /* ── Gráficos ───────────────────────────────────────────────────────────── */
 .gr{background:var(--sup);border:1px solid var(--linea);border-radius:4px;
   padding:1.1rem 1.15rem 1rem;margin-block:1.2rem}
+.gr{position:relative}
+.tres{position:relative;margin-top:.4rem;border-radius:3px;overflow:hidden;
+  background:radial-gradient(ellipse at 50% 35%,color-mix(in srgb,var(--marea) 9%,transparent),transparent 70%)}
+.tres[hidden]{display:none}
+.tres canvas{display:block;width:100%;cursor:grab}
+.tres-rotulos{position:absolute;inset:0;pointer-events:none}
+.tres-rotulos .r{position:absolute;left:0;top:0;font-family:var(--mono);font-size:.66rem;color:var(--tinta2);
+  white-space:nowrap;letter-spacing:.03em}
+.tres-rotulos .r.fuerte{color:var(--marea);font-weight:500}
+.tres-rotulos .r.alerta{color:var(--coral)}
+.tres-rotulos .r.suave{color:var(--tinta3)}
+.tres-tip{position:absolute;left:0;top:0;pointer-events:none;background:var(--hondo);color:var(--hondo-txt);
+  font-family:var(--mono);font-size:.7rem;padding:.4rem .55rem;border-radius:3px;white-space:nowrap;
+  box-shadow:0 4px 14px rgba(0,0,0,.3)}
+.tres-tip b{display:block;font-family:var(--cuerpo);font-size:.78rem;margin-bottom:.1rem}
+.tres-tip[hidden]{display:none}
+.tres-aviso{position:absolute;right:.6rem;bottom:.5rem;font-family:var(--mono);font-size:.6rem;color:var(--tinta3)}
+.tres-modo{position:absolute;top:.7rem;right:.7rem;display:flex;border:1px solid var(--linea);border-radius:999px;
+  overflow:hidden;z-index:2;background:var(--sup)}
+.tres-modo button{font:500 .68rem/1 var(--mono);letter-spacing:.06em;padding:.38rem .7rem;border:0;cursor:pointer;
+  background:transparent;color:var(--tinta3)}
+.tres-modo button[aria-pressed="true"]{background:var(--marea);color:var(--papel)}
+@media print{.tres,.tres-modo{display:none!important}.gr svg{display:block!important}}
 .gr figcaption{font-size:.8rem;color:var(--tinta3);margin-top:.7rem;line-height:1.45;
   max-width:70ch}
 .gr svg{display:block;width:100%;height:auto;max-width:100%;overflow:visible}
@@ -1280,9 +1303,7 @@ function estacion(){
 }
 function gasto(){
   const s=$('#g-gasto'); if(!s)return;
-  const D=[['México',514900,false],['Oriente Medio',482836,true],['Australia',446000,false],
-           ['Reino Unido',392000,false],['España',348700,false],['Francia',341000,false],
-           ['Italia',298000,false],['EE. UU.',291000,false],['Media general',244500,false]];
+  const D=MERCADOS_GASTO; // una sola fuente para el gráfico plano y el 3D
   const x0=118,max=560000,g=[],alto=26;
   D.forEach((d,i)=>{
     const y=14+i*alto, w=(700-x0)*(d[1]/max);
@@ -2081,6 +2102,165 @@ async function globo(){
   })();
 }
 
+/* ── Gráficos en 3D ───────────────────────────────────────────────────────
+   Los tres gráficos principales tienen una versión en volumen con los mismos
+   datos, no otros: la serie mensual como un perfil de columnas por año, la
+   estacionalidad como un reloj de doce meses y el gasto como torres. La vista
+   plana sigue ahí, a un botón, y es la que se imprime. Sin WebGL, sólo plana.
+   Los rótulos son HTML proyectado, para que usen la tipografía de la página, y
+   al pasar el ratón por una pieza aparece su cifra exacta. */
+function escena3D(fig,svg,{alto=390,dist=11,fi=.5,te=-.45,objetivo=[0,1.2,0],aviso}={},construye){
+  // fi = elevación de la cámara (radianes), te = giro alrededor del eje vertical
+  if(typeof THREE==='undefined') return;
+  const caja=document.createElement('div'); caja.className='tres';
+  caja.setAttribute('role','img'); caja.setAttribute('aria-label',svg.getAttribute('aria-label')||'');
+  const cv=document.createElement('canvas'); caja.appendChild(cv);
+  const capa=document.createElement('div'); capa.className='tres-rotulos'; caja.appendChild(capa);
+  const tip=document.createElement('div'); tip.className='tres-tip'; tip.hidden=true; caja.appendChild(tip);
+  if(aviso){ const a=document.createElement('div'); a.className='tres-aviso'; a.textContent=aviso; caja.appendChild(a); }
+  let ren;
+  try{ ren=new THREE.WebGLRenderer({canvas:cv,antialias:true,alpha:true}); }catch(e){ return; }
+  ren.outputColorSpace=THREE.SRGBColorSpace;
+  svg.before(caja);
+
+  // conmutador 3D / plano
+  const modo=document.createElement('div'); modo.className='tres-modo'; modo.setAttribute('role','group');
+  modo.innerHTML='<button aria-pressed="true">3D</button><button aria-pressed="false">Plano</button>';
+  fig.appendChild(modo);
+  const pon=tresD=>{ caja.hidden=!tresD; svg.style.display=tresD?'none':'';
+    modo.children[0].setAttribute('aria-pressed',tresD); modo.children[1].setAttribute('aria-pressed',!tresD); };
+  modo.children[0].onclick=()=>pon(true); modo.children[1].onclick=()=>pon(false);
+  pon(true);
+
+  const esc=new THREE.Scene();
+  esc.add(new THREE.HemisphereLight(0xeef6f3,0x1a2a30,1.15));
+  const sol=new THREE.DirectionalLight(0xffffff,1.6); sol.position.set(6,10,7); esc.add(sol);
+  const cam=new THREE.PerspectiveCamera(34,1,.1,200);
+  const centro=new THREE.Vector3(...objetivo);
+  const rotulos=[], piezas=[];
+  const rotulo=(txt,pos,clase)=>{ const el=document.createElement('span'); el.className='r '+(clase||'');
+    el.textContent=txt; capa.appendChild(el); rotulos.push({el,p:pos.clone()}); return el; };
+  const mat=(color,extra)=>new THREE.MeshStandardMaterial({color,roughness:.55,metalness:.08,...(extra||{})});
+  const pieza=(geo,material,tipTxt)=>{ const m=new THREE.Mesh(geo,material); m.userData.tip=tipTxt;
+    esc.add(m); if(tipTxt) piezas.push(m); return m; };
+  construye({esc,THREE,rotulo,mat,pieza});
+
+  // órbita: arrastre horizontal gira, vertical inclina; en reposo, giro lento
+  let arr=false,px=0,py=0,reposo=-1e9;
+  const baja=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  cv.addEventListener('pointerdown',e=>{arr=true;px=e.clientX;py=e.clientY;cv.setPointerCapture(e.pointerId);});
+  cv.addEventListener('pointerup',()=>{arr=false;reposo=performance.now();});
+  const ray=new THREE.Raycaster(), ptr=new THREE.Vector2();
+  cv.addEventListener('pointermove',e=>{
+    if(arr){ te-=(e.clientX-px)*.008; fi=Math.max(.12,Math.min(1.35,fi+(e.clientY-py)*.006));
+      px=e.clientX; py=e.clientY; tip.hidden=true; return; }
+    const r=cv.getBoundingClientRect();
+    ptr.set((e.clientX-r.left)/r.width*2-1,-(e.clientY-r.top)/r.height*2+1);
+    ray.setFromCamera(ptr,cam); const h=ray.intersectObjects(piezas)[0];
+    if(h){ tip.hidden=false; tip.innerHTML=h.object.userData.tip;
+      tip.style.transform=`translate(${e.clientX-r.left+14}px,${e.clientY-r.top-10}px)`; cv.style.cursor='crosshair'; }
+    else { tip.hidden=true; cv.style.cursor='grab'; }
+  });
+  cv.addEventListener('pointerleave',()=>{tip.hidden=true;});
+  cv.style.touchAction='pan-y';
+
+  function talla(){ const w=caja.clientWidth||700; cv.style.height=alto+'px';
+    ren.setPixelRatio(Math.min(devicePixelRatio,2)); ren.setSize(w,alto,false);
+    cam.aspect=w/alto; cam.updateProjectionMatrix(); }
+  addEventListener('resize',talla); talla();
+  let visible=false;
+  new IntersectionObserver(es=>{visible=es[0].isIntersecting;}).observe(caja);
+  const v=new THREE.Vector3(), t0=performance.now();
+  (function pinta(ahora){ requestAnimationFrame(pinta);
+    if(!visible||caja.hidden) return;
+    // en reposo se balancea alrededor de la vista buena, sin dar la vuelta: de espaldas no se lee
+    const vaiven=(!arr&&!baja&&ahora-reposo>3000)?Math.sin((ahora-t0)/1000*.25)*.28:0;
+    // en pantallas estrechas la cámara se aleja para que quepa todo
+    const d=dist*Math.max(1,1.25/Math.max(cam.aspect,.5));
+    const g=te+vaiven;
+    cam.position.set(centro.x+d*Math.sin(g)*Math.cos(fi),centro.y+d*Math.sin(fi),centro.z+d*Math.cos(g)*Math.cos(fi));
+    cam.lookAt(centro); ren.render(esc,cam);
+    const w=cv.clientWidth,h=cv.clientHeight;
+    for(const r of rotulos){ v.copy(r.p).project(cam);
+      r.el.style.transform=`translate(-50%,-50%) translate(${(v.x*.5+.5)*w}px,${(-v.y*.5+.5)*h}px)`;
+      r.el.style.opacity=v.z<1?1:0; }
+  })(t0);
+}
+
+const MERCADOS_GASTO=[['México',514900,false],['Oriente Medio',482836,true],['Australia',446000,false],
+  ['Reino Unido',392000,false],['España',348700,false],['Francia',341000,false],
+  ['Italia',298000,false],['EE. UU.',291000,false],['Media general',244500,false]];
+const miles=v=>v.toLocaleString('es-ES',{useGrouping:true}).replace(/^(\d)(\d{3})$/,'$1.$2');
+
+function graficos3D(){
+  const VERDE=0x3fbfa3, ORO=0xd9a45c, CORAL=0xe0735c, GRIS=0x6d7d80;
+
+  // 1 · Serie mensual: una fila de columnas por año, 2026 en verde
+  { const svg=$('#g-serie'); if(svg) escena3D(svg.closest('figure'),svg,
+      {dist:15.5,fi:.55,te:-.38,objetivo:[.3,.9,0],aviso:'Sólo el Golfo · España, en la vista plana'},
+      ({THREE,rotulo,mat,pieza})=>{
+      const anos=[2023,2024,2025,2026], H=v=>v/9000*4.2;
+      pieza(new THREE.BoxGeometry(13.4,.08,6.4),mat(0x223239,{transparent:true,opacity:.35})).position.y=-.04;
+      anos.forEach((a,j)=>{ const z=(j-1.5)*1.45;
+        rotulo(String(a),new THREE.Vector3(6.95,.1,z),a===2026?'fuerte':'');
+        SERIE[a].forEach((val,m)=>{ if(val==null) return;
+          const h=H(val), x=(m-5.5)*1.08;
+          const color=a===2026?(m>=1&&m<=3?CORAL:VERDE):GRIS;
+          const b=pieza(new THREE.BoxGeometry(.72,h,.9),
+            mat(color,{transparent:a!==2026,opacity:a===2026?1:.35+j*.17}),
+            `<b>${MES[m]} ${a}</b>${miles(val)} llegadas`);
+          b.position.set(x,h/2,z);
+        });
+      });
+      for(let m=0;m<12;m++) rotulo(MES[m],new THREE.Vector3((m-5.5)*1.08,.05,3.55));
+      rotulo('abr 2026 · 1.819 (−71,2 %)',new THREE.Vector3((3-5.5)*1.08,H(6322)+.7,1.5*1.45),'alerta');
+    }); }
+
+  // 2 · Estacionalidad: reloj de doce meses, Golfo dentro y España fuera
+  { const svg=$('#g-estacion'); if(svg) escena3D(svg.closest('figure'),svg,
+      {dist:12.5,fi:.95,te:.35,objetivo:[0,.6,0],aviso:'Golfo, anillo interior · España, exterior · Ramadán 2027 en coral'},({THREE,rotulo,mat,pieza})=>{
+      const H=v=>v/180*3.2, ang=m=>m/12*Math.PI*2;
+      const pos=(m,r)=>new THREE.Vector3(Math.sin(ang(m))*r,0,-Math.cos(ang(m))*r);
+      // suelo y Ramadán como sectores del reloj
+      pieza(new THREE.CylinderGeometry(4.3,4.3,.06,72),mat(0x223239,{transparent:true,opacity:.3})).position.y=-.03;
+      for(const m of MESES_RAM){
+        // el cilindro de three pone θ en (sen θ, cos θ); los meses van en (sen a, −cos a): θ = π − a
+        pieza(new THREE.CylinderGeometry(3.7,3.7,.07,24,1,false,Math.PI-ang(m)-Math.PI/12,Math.PI/6),
+          mat(CORAL,{transparent:true,opacity:.35}),`<b>${MES[m]}</b>Ramadán 2027`);
+      }
+      // el disco del 100: la referencia que da sentido al índice
+      const disco=pieza(new THREE.CylinderGeometry(3.7,3.7,.02,72),
+        new THREE.MeshBasicMaterial({color:0xdfe9f2,transparent:true,opacity:.1,depthWrite:false}));
+      disco.position.y=H(100);
+      rotulo('100 · mes medio',new THREE.Vector3(0,H(100)+.15,-3.9),'suave');
+      for(let m=0;m<12;m++){
+        const tipTxt=`<b>${MES[m]}</b>Golfo ${IDX_G[m]} · España ${IDX_E[m]}`;
+        const g=pieza(new THREE.BoxGeometry(.4,H(IDX_G[m]),.4),mat(VERDE),tipTxt);
+        g.position.copy(pos(m,2.15)).setY(H(IDX_G[m])/2); g.rotation.y=-ang(m);
+        const e=pieza(new THREE.BoxGeometry(.36,H(IDX_E[m]),.36),mat(ORO,{transparent:true,opacity:.8}),tipTxt);
+        e.position.copy(pos(m,3.05)).setY(H(IDX_E[m])/2); e.rotation.y=-ang(m);
+        rotulo(MES[m],pos(m,4.45).setY(.05),MESES_RAM.has(m)?'alerta':'');
+      }
+      rotulo('Golfo',new THREE.Vector3(0,.1,0),'fuerte');
+    }); }
+
+  // 3 · Gasto por visitante: torres, Oriente Medio en verde
+  { const svg=$('#g-gasto'); if(svg) escena3D(svg.closest('figure'),svg,
+      {dist:14,fi:.36,te:-.3,objetivo:[0,1.5,0]},({THREE,rotulo,mat,pieza})=>{
+      const n=MERCADOS_GASTO.length, H=v=>v/560000*4.4;
+      pieza(new THREE.BoxGeometry(n*1.4+.6,.08,2.2),mat(0x223239,{transparent:true,opacity:.3})).position.y=-.04;
+      MERCADOS_GASTO.forEach(([nom,val,dest],i)=>{
+        const x=(i-(n-1)/2)*1.4, h=H(val), media=nom==='Media general';
+        const t=pieza(new THREE.BoxGeometry(.8,h,.8),
+          mat(dest?VERDE:media?0xb8c4c2:GRIS,{transparent:!dest,opacity:dest?1:media?.5:.6,
+            emissive:dest?0x0d3a31:0x000000}),`<b>${nom}</b>${miles(val)} ¥ por visitante`);
+        t.position.set(x,h/2,0);
+        rotulo(nom,new THREE.Vector3(x,.05,1.35),dest?'fuerte':'');
+        if(dest||media) rotulo(`${miles(val)} ¥`,new THREE.Vector3(x,h+.4,0),dest?'fuerte':'suave');
+      });
+    }); }
+}
+
 /* ── Portada: el corredor ahora mismo ──────────────────────────────────────
    La misma instantánea de OpenSky que usa el globo. Si no llega o tiene más
    de seis horas, la franja no aparece: mejor nada que un «ahora» viejo. */
@@ -2173,7 +2353,7 @@ $('#copiar').addEventListener('click',()=>copiar());
 
 pintaMeses(); pintaHiyri(); pintaRutas(); pintaProductos(); pintaTarifas(); pintaHalal();
 pintaRobustez(); pintaUmbrales(); pintaDivisa(); pintaCifrasTexto();
-cotiza(); serie(); estacion(); gasto(); indiceVivo(); vida(); ahoraPortada();
+cotiza(); serie(); estacion(); gasto(); indiceVivo(); vida(); ahoraPortada(); graficos3D();
 setTimeout(globo,60);
 </script>
 
