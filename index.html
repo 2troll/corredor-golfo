@@ -58,6 +58,9 @@
   border:1px solid var(--linea);border-radius:4px;background:var(--sup);color:var(--tinta2);text-decoration:none;
   font-size:.9rem;max-width:62rem;transition:border-color .2s}
 .ahora[hidden]{display:none}
+.experiencia{display:inline-flex;align-items:center;gap:.5rem;margin-top:1.2rem;padding:.7rem 1.2rem;border-radius:999px;
+  background:var(--marea);color:var(--marea-sup);font-weight:600;text-decoration:none;transition:transform .2s,box-shadow .2s}
+.experiencia:hover{transform:translateY(-1px);box-shadow:0 8px 24px rgba(79,214,182,.25)}
 .ahora:hover{border-color:var(--marea)}
 .ahora b{font-family:var(--disp);font-weight:600;font-size:1.25rem;color:var(--tinta);font-variant-numeric:tabular-nums}
 .ahora .et{font-family:var(--mono);font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;color:var(--marea)}
@@ -384,6 +387,7 @@ footer h3{font-family:var(--mono);font-size:.7rem;letter-spacing:.14em;text-tran
     <span class="sello">Simulador de costes</span>
     <span class="sello">Fuentes citadas una a una</span>
   </div>
+  <a class="experiencia" href="experiencia/">Ver la versión 3D inmersiva <span aria-hidden="true">→</span></a>
   <a class="ahora" id="ahora" href="#corredor" hidden>
     <span class="punto" aria-hidden="true"></span>
     <span class="et">Ahora en el corredor</span>
