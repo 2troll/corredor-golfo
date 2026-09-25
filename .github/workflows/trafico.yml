@@ -1,0 +1,30 @@
+# Cada 20 minutos: instantánea del tráfico real (OpenSky) para el globo.
+# Se publica en la rama «datos» con un único commit que se reescribe, para que
+# la historia de main no se llene de capturas. La web la lee desde
+# raw.githubusercontent.com, que sí permite CORS.
+# 72 consultas al día × 4 créditos = 288, dentro de los 400 anónimos de OpenSky.
+name: trafico
+on:
+  schedule:
+    - cron: '*/20 * * * *'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency: trafico
+jobs:
+  captura:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Consultar OpenSky
+        run: python3 trafico.py
+      - name: Publicar en la rama datos
+        run: |
+          cd datos
+          git init -q -b datos
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add trafico.json
+          git commit -q -m "datos: tráfico $(date -u +%FT%TZ)"
+          git push -q -f "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" datos
