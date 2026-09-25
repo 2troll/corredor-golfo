@@ -203,7 +203,7 @@ export function Veredicto() {
 
 export function Cierre() {
   return (
-    <Capitulo id="cierre" num="07 · Siguiente paso" titulo="Todo esto, con sus fuentes, en el estudio completo.">
+    <Capitulo id="cierre" num="08 · Siguiente paso" titulo="Todo esto, con sus fuentes, en el estudio completo.">
       <p data-revela>Veintiún apartados, el simulador de costes, el globo con capas de NASA y el anexo con
         cada consulta y su respuesta.</p>
       <div className="acciones" data-entra>

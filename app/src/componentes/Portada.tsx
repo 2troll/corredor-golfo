@@ -8,6 +8,7 @@ import { useGSAP } from '@gsap/react'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { datos } from '../tipos'
 import { scroll } from '../lib/scroll'
+import Emblema from './Emblema'
 
 export default function Portada() {
   const ref = useRef<HTMLElement>(null)
@@ -39,6 +40,7 @@ export default function Portada() {
           <div className="hoja izq"><span className="lomo">ESTUDIO · 2026</span></div>
           <div className="hoja der"><span className="lomo">GOLFO → KANSAI</span></div>
         </div>
+        <Emblema />
         <div className="tapa">
           <p className="epig">Estudio de viabilidad · Dubái → Kansai</p>
           <h1>El corredor del Golfo</h1>

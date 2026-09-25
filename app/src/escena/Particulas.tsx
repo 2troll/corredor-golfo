@@ -12,9 +12,9 @@ import { useFrame, useThree } from '@react-three/fiber'
 import { Billboard, Text, useTexture } from '@react-three/drei'
 import * as THREE from 'three'
 import { datos } from '../tipos'
-import { scroll, peso, suave, acota } from '../lib/scroll'
-import { R, aPos, Q_CORREDOR, PALETA } from './geo'
-import { FUENTE_MONO } from './Globo'
+import { scroll, suave, acota } from '../lib/scroll'
+import { R, aPos, PALETA } from './geo'
+import { FUENTE_MONO, transGlobo } from './Globo'
 import vert from './shaders/particulas.vert.glsl?raw'
 import frag from './shaders/particulas.frag.glsl?raw'
 
@@ -60,7 +60,7 @@ function formaTierra(mascara: HTMLImageElement, rnd: () => number): Punto[] {
     const lo = rnd() * 360 - 180, la = (Math.asin(rnd() * 2 - 1) * 180) / Math.PI
     const x = Math.floor(((lo + 180) / 360) * (W - 1)), y = Math.floor(((90 - la) / 180) * (H - 1))
     if (px[(y * W + x) * 4] > 90) continue // agua
-    const v = aPos(la, lo, R * 1.006).applyQuaternion(Q_CORREDOR)
+    const v = aPos(la, lo, R * 1.004) // sin girar: la nube copia el giro del globo en cada fotograma
     out.push([v.x, v.y, v.z, PALETA.hielo.clone().lerp(PALETA.verde, rnd() * 0.5)])
   }
   return out
@@ -145,31 +145,39 @@ export default function Particulas() {
   const material = useMemo(() => new THREE.ShaderMaterial({ uniforms: u, vertexShader: vert, fragmentShader: frag,
     transparent: true, depthWrite: false, blending: THREE.AdditiveBlending }), [u])
   const lado = viewport.aspect > 1.1 ? viewport.width * 0.2 : 0
+  const tmp = useMemo(() => ({ e: new THREE.Euler(), q: new THREE.Quaternion() }), [])
 
-  useFrame((st, dt) => {
+  useFrame(st => {
     const p = puntos.current; if (!p) return
-    // la nube vive entre el final de «ahora» y el final del gasto
-    const w = Math.max(peso(3), peso(4), peso(5), acota((scroll.pos - 2.35) * 2.5) * acota((5.9 - scroll.pos) * 2))
+    const pos = scroll.pos
+    // la nube aparece mientras el globo se deshace (2,2) y se apaga cuando se rehace (6,5)
+    const w = acota((pos - 2.2) / 0.35) * acota((6.55 - pos) / 0.35)
     p.visible = w > 0.01
     u.uOp.value = suave(w)
     u.uTiempo.value = st.clock.elapsedTime
     u.uPR.value = gl.getPixelRatio()
-    // etapa continua: 0 = Tierra en 2.5, 1 = serie en 3, 2 = reloj en 4, 3 = torres en 5
-    const e = scroll.pos < 3 ? acota((scroll.pos - 2.5) * 2) : 1 + acota(scroll.pos - 3.15, 0, 2) * 1.08
-    u.uEtapa.value += (Math.min(3, e) - u.uEtapa.value) * (1 - Math.exp(-dt * 5))
-    // la Tierra de partículas coincide con el globo; los datos, más pequeños y a la derecha
-    const enTierra = 1 - acota(u.uEtapa.value)
-    const escala = THREE.MathUtils.lerp(0.9, 0.72, enTierra) // 0,72 = tamaño del globo en el relevo
-    p.scale.setScalar(escala)
-    p.position.set(lado * THREE.MathUtils.lerp(0.8, 1, enTierra), THREE.MathUtils.lerp(-0.6, 0, enTierra), 0)
+    // etapa continua: 0 = Tierra hasta 2,7; 1 = serie en 3; 2 = reloj en 4; 3 = torres en 5;
+    // 4 = otra vez la Tierra en 6, justo antes de que el globo se rehaga encima
+    // cada forma se queda quieta mientras su capítulo está en el centro y el cambio ocurre entre
+    // dos capítulos (del 0,3 al 0,7): el lector nunca lee un texto delante de una forma a medias
+    const entre = (x: number) => Math.floor(x) + acota((x - Math.floor(x) - 0.3) / 0.4)
+    const e = pos < 3 ? acota((pos - 2.6) / 0.4) : pos < 5 ? 1 + entre(pos - 3) : pos < 5.4 ? 3 : 3 + acota((pos - 5.4) / 0.6)
+    u.uEtapa.value = Math.min(4, e) // scroll.pos ya viene amortiguado: sin segundo filtro que lo retrase
+    // cuánto es Tierra ahora: 1 al principio y al final; ahí la nube copia al globo exactamente
+    const enTierra = u.uEtapa.value < 1 ? 1 - u.uEtapa.value : u.uEtapa.value > 3 ? u.uEtapa.value - 3 : 0
+    const k = suave(enTierra)
+    p.scale.setScalar(THREE.MathUtils.lerp(0.9, transGlobo.s, k))
+    p.position.set(THREE.MathUtils.lerp(lado * 0.8, transGlobo.x, k), THREE.MathUtils.lerp(-0.6, 0, k), 0)
     const giro = st.clock.elapsedTime * 0.06
-    p.rotation.set(THREE.MathUtils.lerp(0.42, 0, enTierra), THREE.MathUtils.lerp(-0.55 + Math.sin(giro) * 0.25, 0, enTierra), 0)
+    tmp.e.set(0.42, -0.55 + Math.sin(giro) * 0.25, 0)
+    tmp.q.setFromEuler(tmp.e).slerp(transGlobo.q, k)
+    p.quaternion.copy(tmp.q)
     // rótulos de cada forma, visibles sólo cuando la forma está hecha
     rotulos.current.forEach((r, k) => {
       if (!r) return
       const vis = acota(1 - Math.abs(u.uEtapa.value - (k + 1)) * 2.5) * suave(w)
       r.visible = vis > 0.02
-      r.position.copy(p.position); r.rotation.copy(p.rotation); r.scale.copy(p.scale)
+      r.position.copy(p.position); r.quaternion.copy(p.quaternion); r.scale.copy(p.scale)
       r.traverse(o => { const m = (o as THREE.Mesh).material as THREE.Material | undefined; if (m && 'opacity' in m) { m.transparent = true; m.opacity = vis } })
     })
   })

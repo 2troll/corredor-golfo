@@ -10,6 +10,7 @@ import type { Trafico } from '../tipos'
 import { scroll } from '../lib/scroll'
 import Globo from './Globo'
 import Particulas from './Particulas'
+import Fondo from './Fondo'
 
 /** Paralaje leve con el puntero y un respiro de la cámara a lo largo de la página. */
 function Camara() {
@@ -32,6 +33,7 @@ export default function Escena({ trafico }: { trafico: Trafico | null }) {
   return (
     <>
       <color attach="background" args={['#02060a']} />
+      <Fondo />
       <Stars radius={70} depth={50} count={4200} factor={2.6} saturation={0} fade speed={0.35} />
       <Camara />
       {!SIN.has('globo') && <Globo trafico={trafico} />}

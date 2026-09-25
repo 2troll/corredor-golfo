@@ -118,7 +118,7 @@ main { position: relative; z-index: 1 }
 .contacto { font-family: var(--mono); font-size: .85rem }
 
 /* ── Rótulos dentro de la escena 3D ── */
-.etiqueta3d span { font: 500 11px var(--mono); color: var(--tinta); white-space: nowrap; text-shadow: 0 1px 6px #000; letter-spacing: .04em }
+.etiqueta3d span { font: 500 11px var(--mono); color: var(--tinta); white-space: nowrap; text-shadow: 0 1px 6px #000; letter-spacing: .04em; transition: opacity .5s }
 .etiqueta3d span.oro { color: var(--duna) } .etiqueta3d span.coral { color: var(--coral) }
 .etiqueta3d span.grande { font: 600 16px var(--disp); color: var(--marea) }
 
@@ -188,3 +188,50 @@ main { position: relative; z-index: 1 }
 /* SplitText parte el titular en letras: el degradado va en cada una, no en el bloque */
 .tapa h1 .char { background: linear-gradient(180deg, #f6faf9 35%, #97adab); -webkit-background-clip: text; background-clip: text; color: transparent; padding-bottom: .06em }
 .tras-tapa h2 { font-size: clamp(2.1rem, 4.8vw, 3.8rem); letter-spacing: -.03em }
+
+/* ── Emblema de la portada ─────────────────────────────────────────────── */
+.emblema { position: absolute; width: min(94vmin, 980px); aspect-ratio: 1; z-index: 1; pointer-events: none;
+  fill: none; stroke: rgba(233, 184, 114, .34); stroke-width: 1.1; overflow: visible;
+  filter: drop-shadow(0 0 14px rgba(79, 214, 182, .08)) }
+.emblema .fino { stroke: rgba(230, 236, 234, .1) }
+.emblema .em-khatam { stroke: rgba(79, 214, 182, .42) }
+.emblema .em-ola { stroke: rgba(233, 184, 114, .42) }
+.emblema .em-marcas { stroke: rgba(230, 236, 234, .22) }
+.emblema .em-texto { fill: rgba(230, 236, 234, .42); stroke: none; font: 500 15px var(--mono); letter-spacing: .42em }
+.emblema .em-vuelo { stroke: rgba(79, 214, 182, .55); stroke-width: 1.4; stroke-dasharray: 2 7; stroke-linecap: round }
+.emblema .em-punto { stroke: none } .emblema .golfo { fill: var(--marea) } .emblema .kansai { fill: var(--duna) }
+
+/* ── El viaje: pista horizontal fija ───────────────────────────────────── */
+.viaje { height: 100vh; position: relative; overflow: hidden; display: flex; flex-direction: column; justify-content: center }
+.viaje-cabeza { padding: 0 5vw; position: relative; z-index: 2 }
+.viaje-cabeza .num { font: 500 .7rem var(--mono); letter-spacing: .24em; text-transform: uppercase; color: var(--tinta3); margin: 0 0 .6rem }
+.viaje-cabeza h2 { font-size: clamp(1.8rem, 3.6vw, 3rem); letter-spacing: -.028em; line-height: 1.02; margin: 0; max-width: 22ch;
+  text-shadow: 0 2px 30px rgba(0, 0, 0, .7) }
+.viaje-mapa { width: 100%; height: 56px; margin-top: 1.2rem; overflow: visible; fill: none }
+.viaje-guia { stroke: var(--linea); stroke-dasharray: 3 7 }
+.viaje-ruta { stroke: var(--duna); stroke-width: 1.6; vector-effect: non-scaling-stroke }
+.viaje-avion { fill: var(--tinta); stroke: none; filter: drop-shadow(0 0 6px rgba(233, 184, 114, .8)) }
+.pista-viaje { display: flex; gap: 4vw; padding: 3vh 5vw 0; width: max-content; will-change: transform }
+.parada { width: min(78vw, 46rem); display: grid; grid-template-columns: minmax(0, 17rem) 1fr; gap: 2.2rem; align-items: center;
+  padding: 1.8rem; border-radius: 22px; background: linear-gradient(160deg, rgba(20, 30, 38, .72), rgba(8, 14, 20, .5));
+  border: 1px solid rgba(233, 184, 114, .16); backdrop-filter: blur(14px) saturate(1.2);
+  box-shadow: 0 30px 80px -30px rgba(0, 0, 0, .8), inset 0 1px 0 rgba(255, 255, 255, .05) }
+.medallon { width: 100%; aspect-ratio: 1; overflow: visible; fill: none; stroke: var(--tinta); stroke-width: 1.5;
+  stroke-linecap: round; stroke-linejoin: round }
+.medallon .aro { stroke: rgba(233, 184, 114, .6) } .medallon .aro.fino { stroke: rgba(230, 236, 234, .16) }
+.medallon .sol { fill: rgba(229, 122, 98, .16); stroke: none }
+.medallon .anillo { fill: rgba(230, 236, 234, .5); stroke: none; font: 500 9.5px var(--mono); letter-spacing: .2em }
+.medallon .trazos path { vector-effect: non-scaling-stroke }
+.parada .paso { display: flex; gap: .7rem; align-items: baseline; font: 500 .68rem var(--mono); letter-spacing: .22em;
+  text-transform: uppercase; color: var(--duna); margin: 0 0 .7rem }
+.parada .paso span { color: var(--tinta3) }
+.parada h3 { font: 600 clamp(1.4rem, 2.2vw, 1.9rem)/1.1 var(--disp); letter-spacing: -.02em; margin: 0 0 .8rem }
+.parada .cuerpo > p { color: var(--tinta2); margin: 0 0 1rem; font-size: .98rem }
+.parada .dato { display: flex; align-items: baseline; gap: .8rem; padding-top: 1rem; border-top: 1px solid var(--linea); margin: 0 }
+.parada .dato b { font: 600 clamp(1.8rem, 3vw, 2.5rem) var(--disp); color: var(--marea); letter-spacing: -.02em }
+.parada .dato span { font: 500 .7rem var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--tinta3) }
+@media (max-width: 760px) {
+  .parada { width: 84vw; grid-template-columns: 1fr; gap: 1rem; padding: 1.2rem }
+  .medallon { width: min(52vw, 13rem); margin: 0 auto }
+  .parada .cuerpo > p { font-size: .9rem }
+}

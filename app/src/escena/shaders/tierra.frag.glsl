@@ -5,11 +5,27 @@ uniform sampler2D uDia, uNoche, uAgua, uRelieve;
 uniform vec3 uSol;      // dirección del sol, espacio del mundo
 uniform vec3 uArriba;   // eje norte del globo, espacio del mundo
 uniform float uOp;
+uniform float uDis; // 0 = entera, 1 = deshecha en partículas
 varying vec2 vUv;
 varying vec3 vN;
 varying vec3 vP;
+varying vec3 vO;
+
+// ruido de valor 3D en capas: el frente de disolución avanza con bordes orgánicos
+float hash3(vec3 p) { return fract(sin(dot(p, vec3(127.1, 311.7, 74.7))) * 43758.5453); }
+float ruido3(vec3 p) {
+  vec3 i = floor(p), f = fract(p), u = f * f * (3.0 - 2.0 * f);
+  return mix(mix(mix(hash3(i), hash3(i + vec3(1, 0, 0)), u.x), mix(hash3(i + vec3(0, 1, 0)), hash3(i + vec3(1, 1, 0)), u.x), u.y),
+             mix(mix(hash3(i + vec3(0, 0, 1)), hash3(i + vec3(1, 0, 1)), u.x), mix(hash3(i + vec3(0, 1, 1)), hash3(i + vec3(1, 1, 1)), u.x), u.y), u.z);
+}
 
 void main() {
+  // disolución: el mar se va antes que la tierra, así lo último que queda son los continentes,
+  // que es justo donde nacen las partículas
+  float marD = texture2D(uAgua, vUv).r;
+  float umbral = 0.55 * ruido3(vO * 2.2) + 0.3 * ruido3(vO * 6.0) + 0.15 * ruido3(vO * 17.0) - marD * 0.35 + 0.2;
+  float frente = umbral - (uDis * 1.25 - 0.1);
+  if (uDis > 0.0 && frente < 0.0) discard;
   vec3 n = normalize(vN);
   vec3 v = normalize(cameraPosition - vP);
 
@@ -43,6 +59,9 @@ void main() {
   float borde = pow(1.0 - max(dot(n, v), 0.0), 3.2);
   c += borde * vec3(0.3, 0.58, 1.0) * (0.03 + 0.45 * luz);
 
+  // el borde que se deshace brilla con el verde del estudio, como una brasa fría
+  float brasa = uDis > 0.0 ? 1.0 - smoothstep(0.0, 0.045, frente) : 0.0;
+  c += vec3(0.31, 0.84, 0.71) * brasa * 2.6;
   gl_FragColor = vec4(c, uOp);
   #include <colorspace_fragment>
 }

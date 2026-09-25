@@ -1,13 +1,16 @@
 // Partículas que cambian de forma: 0 = la Tierra, 1 = llegadas mes a mes,
-// 2 = reloj de estacionalidad, 3 = torres de gasto. uEtapa es continua; entre
-// dos formas cada partícula sale con un retraso propio y viaja por un campo de
-// ruido, así la transición fluye en vez de interpolar en línea recta.
+// 2 = reloj de estacionalidad, 3 = torres de gasto, y 4 = otra vez la Tierra.
+// uEtapa es continua. Entre dos formas cada partícula sale con un retraso que
+// avanza como una ola de izquierda a derecha, se deja llevar por un campo de
+// ruido rotacional (curl noise: sin divergencia, así el enjambre se mueve como
+// humo y no se aglomera) y se enciende mientras vuela, como si tuviera inercia.
 attribute vec3 aP0, aP1, aP2, aP3;
 attribute vec3 aC0, aC1, aC2, aC3;
 attribute float aAzar;
 uniform float uEtapa, uTiempo, uTam, uPR, uOp;
 varying vec3 vColor;
 varying float vBrillo;
+varying float vDesenfoque;
 
 // ruido simplex 3D (Ashima Arts / Stefan Gustavson, licencia MIT)
 vec3 mod289(vec3 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
@@ -54,29 +57,52 @@ float snoise(vec3 v) {
   return 42.0 * dot(m * m, vec4(dot(p0, x0), dot(p1, x1), dot(p2, x2), dot(p3, x3)));
 }
 
+// potencial vectorial de ruido y su rotacional por diferencias finitas
+vec3 potencial(vec3 p) { return vec3(snoise(p), snoise(p + vec3(31.4, 7.1, 2.9)), snoise(p + vec3(-5.3, 19.7, 41.2))); }
+vec3 curl(vec3 p) {
+  const float e = 0.08;
+  vec3 dx = vec3(e, 0.0, 0.0), dy = vec3(0.0, e, 0.0), dz = vec3(0.0, 0.0, e);
+  vec3 px0 = potencial(p - dx), px1 = potencial(p + dx);
+  vec3 py0 = potencial(p - dy), py1 = potencial(p + dy);
+  vec3 pz0 = potencial(p - dz), pz1 = potencial(p + dz);
+  return vec3((py1.z - py0.z) - (pz1.y - pz0.y), (pz1.x - pz0.x) - (px1.z - px0.z), (px1.y - px0.y) - (py1.x - py0.x)) / (2.0 * e);
+}
+
 void main() {
-  float e = clamp(uEtapa, 0.0, 2.9999);
-  float f = fract(e);
-  // cada partícula arranca un poco más tarde que otras: la forma se deshace por capas
-  float t = clamp((f - aAzar * 0.35) / 0.65, 0.0, 1.0);
-  t = t * t * (3.0 - 2.0 * t);
+  float e = clamp(uEtapa, 0.0, 4.0);
   vec3 a, b, ca, cb;
   if (e < 1.0)      { a = aP0; b = aP1; ca = aC0; cb = aC1; }
   else if (e < 2.0) { a = aP1; b = aP2; ca = aC1; cb = aC2; }
-  else              { a = aP2; b = aP3; ca = aC2; cb = aC3; }
-  if (uEtapa >= 3.0) { a = aP3; b = aP3; ca = aC3; cb = aC3; t = 1.0; }
+  else if (e < 3.0) { a = aP2; b = aP3; ca = aC2; cb = aC3; }
+  else              { a = aP3; b = aP0; ca = aC3; cb = aC0; }
+  float f = e >= 4.0 ? 1.0 : fract(e);
 
-  vec3 p = mix(a, b, t);
-  // viaje por el campo de ruido, máximo a mitad de camino
-  float vuelo = sin(3.14159 * t);
-  vec3 q = p * 1.3 + vec3(0.0, uTiempo * 0.15, aAzar * 4.0);
-  p += vec3(snoise(q), snoise(q + 17.1), snoise(q + 33.7)) * 0.55 * vuelo;
-  // respiración suave en reposo
-  p += vec3(snoise(p * 3.0 + uTiempo * 0.3)) * 0.006;
+  // la ola: cada partícula sale según su x de partida y un poco de azar propio
+  float ola = smoothstep(-2.2, 2.2, a.x);
+  float retraso = ola * 0.34 + aAzar * 0.2;
+  float t = clamp((f - retraso) / 0.46, 0.0, 1.0);
+  float te = t < 0.5 ? 4.0 * t * t * t : 1.0 - pow(-2.0 * t + 2.0, 3.0) / 2.0; // cúbica de entrada y salida
+  float vuelo = sin(3.14159265 * t);           // 0 en reposo, 1 a mitad de viaje
+  float velocidad = 3.0 * t * (1.0 - t) * 2.0; // derivada aproximada de la cúbica, para el brillo
 
-  vColor = mix(ca, cb, t);
-  vBrillo = 0.75 + 0.5 * vuelo + 0.25 * aAzar;
+  vec3 p = mix(a, b, te);
+  float lejos = length(b - a);
+  // el enjambre sube un poco en arco y se deja arrastrar por el flujo
+  p.y += vuelo * lejos * 0.22 * (aAzar - 0.35);
+  // el enjambre se abre en el viaje: sin esto todas las rutas pasan por el centro y se forma una bola
+  p += curl(p * 0.6 + vec3(0.0, uTiempo * 0.07, aAzar * 2.0)) * 0.34 * vuelo * (0.5 + lejos * 0.3);
+  // en reposo nada está quieto del todo: una deriva muy lenta, como polvo en el aire
+  p += curl(p * 1.6 + uTiempo * 0.05) * 0.006;
+
+  vColor = mix(ca, cb, te);
+  // mientras vuela se calienta hacia el blanco
+  vColor = mix(vColor, vec3(1.0, 0.94, 0.84), 0.22 * velocidad * velocidad);
+  // en vuelo brilla un poco más cada una, pero se apagan en conjunto: están más amontonadas
+  vBrillo = (0.8 + 0.2 * aAzar) * (1.0 - 0.35 * vuelo) + 0.25 * velocidad;
+
   vec4 mv = modelViewMatrix * vec4(p, 1.0);
+  // profundidad de campo: lo que se sale del plano de enfoque crece y se apaga
+  vDesenfoque = clamp(abs(-mv.z - 6.1) * 0.55, 0.0, 1.0);
   gl_Position = projectionMatrix * mv;
-  gl_PointSize = uTam * uPR * (0.6 + aAzar * 0.8) / -mv.z;
+  gl_PointSize = uTam * uPR * (0.55 + aAzar * 0.7) * (1.0 + vDesenfoque * 1.1 + velocidad * 0.12) / -mv.z;
 }

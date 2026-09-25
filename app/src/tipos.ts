@@ -14,6 +14,7 @@ export interface Datos {
   idxGolfo: number[]; idxEspana: number[]; meses: string[]
   gasto: Mercado[]; rutas: Ruta[]; puertas: Record<string, [number, number]>
   calendario: Fecha[]; tarjetas: Tarjeta[]
+  halal: { mezquitas: number; salas_oracion: number; restaurantes: number; hoteles: number }
 }
 export const datos = crudo as unknown as Datos
 

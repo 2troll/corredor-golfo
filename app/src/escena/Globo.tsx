@@ -26,15 +26,21 @@ const GIBS = 'https://gibs.earthdata.nasa.gov/wms/epsg4326/best/wms.cgi?SERVICE=
 
 const SIN = new Set(new URLSearchParams(location.search).get('sin')?.split(',') ?? [])
 
-/** Opacidad del globo: entero desde la portada hasta «ahora», se deshace en partículas al
- *  llegar a los datos y vuelve para el cierre. Una curva por tramos, no una mezcla de
- *  pesos: con la mezcla se atenuaba a mitad de camino entre dos capítulos. */
-export const pesoGlobo = (): number => {
+/** Cuánto se ha deshecho el globo en partículas: 0 entero, 1 del todo. Se deshace al
+ *  llegar a los datos y se rehace después del gasto, cuando las partículas vuelven a
+ *  ser continentes. Por tramos: una mezcla de pesos lo atenuaba entre capítulos. */
+export const disolucion = (): number => {
   const p = scroll.pos
-  if (p < 2.4) return 1
-  if (p < 2.9) return 1 - (p - 2.4) / 0.5
-  return acota((p - 6.3) / 0.5)
+  if (p < 2.25) return 0
+  if (p < 2.75) return suave((p - 2.25) / 0.5)
+  if (p < 6.05) return 1
+  return 1 - suave(acota((p - 6.05) / 0.5))
 }
+export const pesoGlobo = (): number => 1 - disolucion()
+
+/** Dónde está el globo en cada fotograma: las partículas lo copian para nacer justo
+ *  encima de sus continentes y volver a ellos. */
+export const transGlobo = { q: new THREE.Quaternion(), x: 0, s: 1 }
 
 interface RutaDibujada { puntos: THREE.Vector3[]; curva: THREE.CatmullRomCurve3; anunciada: boolean; frecuencia: number }
 
@@ -54,7 +60,7 @@ export default function Globo({ trafico }: { trafico: Trafico | null }) {
 
   const u = useMemo(() => ({
     tierra: { uDia: { value: dia }, uNoche: { value: noche }, uAgua: { value: agua }, uRelieve: { value: relieve },
-      uSol: { value: new THREE.Vector3(1, 0, 0) }, uArriba: { value: new THREE.Vector3(0, 1, 0) }, uOp: { value: 1 } },
+      uSol: { value: new THREE.Vector3(1, 0, 0) }, uArriba: { value: new THREE.Vector3(0, 1, 0) }, uOp: { value: 1 }, uDis: { value: 0 } },
     nubes: { uNubes: { value: nubesGen as THREE.Texture }, uSol: { value: new THREE.Vector3(1, 0, 0) }, uReal: { value: 0 }, uOp: { value: 1 } },
     halo: { uOp: { value: 1 } },
   }), [dia, noche, agua, relieve, nubesGen])
@@ -117,28 +123,35 @@ export default function Globo({ trafico }: { trafico: Trafico | null }) {
 
   useFrame((st, dt) => {
     const g = grupo.current; if (!g) return
-    const w = pesoGlobo()
-    g.visible = w > 0.01
-    // los rótulos HTML no heredan la visibilidad del grupo: se apagan aquí, antes de salir
-    if (!g.visible) { document.documentElement.style.setProperty('--w-globo', '0'); return }
+    const dis = disolucion()
     const t = st.clock.elapsedTime
     const { q, gira, eY } = tmp
-    // orientación: en la portada se mece; en el corredor viaja del Golfo a Japón
-    if (scroll.pos < 1) q.copy(Q_CORREDOR).premultiply(gira.setFromAxisAngle(eY, Math.sin(t * 0.08) * 0.45))
-    else if (scroll.pos < 2) q.copy(Q_GOLFO).slerp(Q_JAPON, suave(acota(scroll.pos - 1)))
-    else q.copy(Q_JAPON).slerp(Q_CORREDOR, suave(acota(scroll.pos - 2)))
-    g.quaternion.slerp(q, 1 - Math.exp(-dt * 4))
-    const s = 0.62 + 0.38 * suave(w) + (scroll.pos < 0.5 ? 0.22 * (1 - scroll.puertas) : 0)
-    g.scale.setScalar(s)
-    const x = scroll.pos < 0.5 || scroll.pos > 6.5 ? 0 : lado
+    // orientación: en la portada se mece; en el corredor viaja del Golfo a Japón; al final,
+    // en el viaje, vuelve a Japón para aterrizar en Kansai. El transform se calcula aunque
+    // el globo esté deshecho: las partículas lo necesitan para volver a él.
+    const p = scroll.pos
+    if (p < 1) q.copy(Q_CORREDOR).premultiply(gira.setFromAxisAngle(eY, Math.sin(t * 0.08) * 0.45))
+    else if (p < 2) q.copy(Q_GOLFO).slerp(Q_JAPON, suave(acota(p - 1)))
+    else if (p < 6.6) q.copy(Q_JAPON).slerp(Q_CORREDOR, suave(acota(p - 2)))
+    else q.copy(Q_CORREDOR).slerp(Q_JAPON, suave(acota((p - 6.6) / 0.8)))
+    g.quaternion.slerp(q, 1 - Math.exp(-dt * 3))
+    const s = 1 + (p < 0.5 ? 0.22 * (1 - scroll.puertas) : 0) + 0.28 * suave(acota(1 - Math.abs(p - 7.2) / 0.8))
+    g.scale.setScalar(g.scale.x + (s - g.scale.x) * (1 - Math.exp(-dt * 3)))
+    const x = p < 0.5 || p > 6.7 ? 0 : lado
     g.position.x += (x - g.position.x) * (1 - Math.exp(-dt * 3))
+    transGlobo.q.copy(g.quaternion); transGlobo.x = g.position.x; transGlobo.s = g.scale.x
 
-    const op = suave(w)
+    g.visible = dis < 0.995
+    // los rótulos HTML no heredan la visibilidad del grupo: se apagan aquí, antes de salir
+    if (!g.visible) { document.documentElement.style.setProperty('--w-globo', '0'); return }
+    u.tierra.uDis.value = dis
+    // rutas, nubes y halo se apagan en la primera mitad de la disolución: lo último en irse es la tierra
+    const op = 1 - suave(acota(dis * 2))
     const [la, lo] = subsolar()
     const sol = aPos(la, lo).normalize().applyQuaternion(g.quaternion)
     u.tierra.uSol.value.copy(sol); u.nubes.uSol.value.copy(sol)
     u.tierra.uArriba.value.set(0, 1, 0).applyQuaternion(g.quaternion)
-    u.tierra.uOp.value = op; u.nubes.uOp.value = op; u.halo.uOp.value = op
+    u.nubes.uOp.value = op; u.halo.uOp.value = op
 
     // las rutas se dibujan con el scroll del capítulo del corredor y el flujo corre
     const dibujo = scroll.pos < 0.8 ? 0.1 : acota((scroll.pos - 0.8) * 1.4)
@@ -159,7 +172,7 @@ export default function Globo({ trafico }: { trafico: Trafico | null }) {
       ins.visible = dibujo > 0.95
     }
     // los rótulos HTML no heredan la visibilidad del grupo: usan una variable CSS
-    document.documentElement.style.setProperty('--w-globo', (scroll.pos < 0.6 && scroll.puertas < 0.4 ? 0 : op).toFixed(3))
+    document.documentElement.style.setProperty('--w-globo', ((scroll.pos < 0.6 && scroll.puertas < 0.4) || scroll.pos > 6.55 ? 0 : op).toFixed(3))
   })
 
   return (

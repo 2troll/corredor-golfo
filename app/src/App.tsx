@@ -13,7 +13,8 @@ import Lenis from 'lenis'
 import Escena from './escena/Escena'
 import Portada from './componentes/Portada'
 import { Corredor, Ahora, Mercado, Estacion, Gasto, Veredicto, Cierre } from './componentes/Capitulos'
-import { scroll, CAPITULOS } from './lib/scroll'
+import Viaje from './componentes/Viaje'
+import { scroll, CAPITULOS, amortigua } from './lib/scroll'
 import { useTrafico, useTiempo, useAhora, hhmm } from './lib/vivo'
 import type { Trafico } from './tipos'
 
@@ -97,10 +98,14 @@ export default function App() {
     CAPITULOS.forEach((c, i) => {
       ScrollTrigger.create({
         trigger: `#${c.id}`, start: 'top center', end: 'bottom center',
-        onUpdate: s => { scroll.pos = i - 0.5 + s.progress },
+        onUpdate: s => { scroll.objetivo = i - 0.5 + s.progress },
       })
     })
     ScrollTrigger.create({ start: 0, end: 'max', onUpdate: s => { scroll.total = s.progress } })
+    // la escena no lee el scroll crudo sino uno amortiguado: cero tirones entre capítulos
+    const muelle = (_: number, dtMs: number) => amortigua(dtMs / 1000)
+    gsap.ticker.add(muelle)
+    return () => gsap.ticker.remove(muelle)
     // titulares y párrafos marcados entran palabra a palabra, desde detrás de una máscara
     gsap.utils.toArray<HTMLElement>('[data-revela]').forEach(el => {
       const sp = SplitText.create(el, { type: 'words', mask: 'words' })
@@ -138,6 +143,7 @@ export default function App() {
         <Estacion />
         <Gasto />
         <Veredicto />
+        <Viaje />
         <Cierre />
       </main>
     </div>
