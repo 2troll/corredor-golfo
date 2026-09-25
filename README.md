@@ -31,6 +31,12 @@ navegador y el corredor aéreo en tres dimensiones.
   del Golfo que cruzan el corredor, adelantados con su rumbo y velocidad. Las
   rutas son arcos de círculo máximo; el grosor es la frecuencia semanal. Si una
   fuente falla, el globo sigue y la leyenda deja de citarla.
+- **Vistas y capas del globo.** Seis vistas (tiempo real, noche, foto de
+  satélite de ayer, relieve con fondo marino, mapa político y calor del suelo y
+  del mar) y ocho capas que se encienden a mano (nubes, lluvia, polvo,
+  incendios, tráfico, rutas, fronteras y ciudades con su tiempo). Botones para
+  ir al Golfo, al corredor, a Japón o al mundo, zoom, y un control para mover
+  la hora del sol. Cada capa de NASA se pide sólo cuando alguien la enciende.
 - **Tres gráficos dibujados a escala**, no imágenes: serie mensual,
   estacionalidad comparada con el mercado español y gasto por mercado.
 
