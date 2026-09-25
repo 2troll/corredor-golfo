@@ -12,7 +12,7 @@
 <title>El corredor del Golfo</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 /* ── Paleta: del puerto y de la duna, no del catálogo ──────────────────── */
 :root{
@@ -23,9 +23,9 @@
   --coral:#a33b2a; --coral-sup:#f6e2dd;
   --linea:rgba(13,31,42,.14); --linea2:rgba(13,31,42,.07);
   --hondo:#0d1f2a; --hondo-txt:#dde5e2;
-  --disp:"Instrument Serif",Georgia,serif;
-  --cuerpo:"Public Sans",system-ui,-apple-system,sans-serif;
-  --mono:"JetBrains Mono",ui-monospace,monospace;
+  --disp:"Source Serif 4",Georgia,serif;
+  --cuerpo:"IBM Plex Sans",system-ui,-apple-system,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,monospace;
   --rail:15rem;
 }
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
@@ -52,7 +52,7 @@ html{scroll-behavior:smooth}
 body{margin:0;background:var(--papel);color:var(--tinta);
   font-family:var(--cuerpo);font-weight:400;font-size:17px;line-height:1.62;
   -webkit-font-smoothing:antialiased}
-h1,h2,h3{font-family:var(--disp);font-weight:400;margin:0;line-height:1.08;text-wrap:balance}
+h1,h2,h3{font-family:var(--disp);font-weight:600;font-optical-sizing:auto;margin:0;line-height:1.08;text-wrap:balance}
 p{margin:0 0 1em;max-width:68ch}
 a{color:var(--marea)}
 :focus-visible{outline:2px solid var(--marea);outline-offset:3px;border-radius:2px}
@@ -97,7 +97,7 @@ main{margin-inline-start:var(--rail)}
   border-block-end:1px solid var(--linea)}
 .epig{font-family:var(--mono);font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;
   color:var(--marea);margin:0 0 1.1rem}
-.portada h1{font-size:clamp(2.5rem,6.4vw,4.8rem);max-width:16ch;letter-spacing:-.012em}
+.portada h1{font-size:clamp(2.2rem,5.2vw,3.9rem);max-width:18ch;letter-spacing:-.018em}
 .portada h1 em{font-style:italic;color:var(--marea)}
 .entradilla{margin-top:1.5rem;font-size:clamp(1.05rem,1.4vw,1.22rem);max-width:56ch;
   color:var(--tinta);opacity:.85;line-height:1.55}
@@ -111,7 +111,7 @@ main{margin-inline-start:var(--rail)}
 section{padding-block:clamp(2.2rem,4vw,3.4rem);border-block-end:1px solid var(--linea2)}
 section > .env > header{display:flex;gap:.9rem;align-items:baseline;margin-bottom:1.3rem;
   flex-wrap:wrap}
-section h2{font-size:clamp(1.7rem,2.9vw,2.3rem);letter-spacing:-.008em}
+section h2{font-size:clamp(1.5rem,2.4vw,1.95rem);letter-spacing:-.012em}
 .clave{font-family:var(--mono);font-size:.74rem;color:var(--marea);letter-spacing:.08em}
 section h3{font-size:clamp(1.3rem,2vw,1.55rem);margin:2rem 0 .8rem}
 .tras{margin-inline-start:auto;font-family:var(--mono);font-size:.7rem;color:var(--tinta3);
@@ -220,11 +220,40 @@ select:focus,input:focus{outline:0;border-color:var(--marea);
 /* ── Globo del corredor ─────────────────────────────────────────────────── */
 .globo-caja{position:relative;background:var(--hondo);border-radius:4px;overflow:hidden;
   border:1px solid var(--hondo);min-height:340px}
-#globo{display:block;width:100%;height:clamp(340px,46vw,480px)}
+#globo{display:block;width:100%;height:clamp(460px,58vw,640px)}
+.globo-hud{position:absolute;top:.9rem;left:.9rem;display:flex;gap:.55rem;flex-wrap:wrap;pointer-events:none;
+  max-width:calc(100% - 1.8rem)}
+.globo-hud div{background:rgba(4,12,18,.62);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
+  border:1px solid rgba(221,229,226,.14);border-radius:3px;padding:.5rem .7rem;min-width:8.5rem;color:#dde5e2}
+.globo-hud .et{display:block;font-family:var(--mono);font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;
+  color:rgba(221,229,226,.62)}
+.globo-hud b{display:block;font-family:var(--disp);font-weight:600;font-size:1.55rem;line-height:1.15;
+  font-variant-numeric:tabular-nums;color:#fff}
+.globo-hud i{display:block;font-style:normal;font-family:var(--mono);font-size:.62rem;color:#8fe6cf}
+.globo-pie .ley{display:inline-flex;align-items:center;gap:.35rem;margin-inline-end:.9rem}
+.globo-pie .l{display:inline-block;width:1.1rem;height:2px;background:#5fe0c0}
+.globo-pie .l.an{background:repeating-linear-gradient(90deg,#f0c078 0 4px,transparent 4px 7px)}
+.globo-pie .l.ccg{height:.6rem;width:.6rem;background:none;border:1.5px solid #5fe0c0}
+.globo-pie .l.jp{height:.6rem;width:.6rem;background:none;border:1.5px solid #f0c078}
+.globo-pie .l.lluvia{height:.5rem;width:1.3rem;background:linear-gradient(90deg,#26a4ff,#1ec94a,#f4e21c,#f0452c)}
+.globo-pie .l.aire{height:.4rem;width:.4rem;border-radius:50%;background:#ffe2a8;box-shadow:0 0 6px #ffc56b}
+.globo-nombres .nombre b{display:block;font-weight:500}
+.globo-nombres .nombre small{display:block;font-size:.58rem;letter-spacing:.02em;opacity:.78;font-weight:400}
+.globo-pie .reloj{color:#fff}
+.globo-pie .nota{display:block;margin-top:.3rem;color:rgba(221,229,226,.55);font-size:.62rem}
+
 .globo-pie{position:absolute;inset-inline:0;bottom:0;padding:.7rem .9rem;
   background:linear-gradient(to top,rgba(6,17,24,.92),transparent);
   color:var(--hondo-txt);font-family:var(--mono);font-size:.72rem;letter-spacing:.05em}
 .globo-nombres{position:absolute;inset:0;pointer-events:none}
+/* en el móvil el panel va encima de la esfera y la leyenda debajo: superpuestos la tapaban */
+@media (max-width:760px){
+  .globo-caja{display:flex;flex-direction:column}
+  .globo-hud{order:-1;position:static;display:grid;grid-template-columns:1fr 1fr;gap:.4rem;padding:.6rem .6rem 0;max-width:none}
+  .globo-hud div{min-width:0;padding:.35rem .5rem}.globo-hud b{font-size:1.1rem}.globo-hud i{font-size:.56rem}
+  .globo-pie{position:static;background:none;padding-top:.2rem}
+  #globo{height:420px}
+}
 .globo-nombres .nombre{position:absolute;top:0;left:0;font-family:var(--mono);
   font-size:.68rem;letter-spacing:.05em;color:#dde5e2;white-space:nowrap;
   transform-origin:0 0;margin:-.62em 0 0 1.05em;text-shadow:0 1px 4px rgba(0,0,0,.95);
@@ -442,11 +471,27 @@ footer h3{font-family:var(--mono);font-size:.7rem;letter-spacing:.14em;text-tran
     <span class="tras">Arrastre para girar</span></header>
   <p>Sin avión no hay mercado, y el avión es exactamente lo que falló en 2026. El corredor se está
     reconstruyendo con fechas públicas. Cada arco es una ruta real; el grosor es la frecuencia
-    semanal y el color distingue lo que ya vuela de lo anunciado.</p>
+    semanal y el color distingue lo que ya vuela de lo anunciado. La Tierra se ilumina con la
+    posición real del sol en este momento.</p>
   <div class="globo-caja">
     <div class="globo-carga" id="globo-carga">cargando el corredor…</div>
     <canvas id="globo"></canvas>
-    <div class="globo-pie" id="globo-pie">Golfo → Japón · 6 orígenes · 2 puertas</div>
+    <div class="globo-hud" aria-label="Datos del corredor">
+      <div><span class="et">Salidas directas al día</span><b id="hud-diarias">–</b><i id="hud-diarias-n"></i></div>
+      <div><span class="et">En el aire · Golfo</span><b id="hud-golfo">–</b><i id="hud-golfo-n">sin datos de tráfico</i></div>
+      <div><span class="et">En el aire · Japón</span><b id="hud-japon">–</b><i id="hud-japon-n">sin datos de tráfico</i></div>
+      <div><span class="et">Saudia Riad–Narita</span><b id="hud-saudia">–</b><i>arranca el 17 nov 2026</i></div>
+    </div>
+    <div class="globo-pie">
+      <span class="ley"><i class="l op"></i>Operativa</span>
+      <span class="ley"><i class="l an"></i>Anunciada</span>
+      <span class="ley"><i class="l ccg"></i>CCG</span>
+      <span class="ley"><i class="l jp"></i>Japón</span>
+      <span class="ley"><i class="l lluvia"></i>Lluvia</span>
+      <span class="ley"><i class="l aire"></i>Aeronave en vuelo</span>
+      <span class="reloj" id="hud-reloj"></span>
+      <span class="nota" id="hud-fuentes"></span>
+    </div>
   </div>
   <div class="tabla-caja"><table>
     <thead><tr><th>Compañía</th><th>Ruta</th><th class="n">Frecuencia</th><th>Puerta</th><th>Estado</th></tr></thead>
@@ -1367,98 +1412,355 @@ async function copiar(msg){
   setTimeout(()=>s.classList.remove('ver'),2600);
 }
 
-/* ── Globo: el corredor como lo que es, un arco sobre la esfera ──────────
-   Se orienta solo: se calcula el centroide de todos los puntos de la red y se
-   gira la esfera hasta ponerlo de cara. Así el corredor Golfo→Japón queda
-   siempre mirando al lector, en vez de depender de un ángulo escrito a mano.
-   Los arcos son tubos, no líneas: WebGL ignora lineWidth, y sin grosor no se
-   puede decir «el grosor es la frecuencia». Y cada punto lleva su topónimo,
-   que un mapa de rutas sin nombres es decoración. */
-function globo(){
+/* ── Globo: el corredor sobre la Tierra de verdad ─────────────────────────
+   Todo lo que se ve es un dato, y cada capa dice de dónde sale:
+   · Sol: el punto subsolar se calcula con la hora UTC del visitante, así que
+     el día, la noche y las luces de las ciudades están donde están ahora.
+   · Nubes: la imagen VIIRS (NOAA-20) de ayer, de NASA GIBS. Si no llega, se
+     usa una capa de nubes genérica y la leyenda lo dice.
+   · Lluvia: NASA IMERG, precipitación casi en tiempo real (unas horas de
+     retraso).
+   · Tiempo en cada ciudad: Open-Meteo, actual.
+   · Tráfico: instantánea de OpenSky que toma una tarea de GitHub cada 20
+     minutos (la web no puede leer OpenSky directamente). Cada avión se
+     adelanta desde esa instantánea con su rumbo y velocidad reales.
+   Todo gratis y sin claves. Si una fuente falla, el globo sigue y la
+   leyenda deja de nombrarla. */
+const SAUDIA_INICIO=new Date('2026-11-17T00:00:00+03:00');
+const TRAFICO_URL='https://raw.githubusercontent.com/2troll/corredor-golfo/datos/trafico.json';
+const GIBS='https://gibs.earthdata.nasa.gov/wms/epsg4326/best/wms.cgi?SERVICE=WMS&REQUEST=GetMap'
+  +'&VERSION=1.3.0&CRS=EPSG:4326&BBOX=-90,-180,90,180&WIDTH=2048&HEIGHT=1024';
+const hhmm=(d,tz)=>new Intl.DateTimeFormat('es-ES',{hour:'2-digit',minute:'2-digit',
+  timeZone:tz||'UTC'}).format(d);
+
+function hudCorredor(){
+  const ops=RUTAS.filter(r=>r[5]==='operativa'), anun=RUTAS.filter(r=>r[5]==='anunciada');
+  const suma=a=>a.reduce((s,r)=>s+r[3],0);
+  $('#hud-diarias').textContent=(suma(ops)/7).toLocaleString('es-ES',{maximumFractionDigits:1});
+  $('#hud-diarias-n').textContent=`${suma(ops)}/sem · ${ops.length} rutas · +${suma(anun)} anunciados`;
+  const dias=Math.ceil((SAUDIA_INICIO-Date.now())/864e5);
+  $('#hud-saudia').textContent=dias>0?`${dias} días`:'en servicio';
+  const reloj=()=>{ const d=new Date(); $('#hud-reloj').textContent=
+    `Dubái ${hhmm(d,'Asia/Dubai')} · Riad ${hhmm(d,'Asia/Riyadh')} · Osaka ${hhmm(d,'Asia/Tokyo')} · ${hhmm(d)} UTC`; };
+  reloj(); setInterval(reloj,20000);
+}
+
+/* Punto subsolar: declinación por la aproximación de Cooper y longitud por la
+   hora UTC. Error de un par de grados, invisible a esta escala. */
+function subsolar(d){
+  const ini=Date.UTC(d.getUTCFullYear(),0,0), dia=(d-ini)/864e5;
+  const decl=-23.44*Math.cos(2*Math.PI/365*(dia+10));
+  const h=d.getUTCHours()+d.getUTCMinutes()/60;
+  return [decl,-15*(h-12)];
+}
+
+/* Punto de destino sobre la esfera dados rumbo y distancia (fórmula del
+   círculo máximo): con esto se adelanta cada avión desde la instantánea. */
+function avanza(la,lo,rumbo,km){
+  const r=Math.PI/180, d=km/6371, b=rumbo*r, f1=la*r, l1=lo*r;
+  const f2=Math.asin(Math.sin(f1)*Math.cos(d)+Math.cos(f1)*Math.sin(d)*Math.cos(b));
+  const l2=l1+Math.atan2(Math.sin(b)*Math.sin(d)*Math.cos(f1),Math.cos(d)-Math.sin(f1)*Math.sin(f2));
+  return [f2/r,((l2/r+540)%360)-180];
+}
+
+/* Códigos WMO de Open-Meteo, en una palabra */
+const CIELO=c=>c===0?'despejado':c<=2?'poco nuboso':c===3?'cubierto':c<=48?'niebla'
+  :c<=57?'llovizna':c<=67?'lluvia':c<=77?'nieve':c<=82?'chubascos':c<=86?'nieve':'tormenta';
+
+async function globo(){
   const lz=$('#globo-carga'), caja=$('.globo-caja');
+  hudCorredor();
   if(typeof THREE==='undefined'){ lz.textContent='El corredor necesita WebGL'; return; }
   const cv=$('#globo'); let ren;
-  try{ ren=new THREE.WebGLRenderer({canvas:cv,antialias:true,alpha:true}); }
+  try{ ren=new THREE.WebGLRenderer({canvas:cv,antialias:true}); }
   catch(e){ lz.textContent='Su navegador no permite WebGL'; return; }
-  lz.remove();
+  ren.outputColorSpace=THREE.SRGBColorSpace;
+  ren.setClearColor(0x03080d,1);
 
   const capa=document.createElement('div'); capa.className='globo-nombres';
   caja.appendChild(capa);
 
   const esc=new THREE.Scene();
-  const cam=new THREE.PerspectiveCamera(34,1,0.1,100);
-  cam.position.set(0,0,4.55); cam.lookAt(0,0,0);
+  const cam=new THREE.PerspectiveCamera(32,1,0.1,200);
+  cam.position.set(0,0,6.3); cam.lookAt(0,0,0);
   const R=1.5, grupo=new THREE.Group(); esc.add(grupo);
 
-  grupo.add(new THREE.Mesh(new THREE.SphereGeometry(R*0.997,48,32),
-    new THREE.MeshBasicMaterial({color:0x0c1c25})));
-  grupo.add(new THREE.LineSegments(
-    new THREE.WireframeGeometry(new THREE.SphereGeometry(R,24,16)),
-    new THREE.LineBasicMaterial({color:0x2f6d5e,transparent:true,opacity:.26})));
-  // El limbo: un halo finísimo que separa la esfera del fondo negro
-  const limbo=new THREE.Mesh(new THREE.SphereGeometry(R*1.035,48,32),
-    new THREE.MeshBasicMaterial({color:0x2f6d5e,transparent:true,opacity:.07,
-      side:THREE.BackSide}));
-  grupo.add(limbo);
+  const cargador=new THREE.TextureLoader();
+  const tex=(url,srgb)=>new Promise((ok,mal)=>cargador.load(url,t=>{
+    if(srgb) t.colorSpace=THREE.SRGBColorSpace;
+    t.anisotropy=Math.min(8,ren.capabilities.getMaxAnisotropy()); ok(t);},undefined,mal));
+  let T, topo;
+  try{
+    T=await Promise.all([tex('img/dia.jpg',true),tex('img/noche.jpg',true),tex('img/agua.jpg'),tex('img/nubes.jpg')]);
+    topo=await (await fetch('img/paises-110m.json')).json();
+  }catch(e){ lz.textContent='No se pudieron cargar las texturas del globo'; return; }
+  lz.remove();
+
+  const fuentes={sol:'Sol calculado en vivo'};
+  const pintaFuentes=()=>{ $('#hud-fuentes').textContent=Object.values(fuentes).join(' · '); };
+  pintaFuentes();
 
   const aPos=(la,lo,r)=>{
     const f=(90-la)*Math.PI/180, t=(lo+180)*Math.PI/180;
     return new THREE.Vector3(-r*Math.sin(f)*Math.cos(t), r*Math.cos(f), r*Math.sin(f)*Math.sin(t));
   };
-  const marcas=[];
-  function punto(la,lo,color,rad,nombre,clase){
-    const p=aPos(la,lo,R*1.004);
-    grupo.add(new THREE.Mesh(new THREE.SphereGeometry(rad,14,14),
-      new THREE.MeshBasicMaterial({color})).translateX(p.x).translateY(p.y).translateZ(p.z));
-    if(nombre){
-      const el=document.createElement('span');
-      el.className='nombre '+(clase||''); el.textContent=nombre;
-      capa.appendChild(el); marcas.push({p,el});
+
+  // ── Estrellas: fijas en la escena, no giran con la Tierra
+  {
+    const n=1800, pos=new Float32Array(n*3);
+    for(let i=0;i<n;i++){
+      const v=new THREE.Vector3().randomDirection().multiplyScalar(60+Math.random()*30);
+      pos.set([v.x,v.y,v.z],i*3);
     }
+    const g=new THREE.BufferGeometry(); g.setAttribute('position',new THREE.BufferAttribute(pos,3));
+    esc.add(new THREE.Points(g,new THREE.PointsMaterial({color:0xcfd8e3,size:.15,
+      sizeAttenuation:true,transparent:true,opacity:.7,depthWrite:false})));
+  }
+
+  // ── La Tierra: día, noche y reflejo del sol en el agua
+  const sol={value:new THREE.Vector3(1,0,0)};
+  grupo.add(new THREE.Mesh(new THREE.SphereGeometry(R,128,96),new THREE.ShaderMaterial({
+    uniforms:{dia:{value:T[0]},noche:{value:T[1]},agua:{value:T[2]},sol},
+    vertexShader:`varying vec2 vUv; varying vec3 vN; varying vec3 vP;
+      void main(){ vUv=uv; vN=normalize(mat3(modelMatrix)*normal);
+        vec4 w=modelMatrix*vec4(position,1.); vP=w.xyz;
+        gl_Position=projectionMatrix*viewMatrix*w; }`,
+    fragmentShader:`uniform sampler2D dia,noche,agua; uniform vec3 sol;
+      varying vec2 vUv; varying vec3 vN; varying vec3 vP;
+      void main(){
+        vec3 n=normalize(vN), v=normalize(cameraPosition-vP);
+        float d=dot(n,sol), luz=smoothstep(-.16,.2,d);
+        vec3 cDia=texture2D(dia,vUv).rgb*(.05+1.15*smoothstep(-.05,.6,d));
+        vec3 tn=texture2D(noche,vUv).rgb;
+        // noche oscura y las ciudades encendidas: se realzan sólo los píxeles claros
+        vec3 cNoche=tn*.28+pow(tn,vec3(2.2))*vec3(2.6,2.1,1.3)+vec3(.003,.006,.014);
+        float mar=texture2D(agua,vUv).r;
+        float brillo=pow(max(dot(reflect(-sol,n),v),0.),48.)*mar*.6;
+        vec3 c=mix(cNoche,cDia,luz)+brillo*vec3(1.,.93,.8)*luz;
+        // franja cálida en el terminador: el atardecer
+        c+=vec3(.5,.22,.06)*exp(-pow(d*16.,2.))*.12;
+        float borde=pow(1.-max(dot(n,v),0.),3.);
+        c+=borde*vec3(.28,.55,1.)*(.05+.6*luz);
+        gl_FragColor=vec4(c,1.);
+        #include <colorspace_fragment>
+      }`})));
+
+  // ── Nubes: reales de ayer si NASA responde; si no, genéricas
+  const nubU={nub:{value:T[3]},real:{value:0},sol};
+  const nubes=new THREE.Mesh(new THREE.SphereGeometry(R*1.011,128,96),new THREE.ShaderMaterial({
+    uniforms:nubU,transparent:true,depthWrite:false,
+    vertexShader:`varying vec2 vUv; varying vec3 vN;
+      void main(){ vUv=uv; vN=normalize(mat3(modelMatrix)*normal);
+        gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.); }`,
+    fragmentShader:`uniform sampler2D nub; uniform float real; uniform vec3 sol;
+      varying vec2 vUv; varying vec3 vN;
+      void main(){ vec3 m=texture2D(nub,vUv).rgb;
+        // en la imagen real, nube es lo blanco: el mínimo de los tres canales
+        // separa la nube del desierto, que es claro pero no gris
+        // y además neutra: el Tíbet y los desiertos son claros pero pardos
+        float mn=min(m.r,min(m.g,m.b)), sat=max(m.r,max(m.g,m.b))-mn;
+        float a=real>.5?smoothstep(.42,.8,mn)*(1.-smoothstep(.05,.15,sat)):m.r;
+        // misma transición que el suelo: si no, al anochecer queda una franja sin nubes
+        float luz=smoothstep(-.16,.2,dot(normalize(vN),sol));
+        gl_FragColor=vec4(vec3(.97)*(.08+.92*luz),a*(.16+.53*luz)); }`}));
+  grupo.add(nubes);
+  const ayer=new Date(Date.now()-864e5).toISOString().slice(0,10);
+  tex(`${GIBS}&LAYERS=VIIRS_NOAA20_CorrectedReflectance_TrueColor&FORMAT=image/jpeg&TIME=${ayer}`)
+    .then(t=>{ nubU.nub.value=t; nubU.real.value=1;
+      fuentes.nubes=`Nubes: NASA VIIRS del ${ayer.split('-').reverse().join('-')}`; pintaFuentes(); })
+    .catch(()=>{ fuentes.nubes='Nubes: capa genérica (NASA no respondió)'; pintaFuentes(); });
+
+  // ── Lluvia: NASA IMERG, casi en tiempo real
+  tex(`${GIBS}&LAYERS=IMERG_Precipitation_Rate&FORMAT=image/png&TRANSPARENT=true`,true).then(t=>{
+    // la lluvia se ve también de noche, pero apagada, como en una imagen de radar nocturna
+    grupo.add(new THREE.Mesh(new THREE.SphereGeometry(R*1.006,128,96),new THREE.ShaderMaterial({
+      uniforms:{ll:{value:t},sol},transparent:true,depthWrite:false,
+      vertexShader:`varying vec2 vUv; varying vec3 vN; void main(){ vUv=uv;
+        vN=normalize(mat3(modelMatrix)*normal); gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.); }`,
+      fragmentShader:`uniform sampler2D ll; uniform vec3 sol; varying vec2 vUv; varying vec3 vN;
+        void main(){ vec4 c=texture2D(ll,vUv); float luz=smoothstep(-.16,.2,dot(normalize(vN),sol));
+          gl_FragColor=vec4(c.rgb*(.45+.55*luz),c.a*(.22+.25*luz));
+          #include <colorspace_fragment>
+        }`})));
+    fuentes.lluvia='Lluvia: NASA IMERG, últimas horas'; pintaFuentes();
+  }).catch(()=>{});
+
+  // ── Atmósfera: halo por detrás, aditivo
+  esc.add(new THREE.Mesh(new THREE.SphereGeometry(R*1.1,64,48),new THREE.ShaderMaterial({
+    side:THREE.BackSide,blending:THREE.AdditiveBlending,transparent:true,depthWrite:false,
+    vertexShader:`varying vec3 vN; void main(){ vN=normalize(normalMatrix*normal);
+      gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.); }`,
+    fragmentShader:`varying vec3 vN; void main(){
+      float i=pow(max(.62-dot(vN,vec3(0,0,1.)),0.),3.2);
+      gl_FragColor=vec4(vec3(.36,.64,1.)*i*1.15,1.); }`})));
+
+  // ── Fronteras: todos los países, y el CCG y Japón resaltados
+  const sc=topo.transform.scale, tr=topo.transform.translate;
+  const arco=i=>{ let x=0,y=0; return topo.arcs[i<0?~i:i].map(([dx,dy])=>{
+    x+=dx; y+=dy; return [y*sc[1]+tr[1], x*sc[0]+tr[0]]; }); };
+  const lineas=(indices,r)=>{ const p=[];
+    for(const i of indices){ const a=arco(i);
+      for(let k=1;k<a.length;k++){ const u=aPos(a[k-1][0],a[k-1][1],r), w=aPos(a[k][0],a[k][1],r);
+        p.push(u.x,u.y,u.z,w.x,w.y,w.z); } }
+    const g=new THREE.BufferGeometry(); g.setAttribute('position',new THREE.Float32BufferAttribute(p,3));
+    return g; };
+  const plano=a=>Array.isArray(a)?a.flatMap(plano):[a];
+  grupo.add(new THREE.LineSegments(lineas(topo.arcs.map((_,i)=>i),R*1.0015),
+    new THREE.LineBasicMaterial({color:0xdfe9f2,transparent:true,opacity:.2,depthWrite:false})));
+  const CCG=['682','784','634','048','414','512'], JAPON='392';
+  const geos=topo.objects.countries.geometries;
+  const resalta=(ids,color)=>grupo.add(new THREE.LineSegments(
+    lineas(geos.filter(g=>ids.includes(g.id)).flatMap(g=>plano(g.arcs)),R*1.0025),
+    new THREE.LineBasicMaterial({color,transparent:true,opacity:.95})));
+  resalta(CCG,0x5fe0c0); resalta([JAPON],0xf0c078);
+
+  // ── Brillo suave reutilizable (aviones y ciudades)
+  const halo=(()=>{ const c=document.createElement('canvas'); c.width=c.height=64;
+    const g=c.getContext('2d'), gr=g.createRadialGradient(32,32,0,32,32,32);
+    gr.addColorStop(0,'rgba(255,255,255,1)'); gr.addColorStop(.25,'rgba(255,255,255,.45)');
+    gr.addColorStop(1,'rgba(255,255,255,0)'); g.fillStyle=gr; g.fillRect(0,0,64,64);
+    return new THREE.CanvasTexture(c); })();
+
+  // ── Ciudades: punto, anillo que late, rótulo y tiempo actual
+  const marcas=[], anillos=[], ciudades=[];
+  function punto(la,lo,color,rad,nombre,clase){
+    const p=aPos(la,lo,R*1.004), nrm=p.clone().normalize();
+    const m=new THREE.Mesh(new THREE.SphereGeometry(rad,16,16),new THREE.MeshBasicMaterial({color}));
+    m.position.copy(p); grupo.add(m);
+    const an=new THREE.Mesh(new THREE.RingGeometry(rad*1.4,rad*1.8,48),
+      new THREE.MeshBasicMaterial({color,transparent:true,opacity:.6,side:THREE.DoubleSide,depthWrite:false}));
+    an.position.copy(aPos(la,lo,R*1.005));
+    an.quaternion.setFromUnitVectors(new THREE.Vector3(0,0,1),nrm);
+    grupo.add(an); anillos.push(an);
+    if(nombre){ const el=document.createElement('span');
+      el.className='nombre '+(clase||'');
+      el.innerHTML=`<b></b><small></small>`; el.firstChild.textContent=nombre;
+      capa.appendChild(el); marcas.push({p,el}); ciudades.push({la,lo,el}); }
     return p;
   }
   const centro=new THREE.Vector3();
   Object.entries(PUERTAS).forEach(([k,p])=>{
-    centro.add(punto(p[0],p[1],0xd9a45c,.030,k==='KIX'?'Kansai':'Tokio','puerta'));
+    centro.add(punto(p[0],p[1],0xf0c078,.022,k==='KIX'?'Osaka · Kansai':'Tokio','puerta'));
   });
-  const vistos=new Set(); let iArco=0;
+
+  // ── Rutas: círculo máximo, degradado del Golfo (verde) a Japón (oro) y
+  //    una estela que corre en el sentido del vuelo
+  const VERDE=new THREE.Color(0x5fe0c0), ORO=new THREE.Color(0xf0c078);
+  const rutaMat=off=>new THREE.ShaderMaterial({transparent:true,depthWrite:false,
+    blending:THREE.AdditiveBlending,uniforms:{t:{value:0},off:{value:off},a:{value:VERDE},b:{value:ORO}},
+    vertexShader:`varying float s; void main(){ s=uv.x;
+      gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.); }`,
+    fragmentShader:`uniform float t,off; uniform vec3 a,b; varying float s; void main(){
+      float cab=fract(t*.06+off), d=cab-s; if(d<0.) d+=1.;
+      float estela=exp(-d*16.)*(1.-step(.45,d));
+      vec3 c=mix(a,b,smoothstep(0.,1.,s));
+      gl_FragColor=vec4(c*(.55+1.7*estela),.2+.8*estela); }`});
+  const rutasMat=[];
+  // Avión de línea visto desde arriba: fuselaje, ala en flecha, motores y cola
+  const formaAvion=(()=>{ const s=new THREE.Shape(), m=[
+      [0,1],[.035,.97],[.055,.9],[.06,.42],[.18,.3],[.2,.34],[.24,.34],[.25,.27],[.92,-.08],[.94,-.17],
+      [.3,-.06],[.06,-.1],[.05,-.66],[.32,-.84],[.33,-.92],[.04,-.86],[.02,-.98],[0,-1]];
+    const todo=[...m,...m.slice(0,-1).reverse().map(([x,y])=>[-x,y])];
+    todo.forEach(([x,y],i)=>i?s.lineTo(x,y):s.moveTo(x,y));
+    return new THREE.ShapeGeometry(s); })();
+  function avion(color,glow){
+    const g=new THREE.Group();
+    const cuerpo=new THREE.Mesh(formaAvion,new THREE.MeshBasicMaterial({color,side:THREE.DoubleSide}));
+    const sp=new THREE.Sprite(new THREE.SpriteMaterial({map:halo,color:glow,transparent:true,
+      opacity:.55,depthWrite:false,blending:THREE.AdditiveBlending}));
+    sp.scale.setScalar(3.2); sp.position.z=-.05;
+    g.add(sp); g.add(cuerpo); g.scale.setScalar(.02); grupo.add(g); return g;
+  }
+  const orienta=(obj,pos,dir)=>{ // dir: hacia dónde apunta el morro
+    const Z=pos.clone().normalize(), Y=dir.clone().sub(Z.clone().multiplyScalar(dir.dot(Z))).normalize();
+    obj.position.copy(pos);
+    obj.quaternion.setFromRotationMatrix(new THREE.Matrix4().makeBasis(new THREE.Vector3().crossVectors(Y,Z),Y,Z));
+  };
+  const ilustrativos=[], vistos=new Set(); let iArco=0;
   RUTAS.forEach(r=>{
     const cd=r[1].match(/\(([A-Z]{3})\)/); const sig=cd?cd[1]:r[1];
     if(!vistos.has(sig)){ vistos.add(sig);
-      const p=punto(r[6],r[7],r[3]?0x4fd0b4:0x6a7570,r[3]?.026:.019,
-        r[1].replace(/\s*\(.*/,''), r[3]?'':'apagado');
-      centro.add(p);
+      centro.add(punto(r[6],r[7],r[3]?0x5fe0c0:0x7d8a86,r[3]?.018:.014,
+        r[1].replace(/\s*\(.*/,''),r[3]?'':'apagado'));
     }
     if(!r[3])return;
     const d=PUERTAS[r[4]]; if(!d)return;
-    const a=aPos(r[6],r[7],R), b=aPos(d[0],d[1],R);
-    // Cada arco sube un poco más que el anterior: si todos tuvieran la misma
-    // altura se superpondrían en una sola cuerda y no se contarían las rutas.
-    const alto=1+a.distanceTo(b)/(R*6.4)+(iArco++)*0.028;
-    const med=a.clone().add(b).multiplyScalar(.5).normalize().multiplyScalar(R*alto);
-    const cur=new THREE.QuadraticBezierCurve3(a,med,b);
-    const anun=r[5]==='anunciada';
-    // el grosor ES la frecuencia: de 3/sem a 7/sem, de 0,006 a 0,013
-    const gr=0.006+(r[3]/7)*0.007;
-    grupo.add(new THREE.Mesh(new THREE.TubeGeometry(cur,64,gr,8,false),
-      new THREE.MeshBasicMaterial({color:anun?0xd9a45c:0x4fd0b4,
-        transparent:true,opacity:anun?.62:.92})));
+    const a=aPos(r[6],r[7],1).normalize(), b=aPos(d[0],d[1],1).normalize();
+    const ang=a.angleTo(b), alto=.08+.15*ang/Math.PI+(iArco++)*.011;
+    const pts=[];
+    for(let k=0;k<=120;k++){ const t=k/120;
+      // slerp entre los dos puntos: la ruta sigue el círculo máximo
+      const v=a.clone().multiplyScalar(Math.sin((1-t)*ang)/Math.sin(ang))
+        .add(b.clone().multiplyScalar(Math.sin(t*ang)/Math.sin(ang)));
+      pts.push(v.multiplyScalar(R*(1.004+alto*Math.sin(Math.PI*t)))); }
+    const cur=new THREE.CatmullRomCurve3(pts);
+    const anun=r[5]==='anunciada', gr=.0018+(r[3]/7)*.0028;
+    if(anun){
+      // lo anunciado va punteado en oro y sin aviones: todavía no vuela nadie
+      const sp=cur.getSpacedPoints(120);
+      for(let k=0;k<30;k+=2){
+        grupo.add(new THREE.Mesh(new THREE.TubeGeometry(
+          new THREE.CatmullRomCurve3(sp.slice(k*4,k*4+5)),6,gr*1.1,6,false),
+          new THREE.MeshBasicMaterial({color:0xf0c078,transparent:true,opacity:.8})));
+      }
+      return;
+    }
+    const mt=rutaMat(iArco*.29); rutasMat.push(mt);
+    grupo.add(new THREE.Mesh(new THREE.TubeGeometry(cur,200,gr,8,false),mt));
+    const n=Math.max(1,Math.round(r[3]/3));
+    for(let k=0;k<n;k++) ilustrativos.push({g:avion(0xffffff,0x9ff5e0),cur,
+      fase:(k+iArco*.37)/n%1,vuelta:k%2===1});
   });
-  // Girar la red hasta ponerla de cara: el centroide mira a la cámara
-  centro.normalize();
-  grupo.quaternion.setFromUnitVectors(centro,new THREE.Vector3(0,0,1));
-  grupo.rotateOnWorldAxis(new THREE.Vector3(1,0,0),0.16);
 
-  let arr=false,px=0,py=0;
+  // ── Tráfico real: la instantánea de OpenSky
+  const reales=[];
+  fetch(TRAFICO_URL,{cache:'no-cache'}).then(r=>r.ok?r.json():Promise.reject()).then(d=>{
+    const edad=Date.now()/1000-d.t;
+    if(edad>6*3600) return; // más de seis horas: ya no es «ahora»
+    const hora=hhmm(new Date(d.t*1000));
+    $('#hud-golfo').textContent=d.golfo.n; $('#hud-golfo-n').textContent=`OpenSky · ${hora} UTC`;
+    $('#hud-japon').textContent=d.japon.n; $('#hud-japon-n').textContent=`OpenSky · ${hora} UTC`;
+    // cada aeronave, un punto de luz a la altura de crucero
+    const pts=[...d.golfo.p,...d.japon.p], pos=new Float32Array(pts.length*3);
+    pts.forEach(([la,lo],i)=>{ const v=aPos(la,lo,R*1.008); pos.set([v.x,v.y,v.z],i*3); });
+    const g=new THREE.BufferGeometry(); g.setAttribute('position',new THREE.BufferAttribute(pos,3));
+    grupo.add(new THREE.Points(g,new THREE.PointsMaterial({map:halo,color:0xffe2a8,size:.028,
+      transparent:true,opacity:.95,depthWrite:false,blending:THREE.AdditiveBlending})));
+    // las aeronaves de compañías del Golfo sobre el corredor, como aviones
+    d.corredor.forEach(([cs,la,lo,rumbo,vel])=>reales.push({g:avion(0xffffff,0xffc56b),la,lo,rumbo,vel,t:d.t}));
+    ilustrativos.forEach(a=>{a.g.visible=false;});
+    fuentes.trafico=`Tráfico: OpenSky, ${hora} UTC; ${d.corredor.length} aviones del Golfo sobre el corredor, adelantados con su rumbo y velocidad`;
+    pintaFuentes();
+  }).catch(()=>{ fuentes.trafico='Aviones de las rutas: animación según la frecuencia (sin datos de tráfico)'; pintaFuentes(); });
+
+  // ── El tiempo que hace ahora en cada ciudad
+  fetch('https://api.open-meteo.com/v1/forecast?latitude='+ciudades.map(c=>c.la).join(',')
+    +'&longitude='+ciudades.map(c=>c.lo).join(',')+'&current=temperature_2m,weather_code')
+    .then(r=>r.ok?r.json():Promise.reject()).then(js=>{
+      (Array.isArray(js)?js:[js]).forEach((w,i)=>{ const c=ciudades[i]; if(!c||!w.current)return;
+        c.el.lastChild.textContent=`${Math.round(w.current.temperature_2m)}° ${CIELO(w.current.weather_code)}`; });
+      fuentes.tiempo='Tiempo: Open-Meteo, actual'; pintaFuentes();
+    }).catch(()=>{});
+
+  // el centroide de la red, de cara y con el norte arriba: primero se gira en
+  // longitud (eje Y) y luego se baja la latitud (eje X), sin balanceo lateral
+  // a medio camino entre los dos extremos: seis orígenes del Golfo pesarían
+  // más que dos puertas japonesas y Japón quedaría en el borde de la esfera
+  centro.copy(aPos(26,52,1).normalize().add(aPos(35,138,1).normalize())).normalize();
+  const yaw=Math.atan2(centro.x,centro.z);
+  const base=new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0,1,0),-yaw);
+  const cz=Math.hypot(centro.x,centro.z);
+  base.premultiply(new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(1,0,0),Math.atan2(centro.y,cz)-.08));
+
+  // ── Arrastre; en reposo la esfera se balancea alrededor del corredor
+  let arr=false,px=0,py=0,giroX=0,giroY=0,reposo=0;
   const baja=matchMedia('(prefers-reduced-motion: reduce)').matches;
   cv.style.cursor='grab';
-  const abajo=e=>{arr=true;const t=e.touches?e.touches[0]:e;px=t.clientX;py=t.clientY;
-    cv.style.cursor='grabbing';};
+  const abajo=e=>{arr=true;const t=e.touches?e.touches[0]:e;px=t.clientX;py=t.clientY;cv.style.cursor='grabbing';};
   const mueve=e=>{if(!arr)return;const t=e.touches?e.touches[0]:e;
-    grupo.rotateOnWorldAxis(new THREE.Vector3(0,1,0),(t.clientX-px)*.006);
-    grupo.rotateOnWorldAxis(new THREE.Vector3(1,0,0),(t.clientY-py)*.004);
+    giroY+=(t.clientX-px)*.0035; giroX=Math.max(-1.1,Math.min(1.1,giroX+(t.clientY-py)*.0028));
     px=t.clientX;py=t.clientY; if(e.cancelable)e.preventDefault();};
-  const arriba=()=>{arr=false;cv.style.cursor='grab';};
+  const arriba=()=>{if(arr)reposo=performance.now();arr=false;cv.style.cursor='grab';};
   cv.addEventListener('pointerdown',abajo); addEventListener('pointermove',mueve);
   addEventListener('pointerup',arriba);
   cv.addEventListener('touchstart',abajo,{passive:true});
@@ -1467,19 +1769,56 @@ function globo(){
 
   function talla(){
     const w=cv.clientWidth||600,h=cv.clientHeight||400;
+    // la capa de rótulos sigue al lienzo, que en el móvil no empieza arriba de la caja
+    Object.assign(capa.style,{top:cv.offsetTop+'px',height:h+'px',bottom:'auto'});
     ren.setPixelRatio(Math.min(devicePixelRatio,2)); ren.setSize(w,h,false);
-    cam.aspect=w/h; cam.updateProjectionMatrix();
+    cam.aspect=w/h;
+    // en pantallas estrechas se aleja la cámara para que la esfera quepa entera
+    cam.position.z=w/h<1?6.3/Math.max(w/h,.62):6.3; cam.updateProjectionMatrix();
   }
   addEventListener('resize',talla); talla();
 
-  const v=new THREE.Vector3();
-  (function pinta(){ requestAnimationFrame(pinta);
-    if(!arr&&!baja) grupo.rotateOnWorldAxis(new THREE.Vector3(0,1,0),.0013);
+  // el sol se recalcula cada minuto; la Tierra no se mueve más rápido que eso
+  const solObj=new THREE.Vector3();
+  const ponSol=()=>{ const [la,lo]=subsolar(new Date()); solObj.copy(aPos(la,lo,1)).normalize(); };
+  ponSol(); setInterval(ponSol,60000);
+
+  let visible=true;
+  new IntersectionObserver(es=>{visible=es[0].isIntersecting;}).observe(caja);
+
+  const v=new THREE.Vector3(), eY=new THREE.Vector3(0,1,0), eX=new THREE.Vector3(1,0,0);
+  const qY=new THREE.Quaternion(), qX=new THREE.Quaternion();
+  const P=new THREE.Vector3(), D=new THREE.Vector3();
+  const t0=performance.now();
+  (function pinta(ahora){ requestAnimationFrame(pinta);
+    if(!visible) return;
+    const t=((ahora||t0)-t0)/1000, mov=!baja;
+    const vaiven=(mov&&!arr&&ahora-reposo>2500)?Math.sin(t*.09)*.16:0;
+    qY.setFromAxisAngle(eY,giroY+vaiven); qX.setFromAxisAngle(eX,giroX);
+    grupo.quaternion.copy(base).premultiply(qY).premultiply(qX);
+    if(mov){ nubes.rotation.y=0; rutasMat.forEach(m=>{m.uniforms.t.value=t;});
+      const lat=1+.35*Math.sin(t*2.4); anillos.forEach(a=>a.scale.setScalar(lat)); }
+    sol.value.copy(solObj).applyQuaternion(grupo.quaternion);
+    grupo.updateMatrixWorld();
+    for(const a of ilustrativos){ if(!a.g.visible) continue;
+      // unos catorce segundos por trayecto: el ritmo, no la velocidad real
+      let s=(a.fase+(mov?t/14:0))%1; if(a.vuelta) s=1-s;
+      a.cur.getPointAt(s,P); a.cur.getTangentAt(s,D); if(a.vuelta) D.negate();
+      orienta(a.g,P,D);
+    }
+    const seg=Date.now()/1000;
+    for(const a of reales){
+      // posición real adelantada desde la instantánea, como mucho una hora
+      const km=a.vel*Math.min(seg-a.t,3600)/1000;
+      const [la,lo]=avanza(a.la,a.lo,a.rumbo,km), [la2,lo2]=avanza(la,lo,a.rumbo,40);
+      P.copy(aPos(la,lo,R*1.012)); D.copy(aPos(la2,lo2,R*1.012)).sub(P);
+      orienta(a.g,P,D);
+    }
     ren.render(esc,cam);
     const w=cv.clientWidth,h=cv.clientHeight,vis=[];
     for(const m of marcas){
       v.copy(m.p).applyMatrix4(grupo.matrixWorld);
-      const delante=v.clone().sub(cam.position).normalize().dot(v.clone().normalize())<0;
+      const delante=v.clone().sub(cam.position).normalize().dot(v.clone().normalize())<-.12;
       v.project(cam);
       const x=(v.x*.5+.5)*w, y=(-v.y*.5+.5)*h;
       m.el.style.opacity=delante?1:0;
@@ -1487,16 +1826,10 @@ function globo(){
     }
     /* Seis ciudades del Golfo caben en unos pocos grados: sus rótulos se pisan.
        Se ordenan por altura y se empujan hacia abajo hasta que ninguno quede a
-       menos de una línea del anterior. Es un despeje de etiquetas de toda la
-       vida, y cuesta nada con ocho. */
+       menos de dos líneas del anterior (nombre y tiempo). */
     vis.sort((a,b)=>a.y-b.y);
-    const MIN=15;
-    for(let i=1;i<vis.length;i++){
-      if(vis[i].y-vis[i-1].y<MIN) vis[i].y=vis[i-1].y+MIN;
-    }
-    for(const {m,x,y} of vis){
-      m.el.style.transform=`translate(${x}px,${y}px)`;
-    }
+    for(let i=1;i<vis.length;i++) if(vis[i].y-vis[i-1].y<30) vis[i].y=vis[i-1].y+30;
+    for(const {m,x,y} of vis) m.el.style.transform=`translate(${x+9}px,${y-8}px)`;
   })();
 }
 
