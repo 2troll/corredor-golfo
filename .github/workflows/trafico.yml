@@ -6,7 +6,8 @@
 name: trafico
 on:
   schedule:
-    - cron: '*/20 * * * *'
+    # a los minutos 7, 27 y 47: GitHub retrasa o salta las tareas de los minutos en punto
+    - cron: '7,27,47 * * * *'
   workflow_dispatch:
 permissions:
   contents: write

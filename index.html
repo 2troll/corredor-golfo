@@ -8,6 +8,13 @@
 <meta property="og:title" content="El corredor del Golfo">
 <meta property="og:description" content="Estudio de viabilidad del mercado emisor del Golfo hacia Japón, con simulador orientativo de costes del operador.">
 <meta property="og:type" content="article">
+<meta property="og:url" content="https://2troll.github.io/corredor-golfo/">
+<meta property="og:image" content="https://2troll.github.io/corredor-golfo/img/compartir.jpg">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="El corredor del Golfo: la Tierra con el corredor aéreo Golfo–Japón">
+<meta property="og:locale" content="es_ES">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#0a161d">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230d1f2a'/%3E%3Ccircle cx='16' cy='16' r='9' fill='none' stroke='%231f6b5e' stroke-width='2'/%3E%3Cpath d='M16 7v18M7 16h18' stroke='%231f6b5e' stroke-width='1.2' opacity='.6'/%3E%3C/svg%3E">
 <title>El corredor del Golfo</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -47,6 +54,18 @@
   --hondo:#061118; --hondo-txt:#dde5e2;
 }
 *,*::before,*::after{box-sizing:border-box}
+.ahora{display:flex;flex-wrap:wrap;align-items:center;gap:.4rem 1.3rem;margin-top:1.6rem;padding:.75rem 1rem;
+  border:1px solid var(--linea);border-radius:4px;background:var(--sup);color:var(--tinta2);text-decoration:none;
+  font-size:.9rem;max-width:62rem;transition:border-color .2s}
+.ahora[hidden]{display:none}
+.ahora:hover{border-color:var(--marea)}
+.ahora b{font-family:var(--disp);font-weight:600;font-size:1.25rem;color:var(--tinta);font-variant-numeric:tabular-nums}
+.ahora .et{font-family:var(--mono);font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;color:var(--marea)}
+.ahora .ir{margin-inline-start:auto;font-family:var(--mono);font-size:.72rem;color:var(--marea)}
+.ahora .punto{width:.55rem;height:.55rem;border-radius:50%;background:var(--marea);box-shadow:0 0 0 0 var(--marea);
+  animation:late 2s infinite}
+@keyframes late{0%{box-shadow:0 0 0 0 color-mix(in srgb,var(--marea) 60%,transparent)}
+  100%{box-shadow:0 0 0 .6rem transparent}}
 .lectura{position:fixed;top:0;left:0;right:0;height:2px;background:var(--marea);transform-origin:0 50%;
   transform:scaleX(0);z-index:50;pointer-events:none}
 .revela{opacity:0;transform:translateY(14px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.7,.2,1)}
@@ -342,6 +361,14 @@ footer h3{font-family:var(--mono);font-size:.7rem;letter-spacing:.14em;text-tran
     <span class="sello">Simulador de costes</span>
     <span class="sello">Fuentes citadas una a una</span>
   </div>
+  <a class="ahora" id="ahora" href="#corredor" hidden>
+    <span class="punto" aria-hidden="true"></span>
+    <span class="et">Ahora en el corredor</span>
+    <span><b id="ahora-golfo">–</b> aviones en el aire sobre el Golfo</span>
+    <span><b id="ahora-japon">–</b> sobre Japón</span>
+    <span id="ahora-horas"></span>
+    <span class="ir">Ver el globo en vivo →</span>
+  </a>
 </div></header>
 
 <section id="veredicto"><div class="env">
@@ -2054,6 +2081,19 @@ async function globo(){
   })();
 }
 
+/* ── Portada: el corredor ahora mismo ──────────────────────────────────────
+   La misma instantánea de OpenSky que usa el globo. Si no llega o tiene más
+   de seis horas, la franja no aparece: mejor nada que un «ahora» viejo. */
+function ahoraPortada(){
+  const horas=()=>{ const d=new Date(); $('#ahora-horas').textContent=
+    `Dubái ${hhmm(d,'Asia/Dubai')} · Osaka ${hhmm(d,'Asia/Tokyo')}`; };
+  fetch(TRAFICO_URL,{cache:'no-cache'}).then(r=>r.ok?r.json():Promise.reject()).then(d=>{
+    if(Date.now()/1000-d.t>6*3600) return;
+    $('#ahora-golfo').textContent=d.golfo.n; $('#ahora-japon').textContent=d.japon.n;
+    horas(); setInterval(horas,20000); $('#ahora').hidden=false;
+  }).catch(()=>{});
+}
+
 /* ── Movimiento de la página: barra de lectura, aparición y cifras ─────────
    Sólo se añade con JavaScript: si el script falla, todo se ve igual que sin
    él. Y quien pide menos movimiento en su sistema no recibe ninguno. */
@@ -2133,7 +2173,7 @@ $('#copiar').addEventListener('click',()=>copiar());
 
 pintaMeses(); pintaHiyri(); pintaRutas(); pintaProductos(); pintaTarifas(); pintaHalal();
 pintaRobustez(); pintaUmbrales(); pintaDivisa(); pintaCifrasTexto();
-cotiza(); serie(); estacion(); gasto(); indiceVivo(); vida();
+cotiza(); serie(); estacion(); gasto(); indiceVivo(); vida(); ahoraPortada();
 setTimeout(globo,60);
 </script>
 
