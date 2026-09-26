@@ -8,6 +8,7 @@ import { ACESFilmicToneMapping } from 'three'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { SplitText } from 'gsap/SplitText'
+import { ScrambleTextPlugin } from 'gsap/ScrambleTextPlugin'
 import { useGSAP } from '@gsap/react'
 import Lenis from 'lenis'
 import Snap from 'lenis/snap'
@@ -20,7 +21,7 @@ import { scroll, CAPITULOS, amortigua } from './lib/scroll'
 import { useTrafico, useTiempo, useAhora, hhmm } from './lib/vivo'
 import type { Trafico } from './tipos'
 
-gsap.registerPlugin(ScrollTrigger, SplitText, useGSAP)
+gsap.registerPlugin(ScrollTrigger, SplitText, ScrambleTextPlugin, useGSAP)
 
 /** Pantalla de carga: el progreso real de las texturas 4K y las fuentes 3D. */
 function Cargador() {
@@ -138,6 +139,13 @@ export default function App() {
       const sp = SplitText.create(el, { type: 'words', mask: 'words' })
       gsap.from(sp.words, { yPercent: 110, opacity: 0, duration: 1, ease: 'expo.out', stagger: 0.026,
         scrollTrigger: { trigger: el, start: 'top 84%' } })
+    })
+    // la cabecera de cada capítulo («03 · El mercado») se descifra como un panel de salidas,
+    // pasando por letras árabes antes de quedarse en español
+    gsap.utils.toArray<HTMLElement>('.capitulo .num, .viaje-cabeza .num').forEach(el => {
+      const texto = el.textContent ?? ''
+      gsap.to(el, { duration: 1.1, ease: 'none', scrambleText: { text: texto, chars: 'ابتثجحخدرسشصطعفقكلمنهوي0123456789', speed: 0.8, revealDelay: 0.2 },
+        scrollTrigger: { trigger: el, start: 'top 85%' } })
     })
     // las piezas suben e inclinan hacia delante, como una lámina que se asienta
     gsap.utils.toArray<HTMLElement>('[data-entra]').forEach(el => {

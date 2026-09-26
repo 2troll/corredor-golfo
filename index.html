@@ -213,6 +213,7 @@ tr.tot td{border-block:1px solid var(--tinta);font-weight:600;background:var(--p
   background:transparent;color:var(--tinta3)}
 .tres-modo button[aria-pressed="true"]{background:var(--marea);color:var(--papel)}
 @media print{.tres,.tres-modo{display:none!important}.gr svg{display:block!important}}
+.ech .lienzo-e{width:100%}
 .gr figcaption{font-size:.8rem;color:var(--tinta3);margin-top:.7rem;line-height:1.45;
   max-width:70ch}
 .gr svg{display:block;width:100%;height:auto;max-width:100%;overflow:visible}
@@ -482,6 +483,9 @@ footer h3{font-family:var(--mono);font-size:.7rem;letter-spacing:.14em;text-tran
       <tr class="tot"><td>CCG (seis países)</td><td class="n">52.204</td><td>lo que suele llamarse «el mercado»</td></tr>
       <tr class="tot"><td>Arabófono total</td><td class="n">76.456</td><td><b>+46 %</b> sin cambiar de idioma ni de propuesta</td></tr>
     </tbody></table></div>
+  <figure class="gr ech" id="e-composicion"><div class="lienzo-e" style="height:400px"></div>
+    <figcaption>El mismo dato que la tabla, en anillo: por dentro, el CCG frente al resto del mundo
+      arabófono; por fuera, cada país. Pase el cursor por encima para ver cada cifra.</figcaption></figure>
   <p>Y hay un segundo efecto que multiplica lo anterior aunque no se pueda cuantificar: una
     agencia emisora de Dubái no vende sólo a emiratíes, vende a <b>residentes</b> de los Emiratos.
     Buena parte de esa clientela es arabófona con pasaporte egipcio, jordano, libanés o palestino.</p>
@@ -509,6 +513,9 @@ footer h3{font-family:var(--mono);font-size:.7rem;letter-spacing:.14em;text-tran
       Golfo es marzo (52,5); agosto, con 74, es donde más se separan: es el más fuerte de España
       (169).</figcaption>
   </figure>
+  <figure class="gr ech" id="e-estacion"><div class="lienzo-e" style="height:430px"></div>
+    <figcaption>El año como una esfera de reloj: cada barra es un mes, verde el Golfo y ocre España,
+      sobre anillos de 50, 100 y 150 (100 es el mes medio). Donde una crece la otra suele encoger: se turnan.</figcaption></figure>
   <div class="aviso"><p><b>La explicación es logística antes que cultural.</b> Agosto es el mes
     más caro y más saturado de Japón, con calor extremo y humedad. La familia del Golfo que huye
     de los 45 °C de Riad no elige un destino a 35 °C con 80 % de humedad pudiendo ir a Londres.</p></div>
@@ -613,6 +620,9 @@ footer h3{font-family:var(--mono);font-size:.7rem;letter-spacing:.14em;text-tran
       <input type="range" id="globo-hora" min="-12" max="12" step="1" value="0" aria-label="Mover la hora del sol">
       <span id="globo-hora-v" class="hora-v">ahora</span></label>
   </div>
+  <figure class="gr ech" id="e-corredor"><div class="lienzo-e" style="height:360px"></div>
+    <figcaption>Cómo se reparte el corredor: de cada ciudad del Golfo a su aerolínea y de ahí a la
+      puerta de Japón. El grosor es la frecuencia semanal; en ocre, lo anunciado que todavía no vuela.</figcaption></figure>
   <div class="tabla-caja"><table>
     <thead><tr><th>Compañía</th><th>Ruta</th><th class="n">Frecuencia</th><th>Puerta</th><th>Estado</th></tr></thead>
     <tbody id="tabla-rutas"></tbody></table></div>
@@ -2361,5 +2371,10 @@ cotiza(); serie(); estacion(); gasto(); indiceVivo(); vida(); ahoraPortada(); gr
 setTimeout(globo,60);
 </script>
 
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrambleTextPlugin.min.js" defer></script>
+<script src="js/cuadros.js" defer></script>
+<script src="js/movimiento.js" defer></script>
 </body>
 </html>
