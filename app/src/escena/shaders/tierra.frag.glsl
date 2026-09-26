@@ -43,7 +43,7 @@ void main() {
   float mar = texture2D(uAgua, vUv).r;
 
   vec3 dia = texture2D(uDia, vUv).rgb;
-  dia *= 0.02 + 1.2 * smoothstep(0.0, 0.65, d);
+  dia *= 0.015 + 0.82 * smoothstep(0.0, 0.7, d); // de día sin quemar: el bloom ya aporta brillo
   // el mar un punto más profundo y el reflejo del sol sólo sobre él
   dia = mix(dia, dia * vec3(0.78, 0.9, 1.08), mar * 0.6);
   vec3 r = reflect(-uSol, n);
@@ -53,11 +53,11 @@ void main() {
   vec3 noche = tn * 0.18 + pow(tn, vec3(2.3)) * vec3(3.0, 2.3, 1.35);
 
   vec3 c = mix(noche, dia, luz);
-  c += brillo * vec3(1.0, 0.92, 0.78) * 1.3 * luz;
+  c += brillo * vec3(1.0, 0.92, 0.78) * 0.55 * luz;
   c += vec3(0.95, 0.42, 0.14) * exp(-pow(dot(n, uSol) * 14.0, 2.0)) * 0.03;
   // borde atmosférico: más azul de día, apenas un hilo de noche
   float borde = pow(1.0 - max(dot(n, v), 0.0), 3.2);
-  c += borde * vec3(0.3, 0.58, 1.0) * (0.03 + 0.45 * luz);
+  c += borde * vec3(0.3, 0.58, 1.0) * (0.02 + 0.28 * luz);
 
   // el borde que se deshace brilla con el verde del estudio, como una brasa fría
   float brasa = uDis > 0.0 ? 1.0 - smoothstep(0.0, 0.045, frente) : 0.0;

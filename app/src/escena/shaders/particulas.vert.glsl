@@ -90,9 +90,10 @@ void main() {
   // el enjambre sube un poco en arco y se deja arrastrar por el flujo
   p.y += vuelo * lejos * 0.22 * (aAzar - 0.35);
   // el enjambre se abre en el viaje: sin esto todas las rutas pasan por el centro y se forma una bola
-  p += curl(p * 0.6 + vec3(0.0, uTiempo * 0.07, aAzar * 2.0)) * 0.34 * vuelo * (0.5 + lejos * 0.3);
-  // en reposo nada está quieto del todo: una deriva muy lenta, como polvo en el aire
-  p += curl(p * 1.6 + uTiempo * 0.05) * 0.006;
+  // el rotacional cuesta 18 muestras de ruido: sólo se paga mientras la partícula vuela
+  if (vuelo > 0.001) p += curl(p * 0.6 + vec3(0.0, uTiempo * 0.07, aAzar * 2.0)) * 0.34 * vuelo * (0.5 + lejos * 0.3);
+  // en reposo nada está quieto del todo: una deriva muy lenta y barata, como polvo en el aire
+  p += 0.006 * vec3(sin(uTiempo * 0.7 + aAzar * 40.0), cos(uTiempo * 0.53 + aAzar * 31.0), sin(uTiempo * 0.61 + aAzar * 23.0));
 
   vColor = mix(ca, cb, te);
   // mientras vuela se calienta hacia el blanco

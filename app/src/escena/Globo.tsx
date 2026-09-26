@@ -2,7 +2,7 @@
 // VIIRS), las rutas del corredor como líneas con degradado y flujo, los aviones
 // de cada ruta y el tráfico real de OpenSky. Visible en portada, corredor,
 // «ahora» y cierre; entre medias se deshace en partículas (ver Particulas.tsx).
-import { useEffect, useMemo, useRef, type RefObject } from 'react'
+import { useEffect, useMemo, useRef } from 'react'
 import { useFrame, useThree } from '@react-three/fiber'
 import { Html, useTexture } from '@react-three/drei'
 import * as THREE from 'three'
@@ -57,6 +57,12 @@ export default function Globo({ trafico }: { trafico: Trafico | null }) {
   const aviones = useRef<THREE.InstancedMesh>(null)
   const rotulos = useRef<THREE.Group>(null)
   const tierra = useRef<THREE.Mesh>(null)
+  // ocultación de rótulos por la cara de la esfera: un producto escalar por ciudad, en vez
+  // del raycast de drei contra 25.000 triángulos en cada fotograma, que daba tirones
+  const spans = useRef<Record<string, HTMLSpanElement | null>>({})
+  const ciudades = useMemo(() => ({ Dubái: aPos(25.25, 55.36), Doha: aPos(25.27, 51.61), Riad: aPos(24.71, 46.68),
+    Osaka: aPos(34.43, 135.23), Tokio: aPos(35.76, 140.39) } as Record<string, THREE.Vector3>), [])
+  const ultimoW = useRef('')
 
   const u = useMemo(() => ({
     tierra: { uDia: { value: dia }, uNoche: { value: noche }, uAgua: { value: agua }, uRelieve: { value: relieve },
@@ -135,7 +141,7 @@ export default function Globo({ trafico }: { trafico: Trafico | null }) {
     else if (p < 6.6) q.copy(Q_JAPON).slerp(Q_CORREDOR, suave(acota(p - 2)))
     else q.copy(Q_CORREDOR).slerp(Q_JAPON, suave(acota((p - 6.6) / 0.8)))
     g.quaternion.slerp(q, 1 - Math.exp(-dt * 3))
-    const s = 1 + (p < 0.5 ? 0.22 * (1 - scroll.puertas) : 0) + 0.28 * suave(acota(1 - Math.abs(p - 7.2) / 0.8))
+    const s = 1 + (p < 0.5 ? 0.22 * (1 - scroll.puertas) : 0) + 0.08 * suave(acota(1 - Math.abs(p - 7.2) / 0.8))
     g.scale.setScalar(g.scale.x + (s - g.scale.x) * (1 - Math.exp(-dt * 3)))
     const x = p < 0.5 || p > 6.7 ? 0 : lado
     g.position.x += (x - g.position.x) * (1 - Math.exp(-dt * 3))
@@ -143,7 +149,7 @@ export default function Globo({ trafico }: { trafico: Trafico | null }) {
 
     g.visible = dis < 0.995
     // los rótulos HTML no heredan la visibilidad del grupo: se apagan aquí, antes de salir
-    if (!g.visible) { document.documentElement.style.setProperty('--w-globo', '0'); return }
+    if (!g.visible) { if (ultimoW.current !== '0') { document.documentElement.style.setProperty('--w-globo', '0'); ultimoW.current = '0' } return }
     u.tierra.uDis.value = dis
     // rutas, nubes y halo se apagan en la primera mitad de la disolución: lo último en irse es la tierra
     const op = 1 - suave(acota(dis * 2))
@@ -172,7 +178,15 @@ export default function Globo({ trafico }: { trafico: Trafico | null }) {
       ins.visible = dibujo > 0.95
     }
     // los rótulos HTML no heredan la visibilidad del grupo: usan una variable CSS
-    document.documentElement.style.setProperty('--w-globo', ((scroll.pos < 0.6 && scroll.puertas < 0.4) || scroll.pos > 6.55 ? 0 : op).toFixed(3))
+    // sólo se toca el estilo cuando cambia: escribir en <html> en cada fotograma recalcula toda la página
+    const wg = ((scroll.pos < 0.6 && scroll.puertas < 0.4) || scroll.pos > 6.55 ? 0 : op).toFixed(2)
+    if (wg !== ultimoW.current) { document.documentElement.style.setProperty('--w-globo', wg); ultimoW.current = wg }
+    const cam = tmp.P.copy(st.camera.position).sub(g.position).normalize()
+    for (const [n, v] of Object.entries(ciudades)) {
+      const el = spans.current[n]; if (!el) continue
+      const cara = tmp.D.copy(v).applyQuaternion(g.quaternion).dot(cam) > 0.08 ? 'visible' : 'hidden'
+      if (el.style.visibility !== cara) el.style.visibility = cara
+    }
   })
 
   return (
@@ -217,8 +231,8 @@ export default function Globo({ trafico }: { trafico: Trafico | null }) {
             return (
               <group key={n} position={aPos(la, lo, R * 1.012)}>
                 <mesh><sphereGeometry args={[0.012, 16, 16]} /><meshBasicMaterial color={oro ? PALETA.oro : PALETA.verde} toneMapped={false} transparent /></mesh>
-                <Html center distanceFactor={7} occlude={[tierra as RefObject<THREE.Object3D>]} zIndexRange={[5, 0]} className="etiqueta3d">
-                  <span className={oro ? 'oro' : ''} style={{ opacity: 'var(--w-globo, 0)', transform: `translate(${desvio})`, display: 'inline-block' }}>{n}</span>
+                <Html center distanceFactor={7} zIndexRange={[5, 0]} className="etiqueta3d">
+                  <span ref={el => { spans.current[n] = el }} className={oro ? 'oro' : ''} style={{ opacity: 'var(--w-globo, 0)', transform: `translate(${desvio})`, display: 'inline-block' }}>{n}</span>
                 </Html>
               </group>
             )

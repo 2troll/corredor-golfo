@@ -143,8 +143,8 @@ export function Mercado() {
           </div>
         ))}
       </div>
-      <p data-revela>Detrás, las llegadas mes a mes de 2023 a 2026. En coral, febrero a abril de 2026: el
-        Ramadán y la suspensión de vuelos. En abril el Golfo cayó un 71,2 % mientras Turquía subía.</p>
+      <p data-revela>Detrás, el avión: sin él no hay mercado. De febrero a abril de 2026 coincidieron el
+        Ramadán y la suspensión de vuelos, y en abril el Golfo cayó un 71,2 % mientras Turquía subía.</p>
     </Capitulo>
   )
 }
@@ -152,8 +152,9 @@ export function Mercado() {
 export function Estacion() {
   return (
     <Capitulo id="estacion" num="04 · Cuándo" titulo="El pico del Golfo no está en verano. Está en diciembre y en abril.">
-      <p data-revela>El reloj de detrás tiene doce meses: el anillo interior es el Golfo, el exterior España.
-        Donde uno sube y el otro baja está la complementariedad. En coral, el Ramadán de 2027.</p>
+      <p data-revela>La luna marca el calendario que manda: el hiyrí, que mueve el Ramadán y los Eid. A su
+        alrededor giran doce cuentas, una por mes, tan grandes como las llegadas del Golfo. Las verdes son
+        diciembre y abril; en coral, el Ramadán de 2027.</p>
       <div className="fichas" data-entra>
         <div><b>{datos.idxGolfo[11]}</b><span>diciembre, Golfo (España {datos.idxEspana[11]})</span></div>
         <div><b>{datos.idxGolfo[3]}</b><span>abril, Golfo (España {datos.idxEspana[3]})</span></div>
@@ -168,8 +169,8 @@ export function Gasto() {
   const om = datos.gasto.find(g => g.destacado)!, media = datos.gasto.find(g => g.mercado === 'Media general')!
   return (
     <Capitulo id="gasto" num="05 · Cuánto gasta" titulo="Casi el doble de la media, y doce noches y media.">
-      <p data-revela>Las torres son el gasto por visitante dentro de Japón. La verde es Oriente Medio:
-        {' '}{fmt(om.yen)} ¥ frente a {fmt(media.yen)} ¥ de media. Es el segundo de veintitrés mercados.</p>
+      <p data-revela>Cada pila es el gasto de un visitante dentro de Japón. La dorada es Oriente Medio:
+        {' '}{fmt(om.yen)} ¥, frente a {fmt(media.yen)} ¥ de la media, que es la plateada. Es el segundo de veintitrés mercados.</p>
       <p className="nota">Agencia de Turismo de Japón, 2.º trimestre de 2026. «Oriente Medio» incluye Turquía e Israel: el estudio lo explica y propone cómo separarlo.</p>
     </Capitulo>
   )
@@ -211,7 +212,7 @@ export function Cierre() {
         <a className="boton claro" href="../#corredor">Abrir el globo en vivo</a>
       </div>
       <p className="contacto" data-entra>Tony Kansai Guide · <a href="mailto:tony@tonykansaiguide.com">tony@tonykansaiguide.com</a></p>
-      <p className="nota">Datos en vivo: OpenSky Network, Open-Meteo y NASA. Cifras del mercado: JNTO y Agencia de Turismo de Japón, vía el estudio.</p>
+      <p className="nota">Datos en vivo: OpenSky Network, Open-Meteo y NASA. Cifras del mercado: JNTO y Agencia de Turismo de Japón, vía el estudio. Fotos del viaje: Wikimedia Commons, con autor y licencia en cada una.</p>
     </Capitulo>
   )
 }

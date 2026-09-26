@@ -3,14 +3,15 @@
 // scroll; cada medallón se dibuja a pluma (DrawSVG) al entrar en pantalla y un
 // avión recorre la ruta de arriba al ritmo del viaje. Las frecuencias salen del
 // estudio; los tiempos de tren son aproximados y así se dice.
-import { useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import { AnimatePresence, motion } from 'framer-motion'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { DrawSVGPlugin } from 'gsap/DrawSVGPlugin'
 import { MotionPathPlugin } from 'gsap/MotionPathPlugin'
 import { useGSAP } from '@gsap/react'
 import { datos } from '../tipos'
-import { Medallon } from './Dibujos'
+import { Medallon, FOTOS, NOMBRES, foto } from './Dibujos'
 
 gsap.registerPlugin(ScrollTrigger, DrawSVGPlugin, MotionPathPlugin)
 
@@ -41,12 +42,18 @@ const PARADAS = [
 
 export default function Viaje() {
   const ref = useRef<HTMLElement>(null)
+  const [abierta, setAbierta] = useState<string | null>(null)
+  useEffect(() => {
+    if (!abierta) return
+    const esc = (e: KeyboardEvent) => { if (e.key === 'Escape') setAbierta(null) }
+    window.addEventListener('keydown', esc); return () => window.removeEventListener('keydown', esc)
+  }, [abierta])
   useGSAP(() => {
     const pista = ref.current!.querySelector<HTMLElement>('.pista-viaje')!
     const distancia = () => pista.scrollWidth - window.innerWidth
     const mov = gsap.to(pista, {
       x: () => -distancia(), ease: 'none',
-      scrollTrigger: { trigger: ref.current, start: 'top top', end: () => '+=' + distancia(), pin: true, scrub: 1, invalidateOnRefresh: true },
+      scrollTrigger: { id: 'viaje-pin', trigger: ref.current, start: 'top top', end: () => '+=' + distancia(), pin: true, scrub: 1, invalidateOnRefresh: true },
     })
     // el avión de la cabecera recorre la ruta al ritmo de la pista
     gsap.to('.viaje-avion', { ease: 'none', motionPath: { path: '.viaje-ruta', align: '.viaje-ruta', alignOrigin: [0.5, 0.5], autoRotate: true },
@@ -60,6 +67,10 @@ export default function Viaje() {
         .from(p.querySelectorAll('.aro'), { drawSVG: 0, duration: 1.1, ease: 'power2.inOut', stagger: 0.15 })
         .from(p.querySelectorAll('.trazos path'), { drawSVG: 0, duration: 1.3, ease: 'power1.inOut', stagger: 0.05 }, '<0.2')
         .from(p.querySelectorAll('.sol'), { scale: 0, transformOrigin: '50% 50%', duration: 1.2, ease: 'expo.out' }, '<')
+        // el boceto se revela en foto: la imagen real aparece bajo las líneas y las líneas se van
+        .fromTo(p.querySelectorAll('.foto'), { opacity: 0, scale: 1.12, transformOrigin: '50% 50%' },
+          { opacity: 1, scale: 1, duration: 1.6, ease: 'power2.out' }, '>-0.2')
+        .to(p.querySelectorAll('.trazos, .sol'), { opacity: 0, duration: 1.2, ease: 'power1.out' }, '<0.3')
         .from(p.querySelectorAll('.cuerpo > *'), { y: 28, opacity: 0, duration: 0.9, ease: 'power3.out', stagger: 0.07 }, '<0.3')
     })
     // los anillos de texto giran despacio, cada uno a su aire
@@ -81,16 +92,33 @@ export default function Viaje() {
       <div className="pista-viaje">
         {PARADAS.map((p, i) => (
           <article key={p.clave} className="parada">
-            <Medallon clave={p.clave} id={`v${i}`} />
+            <button className="abre-foto" onClick={() => setAbierta(p.clave)} aria-label={`Ver la foto de ${NOMBRES[p.clave][0]} a pantalla completa`}>
+              <Medallon clave={p.clave} id={`v${i}`} />
+              <span className="lupa" aria-hidden="true">4K</span>
+            </button>
             <div className="cuerpo">
               <p className="paso"><span>{String(i + 1).padStart(2, '0')}</span>{p.paso}</p>
               <h3>{p.titulo}</h3>
               <p>{p.texto}</p>
               <p className="dato"><b>{p.dato}</b><span>{p.pie}</span></p>
+              <p className="credito">Foto: <a href={FOTOS[p.clave].url} target="_blank" rel="noopener">{FOTOS[p.clave].autor}</a> · {FOTOS[p.clave].licencia}, Wikimedia Commons</p>
             </div>
           </article>
         ))}
       </div>
+      <AnimatePresence>
+        {abierta && (
+          <motion.figure className="visor" onClick={() => setAbierta(null)}
+            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.35 }}>
+            <motion.img src={foto(abierta, true)} alt={NOMBRES[abierta][0]}
+              initial={{ scale: 0.92, y: 20 }} animate={{ scale: 1, y: 0 }} exit={{ scale: 0.96 }} transition={{ type: 'spring', stiffness: 160, damping: 22 }} />
+            <figcaption>
+              <b>{NOMBRES[abierta][0]} · {NOMBRES[abierta][1]} · <span dir="rtl">{NOMBRES[abierta][2]}</span></b>
+              <span>Foto: {FOTOS[abierta].autor} · {FOTOS[abierta].licencia} · Wikimedia Commons · pulse para cerrar</span>
+            </figcaption>
+          </motion.figure>
+        )}
+      </AnimatePresence>
     </section>
   )
 }

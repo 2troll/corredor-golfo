@@ -10,6 +10,8 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { SplitText } from 'gsap/SplitText'
 import { useGSAP } from '@gsap/react'
 import Lenis from 'lenis'
+import Snap from 'lenis/snap'
+import { PerformanceMonitor } from '@react-three/drei'
 import Escena from './escena/Escena'
 import Portada from './componentes/Portada'
 import { Corredor, Ahora, Mercado, Estacion, Gasto, Veredicto, Cierre } from './componentes/Capitulos'
@@ -77,6 +79,7 @@ function Indice() {
 export default function App() {
   const raiz = useRef<HTMLDivElement>(null)
   const trafico = useTrafico()
+  const [dpr, setDpr] = useState(() => Math.min(1.5, window.devicePixelRatio))
   const baja = typeof matchMedia !== 'undefined' && matchMedia('(prefers-reduced-motion: reduce)').matches
 
   // Scroll suave, sincronizado con ScrollTrigger (si nadie ha pedido menos movimiento)
@@ -86,18 +89,42 @@ export default function App() {
     lenis.on('scroll', ScrollTrigger.update)
     const tic = (t: number) => lenis.raf(t * 1000)
     gsap.ticker.add(tic); gsap.ticker.lagSmoothing(0)
+    // Paradas: el centro de cada capítulo (donde su forma está completa) y cada parada del
+    // viaje. Si el lector suelta la rueda cerca de una, el scroll termina de llegar solo:
+    // la animación nunca se queda congelada a medio transformar.
+    const snap = new Snap(lenis, { type: 'proximity', distanceThreshold: '42%', debounce: 160, duration: 1.1,
+      easing: (t: number) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2) })
+    let quitar: (() => void)[] = []
+    const paradas = () => {
+      quitar.forEach(q => q()); quitar = []
+      const pts = [0]
+      CAPITULOS.forEach(c => {
+        if (c.id === 'portada' || c.id === 'viaje') return
+        const st = ScrollTrigger.getById(`cap-${c.id}`); if (st) pts.push((st.start + st.end) / 2)
+      })
+      const pin = ScrollTrigger.getById('viaje-pin')
+      if (pin) for (let k = 0; k <= 5; k++) pts.push(pin.start + ((pin.end - pin.start) * k) / 5)
+      quitar = pts.map(y => snap.add(Math.round(y)))
+    }
+    ScrollTrigger.addEventListener('refresh', paradas)
+    ScrollTrigger.refresh()
     const clic = (e: MouseEvent) => {
       const a = (e.target as HTMLElement).closest<HTMLAnchorElement>('a[href^="#"]'); if (!a) return
-      e.preventDefault(); lenis.scrollTo(a.getAttribute('href')!, { duration: 1.6 })
+      e.preventDefault()
+      // al centro del capítulo, donde su forma está completa; el viaje, al principio de su pista
+      const id = a.getAttribute('href')!.slice(1)
+      const st = ScrollTrigger.getById(id === 'viaje' ? 'viaje-pin' : `cap-${id}`)
+      const destino = !st ? a.getAttribute('href')! : id === 'viaje' ? st.start : id === 'portada' ? 0 : Math.round((st.start + st.end) / 2)
+      lenis.scrollTo(destino, { duration: 1.6 })
     }
     document.addEventListener('click', clic)
-    return () => { gsap.ticker.remove(tic); lenis.destroy(); document.removeEventListener('click', clic) }
+    return () => { gsap.ticker.remove(tic); ScrollTrigger.removeEventListener('refresh', paradas); snap.destroy(); lenis.destroy(); document.removeEventListener('click', clic) }
   }, [baja])
 
   useGSAP(() => {
     CAPITULOS.forEach((c, i) => {
       ScrollTrigger.create({
-        trigger: `#${c.id}`, start: 'top center', end: 'bottom center',
+        id: `cap-${c.id}`, trigger: `#${c.id}`, start: 'top center', end: 'bottom center',
         onUpdate: s => { scroll.objetivo = i - 0.5 + s.progress },
       })
     })
@@ -127,8 +154,10 @@ export default function App() {
   return (
     <div ref={raiz} className="app">
       <div className="lienzo" aria-hidden="true">
-        <Canvas dpr={[1, 1.75]} camera={{ position: [0, 0.1, 6.4], fov: 38 }}
+        <Canvas dpr={dpr} camera={{ position: [0, 0.1, 6.4], fov: 38 }}
           gl={{ antialias: false, powerPreference: 'high-performance', toneMapping: ACESFilmicToneMapping }}>
+          {/* si el equipo no llega a 50 fps, baja la resolución antes de que se note el tirón */}
+          <PerformanceMonitor onDecline={() => setDpr(1)} onIncline={() => setDpr(Math.min(1.5, window.devicePixelRatio))} flipflops={3} onFallback={() => setDpr(1)} />
           <Suspense fallback={null}><Escena trafico={trafico} /></Suspense>
         </Canvas>
       </div>

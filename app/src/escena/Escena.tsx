@@ -40,7 +40,7 @@ export default function Escena({ trafico }: { trafico: Trafico | null }) {
       {!SIN.has('particulas') && <Particulas />}
       {!SIN.has('post') && <EffectComposer multisampling={0} enableNormalPass={false}>
         <SMAA />
-        <Bloom mipmapBlur intensity={0.85} luminanceThreshold={0.7} luminanceSmoothing={0.2} radius={0.7} />
+        <Bloom mipmapBlur intensity={0.6} luminanceThreshold={0.82} luminanceSmoothing={0.2} radius={0.65} />
         {/* se tonifica antes de la aberración: sobre valores HDR los núcleos brillantes dejaban flecos magenta */}
         <ToneMapping mode={ToneMappingMode.ACES_FILMIC} />
         <ChromaticAberration offset={desvio} radialModulation modulationOffset={0.35} blendFunction={BlendFunction.NORMAL} />

@@ -100,17 +100,37 @@ export const NOMBRES: Record<string, [string, string, string]> = {
   kobe: ['Kobe', '神戸', 'كوبي'],
 }
 
-/** El medallón: círculo, anillo con el nombre en tres alfabetos y el dibujo dentro. */
+/** Fotos reales de cada parada (Wikimedia Commons, 3.840 px). En el medallón va la versión
+ *  de 900 px; la de 4K sólo se descarga si el lector la abre a pantalla completa. */
+// encuadre: alineación de preserveAspectRatio (el <image> de SVG no tiene object-position)
+export const FOTOS: Record<string, { autor: string; licencia: string; url: string; encuadre: string }> = {
+  dubai: { autor: "imran shahabuddin", licencia: "CC BY 2.0", url: "https://commons.wikimedia.org/wiki/File:Burj_Khalifa_(worlds_tallest_building)_and_the_Dubai_skyline_(25781049892).jpg", encuadre: 'xMidYMid' },
+  kix: { autor: "国土地理院", licencia: "Attribution", url: "https://commons.wikimedia.org/wiki/File:Kansai_International_Airport_Aerial_photograph.2007.jpg", encuadre: 'xMidYMid' },
+  osaka: { autor: "Dick Thomas Johnson", licencia: "CC BY 2.0", url: "https://commons.wikimedia.org/wiki/File:Osaka_Castle_2022-04-23.jpg", encuadre: 'xMaxYMid' },
+  kioto: { autor: "Basile Morin", licencia: "CC BY-SA 4.0", url: "https://commons.wikimedia.org/wiki/File:Double_torii_path_at_Fushimi_Inari_Taisha_Shrine,_Kyoto,_Japan.jpg", encuadre: 'xMidYMid' },
+  nara: { autor: "Marek Ślusarczyk (Tupungato)", licencia: "CC BY 3.0", url: "https://commons.wikimedia.org/wiki/File:003_Nara_deer_in_Japan_-_deer_of_Nara_Park_under_autumn_leaves.jpg", encuadre: 'xMidYMax' },
+  kobe: { autor: "Martin Falbisoner", licencia: "CC BY-SA 4.0", url: "https://commons.wikimedia.org/wiki/File:Kobe_Port_Tower_and_Maritime_Museum,_November_2016.jpg", encuadre: 'xMinYMid' },
+}
+const IMG = import.meta.env.BASE_URL + '../img/viaje/'
+export const foto = (clave: string, grande = false): string => `${IMG}${clave}${grande ? '' : '-900'}.jpg`
+
+/** El medallón: círculo, anillo con el nombre en tres alfabetos, el dibujo a pluma y, al
+ *  terminar de dibujarse, la foto real que aparece debajo del boceto. */
 export function Medallon({ clave, id }: { clave: string; id: string }) {
   const [es, ja, ar] = NOMBRES[clave]
   const texto = `${es.toUpperCase()} · ${ja} · ${ar} · `
   return (
     <svg className="medallon" viewBox="-20 -20 240 240" aria-hidden="true">
-      <defs><path id={`anillo-${id}`} d="M100 100 m-104 0 a104 104 0 1 1 208 0 a104 104 0 1 1 -208 0" /></defs>
+      <defs>
+        <path id={`anillo-${id}`} d="M100 100 m-104 0 a104 104 0 1 1 208 0 a104 104 0 1 1 -208 0" />
+        <clipPath id={`recorte-${id}`}><circle cx="100" cy="100" r="89" /></clipPath>
+      </defs>
       <circle className="aro" cx="100" cy="100" r="96" />
       <circle className="aro fino" cx="100" cy="100" r="90" />
       <g className="giro"><text className="anillo"><textPath href={`#anillo-${id}`}>{texto.repeat(3)}</textPath></text></g>
       <circle className="sol" cx="100" cy="92" r="46" />
+      <image className="foto" href={foto(clave)} x="11" y="11" width="178" height="178" clipPath={`url(#recorte-${id})`}
+        preserveAspectRatio={`${FOTOS[clave].encuadre} slice`} />
       <g className="trazos">{DIBUJOS[clave].map((d, i) => <path key={i} d={d} />)}</g>
     </svg>
   )

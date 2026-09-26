@@ -11,5 +11,5 @@ void main() {
   float sat = max(m.r, max(m.g, m.b)) - mn;
   float a = uReal > 0.5 ? smoothstep(0.42, 0.82, mn) * (1.0 - smoothstep(0.05, 0.15, sat)) : m.r;
   float luz = smoothstep(-0.14, 0.22, dot(normalize(vN), uSol));
-  gl_FragColor = vec4(vec3(0.98) * (0.06 + 0.94 * luz), a * (0.1 + 0.62 * luz) * uOp);
+  gl_FragColor = vec4(vec3(0.9) * (0.05 + 0.7 * luz), a * (0.08 + 0.5 * luz) * uOp);
 }
