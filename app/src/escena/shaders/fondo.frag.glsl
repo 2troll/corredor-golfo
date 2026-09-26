@@ -25,6 +25,15 @@ void main() {
   float b = fbm(q * 1.6 + vec2(uTiempo * 0.012, -uTiempo * 0.008));
   b *= fbm(q * 3.1 - vec2(uTiempo * 0.02, 0.0) + b);
   c += uBruma * smoothstep(0.18, 0.55, b) * (1.0 - smoothstep(0.2, 1.1, r)) * 0.55;
+  // la Vía Láctea: una banda diagonal de polvo y estrellas finas que deriva muy despacio
+  vec2 dir = normalize(vec2(1.0, 0.42));
+  float dist = dot(q + vec2(0.0, 0.08 * sin(q.x * 1.7)), vec2(-dir.y, dir.x));
+  float banda = exp(-dist * dist * 9.0);
+  float polvo = fbm(q * 4.0 + vec2(uTiempo * 0.004, 0.0));
+  float grieta = smoothstep(0.35, 0.75, fbm(q * 7.0 - 3.1)) * exp(-dist * dist * 40.0); // la franja oscura del centro
+  c += (vec3(0.55, 0.6, 0.78) * 0.05 + uBruma * 0.05) * banda * (0.5 + polvo) * (1.0 - 0.7 * grieta);
+  float estrellitas = step(0.9965, hash(floor(vUv * vec2(900.0, 560.0))));
+  c += vec3(0.8, 0.85, 1.0) * estrellitas * banda * (0.5 + 0.5 * sin(uTiempo * 2.0 + hash(floor(vUv * 900.0)) * 40.0)) * 0.35;
   c += (hash(vUv * 913.0 + fract(uTiempo)) - 0.5) / 255.0 * 2.0;
   gl_FragColor = vec4(c, 1.0);
 }

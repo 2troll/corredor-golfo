@@ -3,6 +3,7 @@
 // de cada ruta y el tráfico real de OpenSky. Visible en portada, corredor,
 // «ahora» y cierre; entre medias se deshace en partículas (ver Particulas.tsx).
 import { useEffect, useMemo, useRef } from 'react'
+import Mundo, { estadoMundo } from './Mundo'
 import { useFrame, useThree } from '@react-three/fiber'
 import { Html, useTexture } from '@react-three/drei'
 import * as THREE from 'three'
@@ -54,7 +55,6 @@ export default function Globo({ trafico }: { trafico: Trafico | null }) {
   }, [dia, noche, gl])
 
   const grupo = useRef<THREE.Group>(null)
-  const aviones = useRef<THREE.InstancedMesh>(null)
   const rotulos = useRef<THREE.Group>(null)
   const tierra = useRef<THREE.Mesh>(null)
   // ocultación de rótulos por la cara de la esfera: un producto escalar por ciudad, en vez
@@ -93,7 +93,7 @@ export default function Globo({ trafico }: { trafico: Trafico | null }) {
     const u = { uT: { value: 0 }, uFase: { value: i * 0.29 }, uDibujo: { value: 0 }, uOp: { value: 0 }, uAnunciada: { value: r.anunciada ? 1 : 0 },
       uA: { value: r.anunciada ? PALETA.oro : PALETA.verde }, uB: { value: PALETA.oro } }
     return {
-      geo: new THREE.TubeGeometry(r.curva, 200, r.anunciada ? 0.0035 : 0.0032 + r.frecuencia * 0.00045, 10, false),
+      geo: new THREE.TubeGeometry(r.curva, 200, r.anunciada ? 0.0034 : 0.003 + r.frecuencia * 0.0002, 8, false),
       u,
       mat: new THREE.ShaderMaterial({ uniforms: u, vertexShader: rutaVert, fragmentShader: rutaFrag, transparent: true,
         depthWrite: false, blending: THREE.AdditiveBlending }),
@@ -105,23 +105,6 @@ export default function Globo({ trafico }: { trafico: Trafico | null }) {
     const n = Math.max(1, Math.round(r.frecuencia / 3))
     return Array.from({ length: n }, (_, k) => ({ curva: r.curva, fase: (k / n + i * 0.37) % 1, vuelta: k % 2 === 1 }))
   }), [rutas])
-  const forma = useMemo(() => {
-    const s = new THREE.Shape()
-    const m: [number, number][] = [[0, 1], [0.05, 0.86], [0.065, 0.36], [0.95, -0.1], [0.95, -0.22], [0.065, -0.06],
-      [0.055, -0.62], [0.34, -0.84], [0.34, -0.94], [0.02, -0.88], [0, -1]]
-    ;[...m, ...m.slice(0, -1).reverse().map(([x, y]) => [-x, y] as [number, number])]
-      .forEach(([x, y], i) => (i ? s.lineTo(x, y) : s.moveTo(x, y)))
-    return new THREE.ShapeGeometry(s)
-  }, [])
-
-  const trafico3d = useMemo(() => {
-    if (!trafico) return null
-    const p = [...trafico.golfo.p, ...trafico.japon.p]
-    const pos = new Float32Array(p.length * 3)
-    p.forEach(([la, lo], i) => { const v = aPos(la, lo, R * 1.012); pos.set([v.x, v.y, v.z], i * 3) })
-    return pos
-  }, [trafico])
-
   const tmp = useMemo(() => ({ q: new THREE.Quaternion(), m: new THREE.Matrix4(), P: new THREE.Vector3(), D: new THREE.Vector3(),
     X: new THREE.Vector3(), Z: new THREE.Vector3(), s: new THREE.Vector3(0.022, 0.022, 0.022), gira: new THREE.Quaternion(),
     eY: new THREE.Vector3(0, 1, 0) }), [])
@@ -162,21 +145,7 @@ export default function Globo({ trafico }: { trafico: Trafico | null }) {
     // las rutas se dibujan con el scroll del capítulo del corredor y el flujo corre
     const dibujo = scroll.pos < 0.8 ? 0.1 : acota((scroll.pos - 0.8) * 1.4)
     tubos.forEach(tb => { tb.u.uT.value = t; tb.u.uDibujo.value = dibujo; tb.u.uOp.value = op })
-    const ins = aviones.current
-    if (ins) {
-      const { m, P, D, X, Z } = tmp
-      vuelos.forEach((a, i) => {
-        let k = (a.fase + t / 16) % 1
-        if (a.vuelta) k = 1 - k
-        a.curva.getPointAt(k, P); a.curva.getTangentAt(k, D)
-        if (a.vuelta) D.negate()
-        Z.copy(P).normalize(); D.sub(X.copy(Z).multiplyScalar(D.dot(Z))).normalize(); X.crossVectors(D, Z)
-        m.makeBasis(X, D, Z).scale(tmp.s).setPosition(P)
-        ins.setMatrixAt(i, m)
-      })
-      ins.instanceMatrix.needsUpdate = true
-      ins.visible = dibujo > 0.95
-    }
+    estadoMundo.op = op; estadoMundo.dibujo = dibujo
     // los rótulos HTML no heredan la visibilidad del grupo: usan una variable CSS
     // sólo se toca el estilo cuando cambia: escribir en <html> en cada fotograma recalcula toda la página
     const wg = ((scroll.pos < 0.6 && scroll.puertas < 0.4) || scroll.pos > 6.55 ? 0 : op).toFixed(2)
@@ -211,16 +180,7 @@ export default function Globo({ trafico }: { trafico: Trafico | null }) {
         <mesh key={i} geometry={tb.geo} material={tb.mat} renderOrder={3} />
       ))}
 
-      <instancedMesh ref={aviones} args={[forma, undefined, vuelos.length]} renderOrder={4}>
-        <meshBasicMaterial color={[2.2, 2.2, 2.2]} side={THREE.DoubleSide} toneMapped={false} />
-      </instancedMesh>
-
-      {trafico3d && (
-        <points renderOrder={4}>
-          <bufferGeometry><bufferAttribute attach="attributes-position" args={[trafico3d, 3]} /></bufferGeometry>
-          <pointsMaterial color={[2.4, 1.9, 1.1]} size={0.016} sizeAttenuation transparent opacity={0.9} depthWrite={false} toneMapped={false} />
-        </points>
-      )}
+      <Mundo vuelos={vuelos} trafico={trafico} />
 
       {!SIN.has('rotulos') && <group ref={rotulos}>
         {/* las tres ciudades del Golfo caen a pocos píxeles: cada rótulo se aparta hacia su lado */}

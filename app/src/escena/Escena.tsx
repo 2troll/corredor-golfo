@@ -11,6 +11,7 @@ import { scroll } from '../lib/scroll'
 import Globo from './Globo'
 import Particulas from './Particulas'
 import Fondo from './Fondo'
+import Cielo from './Cielo'
 
 /** Paralaje leve con el puntero y un respiro de la cámara a lo largo de la página. */
 function Camara() {
@@ -34,6 +35,7 @@ export default function Escena({ trafico }: { trafico: Trafico | null }) {
     <>
       <color attach="background" args={['#02060a']} />
       <Fondo />
+      <Cielo />
       {/* estudio fotográfico procedural para los reflejos del metal y la pintura: sin descargar HDR */}
       <Environment resolution={256} frames={1}>
         <Lightformer form="rect" intensity={3} position={[0, 4, 3]} scale={[8, 2, 1]} />
