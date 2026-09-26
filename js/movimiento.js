@@ -5,12 +5,22 @@
  *  - el número del apartado entra un instante antes que su titular;
  *  - cada lámina fotográfica se abre desde un recorte y la foto se acerca despacio
  *    mientras se baja (el zoom va atado al scroll, no al reloj).
+ * Lenis suaviza el scroll de toda la página.
  * vida() sigue revelando los bloques y contando las cifras. Quien pide menos
  * movimiento en su sistema no recibe nada de esto. */
 (function () {
   'use strict'
   if (typeof gsap === 'undefined' || matchMedia('(prefers-reduced-motion: reduce)').matches) return
   gsap.registerPlugin(ScrollTrigger, SplitText)
+
+  // desplazamiento suave con Lenis, sincronizado con ScrollTrigger; los enlaces del índice
+  // (#apartado) también se deslizan en vez de saltar
+  if (typeof Lenis !== 'undefined') {
+    const lenis = new Lenis({ lerp: 0.1, wheelMultiplier: 1, anchors: { offset: -16, duration: 1.2 } })
+    lenis.on('scroll', ScrollTrigger.update)
+    gsap.ticker.add(t => lenis.raf(t * 1000))
+    gsap.ticker.lagSmoothing(0)
+  }
 
   const lineas = (el, disparo, retraso = 0) => {
     const sp = SplitText.create(el, { type: 'lines', mask: 'lines', linesClass: 'linea' })

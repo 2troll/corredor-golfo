@@ -19,7 +19,7 @@
 <title>El corredor del Golfo</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&family=Geist+Mono:wght@400..600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 /* ── Paleta: del puerto y de la duna, no del catálogo ──────────────────── */
 :root{
@@ -340,89 +340,117 @@ footer h3{font-family:var(--mono);font-size:.7rem;letter-spacing:.14em;text-tran
   margin-bottom:.8rem;color:var(--tinta3)}
 @media print{.rail{display:none}main{margin:0}.bt,.mandos{display:none}}
 
-/* ══ Edición editorial ═════════════════════════════════════════════════════
-   Un informe de lujo, no un panel: tipografía de titular grande (Instrument
-   Serif), mucho aire, cifras sin cajas separadas por filetes, tablas de hilo
-   fino y láminas fotográficas a sangre entre capítulos. Todo lo de arriba
-   sigue valiendo; esto sólo cambia la voz visual. */
+/* ══ Edición cristal ═══════════════════════════════════════════════════════
+   La letra del sistema de Apple (SF Pro y SF Mono en un Mac; Geist y Geist Mono,
+   libres y casi idénticas, en el resto), cifras y etiquetas en monoespaciada como
+   una terminal bien cuidada, y paneles de cristal líquido: translúcidos, con brillo
+   en el borde y desenfoque de lo que hay detrás. Sobre un fondo con luz ambiental,
+   para que el cristal tenga algo que refractar. */
 :root{
-  --papel:#f5f2eb; --papel2:#efebe2; --sup:#faf8f3;
-  --tinta:#15171a; --tinta2:#4a4f55; --tinta3:#7c7f80;
-  --marea:#1e5e54; --marea-sup:#e4ece6; --duna:#98682c; --duna-sup:#f1e8d8;
-  --linea:rgba(21,23,26,.16); --linea2:rgba(21,23,26,.08);
-  --titular:"Instrument Serif","Source Serif 4",Georgia,serif;
+  --ui:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text","Geist",system-ui,sans-serif;
+  --mono:"SF Mono",ui-monospace,"Geist Mono",Menlo,Consolas,monospace;
+  --disp:var(--ui); --cuerpo:var(--ui);
+  --papel:#f5f5f7; --papel2:#ececf0; --sup:rgba(255,255,255,.62);
+  --tinta:#1d1d1f; --tinta2:#515154; --tinta3:#86868b;
+  --marea:#0f7a6a; --marea-sup:rgba(15,122,106,.1); --duna:#a8641c; --duna-sup:rgba(168,100,28,.1);
+  --coral:#c2412d; --coral-sup:rgba(194,65,45,.1);
+  --linea:rgba(0,0,0,.1); --linea2:rgba(0,0,0,.05);
+  --vidrio:rgba(255,255,255,.62); --vidrio-alto:rgba(255,255,255,.86); --vidrio-borde:rgba(255,255,255,.8); --vidrio-sombra:0 1px 1px rgba(0,0,0,.04),0 12px 40px -12px rgba(0,0,0,.18);
 }
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
-  --papel:#0d0e10; --papel2:#121417; --sup:#15171a;
-  --tinta:#ece8df; --tinta2:#b3ada1; --tinta3:#857f75;
-  --marea:#6fc2ae; --marea-sup:#11211d; --duna:#d6a562; --duna-sup:#231c12;
-  --linea:rgba(236,232,223,.16); --linea2:rgba(236,232,223,.07);
+  --papel:#000; --papel2:#0b0b0d; --sup:rgba(28,28,30,.55);
+  --tinta:#f5f5f7; --tinta2:#aeaeb2; --tinta3:#7c7c80;
+  --marea:#5fd4bd; --marea-sup:rgba(95,212,189,.12); --duna:#f0b35e; --duna-sup:rgba(240,179,94,.12);
+  --coral:#ff7a63; --coral-sup:rgba(255,122,99,.12);
+  --linea:rgba(255,255,255,.12); --linea2:rgba(255,255,255,.06);
+  --vidrio:rgba(30,30,33,.62); --vidrio-alto:rgba(48,48,52,.62); --vidrio-borde:rgba(255,255,255,.12); --vidrio-sombra:0 1px 0 rgba(255,255,255,.06) inset,0 18px 50px -18px rgba(0,0,0,.8);
 }}
 :root[data-theme="dark"]{
-  --papel:#0d0e10; --papel2:#121417; --sup:#15171a;
-  --tinta:#ece8df; --tinta2:#b3ada1; --tinta3:#857f75;
-  --marea:#6fc2ae; --marea-sup:#11211d; --duna:#d6a562; --duna-sup:#231c12;
-  --linea:rgba(236,232,223,.16); --linea2:rgba(236,232,223,.07);
+  --papel:#000; --papel2:#0b0b0d; --sup:rgba(28,28,30,.55);
+  --tinta:#f5f5f7; --tinta2:#aeaeb2; --tinta3:#7c7c80;
+  --marea:#5fd4bd; --marea-sup:rgba(95,212,189,.12); --duna:#f0b35e; --duna-sup:rgba(240,179,94,.12);
+  --coral:#ff7a63; --coral-sup:rgba(255,122,99,.12);
+  --linea:rgba(255,255,255,.12); --linea2:rgba(255,255,255,.06);
+  --vidrio:rgba(30,30,33,.62); --vidrio-alto:rgba(48,48,52,.62); --vidrio-borde:rgba(255,255,255,.12); --vidrio-sombra:0 1px 0 rgba(255,255,255,.06) inset,0 18px 50px -18px rgba(0,0,0,.8);
 }
-body{font-size:18px;line-height:1.72;letter-spacing:.003em}
-p{max-width:62ch}
-.env{width:min(100% - 4rem,70rem)}
-.rail{background:var(--papel);border-inline-end-color:var(--linea2)}
-.rail .marca{font-family:var(--titular);font-size:1.6rem;font-weight:400}
-.rail a.aqui{background:transparent;border-inline-start-color:var(--duna);color:var(--tinta)}
-.rail a.aqui i{color:var(--duna)}
-
-/* portada: el titular manda */
-.portada{padding-block:clamp(5rem,12vw,10rem) clamp(3.5rem,7vw,6rem)}
-.portada h1{font-family:var(--titular);font-weight:400;font-size:clamp(3.2rem,8.2vw,7.6rem);
-  line-height:.96;letter-spacing:-.025em;max-width:13ch}
-.portada h1 em{color:var(--duna)}
-.entradilla{font-size:clamp(1.12rem,1.5vw,1.32rem);max-width:52ch;opacity:1;color:var(--tinta2);margin-top:2.4rem}
-.epig{color:var(--duna);letter-spacing:.3em}
-.sello{border-radius:0;border-color:var(--linea)}
-.sello.ok{background:transparent;color:var(--marea)}
-
-/* secciones: número grande, titular de revista, aire */
-section{padding-block:clamp(5rem,10vw,9rem);border-block-end:0}
-section > .env > header{display:grid;grid-template-columns:1fr;gap:.2rem;margin-bottom:clamp(2rem,4vw,3.4rem);
-  padding-top:1.4rem;border-top:1px solid var(--tinta)}
-.clave{font-family:var(--titular);font-size:clamp(3.4rem,7vw,6rem);line-height:.9;color:var(--duna);letter-spacing:-.02em;order:-1}
-section h2{font-family:var(--titular);font-weight:400;font-size:clamp(2.3rem,4.8vw,4.3rem);line-height:1;
-  letter-spacing:-.022em;max-width:17ch}
-.tras{margin:1rem 0 0;order:3;letter-spacing:.2em}
-section h3{font-family:var(--titular);font-weight:400;font-size:clamp(1.7rem,2.6vw,2.3rem)}
-
-/* cifras: sin caja, filete arriba y número grande */
-.rejilla{gap:0 2.2rem;margin-block:2.4rem}
-.tarj{background:transparent;border:0;border-top:1px solid var(--linea);border-radius:0;padding:1.1rem 0 1.4rem}
-.tarj .v{font-family:var(--titular);font-size:clamp(2.8rem,4.4vw,3.8rem);font-weight:400;letter-spacing:-.02em;line-height:1}
-.tarj.hondo{background:transparent;border-top:2px solid var(--tinta);color:var(--tinta)}
-.tarj.hondo .et,.tarj.hondo .n{color:var(--tinta2)}
-
-/* tablas y figuras de hilo fino */
-.tabla-caja{border:0;border-top:1px solid var(--tinta);border-bottom:1px solid var(--tinta);border-radius:0}
-table{background:transparent;font-size:.92rem}
-th{background:transparent;border-block-end-color:var(--linea)}
-tr.tot td{background:transparent;border-block:1px solid var(--linea)}
-.gr{background:transparent;border:0;border-top:1px solid var(--linea);border-bottom:1px solid var(--linea);border-radius:0;
-  padding:1.6rem 0 1.2rem;margin-block:2.4rem}
-.aviso{background:transparent;border-inline-start-width:2px;padding:.2rem 0 .2rem 1.4rem;border-radius:0;
-  font-family:var(--titular);font-size:clamp(1.25rem,1.9vw,1.55rem);line-height:1.35;max-width:52ch}
-.aviso.mal,.aviso.med{background:transparent}
-.aviso b{font-weight:400;font-style:italic}
-
-/* láminas: fotografía a sangre entre capítulos */
-.lamina{position:relative;margin:0;height:clamp(26rem,82vh,62rem);overflow:hidden;background:#0d0e10}
-.lamina img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transform-origin:50% 60%;will-change:transform}
-.lamina::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0) 45%,rgba(0,0,0,.72))}
-.lamina figcaption{position:absolute;left:clamp(1.5rem,5vw,4.5rem);right:clamp(1.5rem,5vw,4.5rem);bottom:clamp(1.5rem,5vw,3.6rem);
-  z-index:1;color:#f3efe6}
-.lamina figcaption b{display:block;font-family:var(--titular);font-weight:400;font-size:clamp(2rem,4.6vw,4rem);
-  line-height:1.02;letter-spacing:-.02em;max-width:20ch}
-.lamina figcaption span{display:block;margin-top:1rem;font-family:var(--mono);font-size:.64rem;letter-spacing:.14em;
-  text-transform:uppercase;opacity:.72}
+html{scroll-behavior:auto}
+body{font-family:var(--ui);font-size:17px;line-height:1.6;letter-spacing:-.011em;background:var(--papel)}
+/* la luz ambiental va en una capa fija propia: la GPU la compone sin repintar al hacer scroll */
+body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:
+    radial-gradient(60rem 40rem at 85% -5%,color-mix(in srgb,var(--marea) 16%,transparent),transparent 70%),
+    radial-gradient(50rem 36rem at 10% 45%,color-mix(in srgb,var(--duna) 11%,transparent),transparent 70%),
+    radial-gradient(56rem 40rem at 90% 95%,color-mix(in srgb,var(--marea) 10%,transparent),transparent 70%)}
+h1,h2,h3{font-family:var(--ui);font-weight:650;letter-spacing:-.035em}
+p{max-width:64ch}
+.env{width:min(100% - 3rem,70rem)}
+/* el cristal: un solo sitio lo define. El desenfoque real sólo en el índice (un elemento
+   fijo); tarjetas, tablas y figuras llevan cristal simulado, translúcido con brillo en el
+   borde, porque desenfocar decenas de bloques al hacer scroll da tirones */
+.tarj,.tabla-caja,.gr,.aviso,.ahora,.sello{background:linear-gradient(180deg,var(--vidrio-alto),var(--vidrio));
+  border:1px solid var(--vidrio-borde);box-shadow:var(--vidrio-sombra)}
+.rail{background:var(--vidrio);-webkit-backdrop-filter:blur(22px) saturate(1.8);backdrop-filter:blur(22px) saturate(1.8)}
+.rail{border-width:0 1px 0 0;border-radius:0}
+.rail .marca{font-family:var(--ui);font-weight:650;letter-spacing:-.03em;font-size:1.25rem}
+.rail .sub,.rail a i{font-family:var(--mono)}
+.rail a{border-radius:9px;border-inline-start:0;transition:background .25s,color .25s}
+.rail a.aqui{background:var(--marea-sup);color:var(--marea)}
+.rail a.aqui i{color:var(--marea)}
+/* portada: grande y limpia, como una keynote */
+.portada{padding-block:clamp(4rem,10vw,8rem) clamp(3rem,6vw,5rem)}
+.portada h1{font-weight:700;font-size:clamp(2.8rem,6.6vw,5.8rem);line-height:1.02;letter-spacing:-.045em;max-width:15ch}
+.portada h1 em{font-style:normal;background:linear-gradient(90deg,var(--marea),var(--duna));-webkit-background-clip:text;background-clip:text;color:transparent}
+.entradilla{font-size:clamp(1.1rem,1.5vw,1.3rem);color:var(--tinta2);max-width:54ch;margin-top:2rem;opacity:1}
+.epig{font-family:var(--mono);color:var(--marea);letter-spacing:.04em;text-transform:none;font-size:.8rem}
+.epig::before{content:"$ ";color:var(--tinta3)}
+.sello{border-radius:999px;font-family:var(--mono);letter-spacing:0;text-transform:none;font-size:.74rem}
+.sello.ok{color:var(--marea)}
+/* secciones: una línea de terminal encima del titular */
+section{padding-block:clamp(4rem,8vw,7rem);border-block-end:0}
+section > .env > header{display:flex;flex-direction:column;align-items:flex-start;gap:.7rem;margin-bottom:2rem;border:0;padding:0}
+.clave{order:-1;font-family:var(--mono);font-size:.8rem;letter-spacing:0;color:var(--marea);
+  padding:.28rem .7rem;border-radius:999px;background:var(--marea-sup);border:1px solid color-mix(in srgb,var(--marea) 30%,transparent)}
+.clave::before{content:"~/estudio/";color:var(--tinta3)}
+.clave::after{content:"▍";margin-inline-start:.15rem;animation:cursor 1.1s steps(1) infinite}
+@keyframes cursor{50%{opacity:0}}
+section h2{font-weight:700;font-size:clamp(2rem,4vw,3.3rem);line-height:1.05;letter-spacing:-.04em;max-width:22ch}
+.tras{margin:0;font-family:var(--mono);letter-spacing:0;text-transform:none;font-size:.76rem}
+.tras::before{content:"// ";opacity:.6}
+section h3{font-weight:650;font-size:clamp(1.3rem,2vw,1.6rem);letter-spacing:-.03em}
+/* cifras: tarjetas de cristal con número en monoespaciada */
+.rejilla{gap:1rem;margin-block:1.8rem}
+.tarj{border-radius:18px;padding:1.2rem 1.25rem 1.3rem;transition:transform .35s cubic-bezier(.2,.8,.2,1),box-shadow .35s}
+.tarj:hover{transform:translateY(-2px)}
+.tarj .et{font-family:var(--mono);letter-spacing:0;text-transform:none;font-size:.72rem}
+.tarj .v{font-family:var(--mono);font-weight:500;font-size:clamp(1.9rem,3vw,2.5rem);letter-spacing:-.04em}
+.tarj.hondo{background:color-mix(in srgb,var(--tinta) 88%,transparent);color:var(--papel);border-color:transparent}
+.tarj.hondo .et,.tarj.hondo .n{color:color-mix(in srgb,var(--papel) 70%,transparent)}
+/* tablas y figuras */
+.tabla-caja{border-radius:18px;overflow:hidden}
+table{background:transparent;font-size:.9rem}
+th{background:transparent;font-family:var(--mono);letter-spacing:0;text-transform:none;font-size:.72rem}
+td.n{font-family:var(--mono);font-size:.86rem}
+tr.tot td{background:var(--marea-sup);border-block:0}
+.gr{border-radius:22px;padding:1.4rem 1.4rem 1.1rem;margin-block:1.8rem}
+.gr figcaption{font-family:var(--ui)}
+.aviso{border-radius:16px;border-inline-start-width:1px;padding:1rem 1.2rem;font-size:.96rem}
+.aviso.med{border-color:color-mix(in srgb,var(--duna) 35%,transparent)} .aviso.mal{border-color:color-mix(in srgb,var(--coral) 35%,transparent)}
+.aviso::before{content:"⚠︎ nota";display:block;font-family:var(--mono);font-size:.7rem;color:var(--duna);margin-bottom:.3rem}
+.aviso:not(.med):not(.mal)::before{content:"✓ clave";color:var(--marea)}
+.orig{border-radius:6px;font-family:var(--mono);text-transform:none;letter-spacing:0}
+/* láminas fotográficas con pie de cristal */
+.lamina{position:relative;margin:0 clamp(.8rem,2vw,1.6rem);height:clamp(24rem,74vh,54rem);overflow:hidden;border-radius:28px;background:#000}
+.lamina img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;will-change:transform}
+.lamina figcaption{position:absolute;left:1.2rem;bottom:1.2rem;right:auto;max-width:min(36rem,calc(100% - 2.4rem));z-index:1;color:#fff;
+  padding:1rem 1.2rem;border-radius:18px;background:rgba(14,14,16,.58);-webkit-backdrop-filter:blur(24px) saturate(1.8);backdrop-filter:blur(24px) saturate(1.8);
+  border:1px solid rgba(255,255,255,.22);box-shadow:inset 0 1px 0 rgba(255,255,255,.25),0 20px 50px -20px rgba(0,0,0,.6)}
+.lamina figcaption b{display:block;font-weight:650;font-size:clamp(1.2rem,2.2vw,1.7rem);line-height:1.2;letter-spacing:-.03em}
+.lamina figcaption span{display:block;margin-top:.5rem;font-family:var(--mono);font-size:.68rem;opacity:.75}
 .lamina figcaption a{color:inherit}
-.experiencia{border-radius:0;background:var(--tinta);color:var(--papel);letter-spacing:.04em}
+.experiencia{border-radius:999px;background:var(--tinta);color:var(--papel);font-family:var(--ui);font-weight:600;letter-spacing:-.01em}
+.lectura{height:3px;background:linear-gradient(90deg,var(--marea),var(--duna))}
+@media (prefers-reduced-transparency:reduce){.rail,.lamina figcaption{
+  -webkit-backdrop-filter:none;backdrop-filter:none;background:var(--papel2)}}
 </style>
 </head>
 <body>
@@ -2483,6 +2511,7 @@ setTimeout(globo,60);
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js" defer></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js" defer></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/SplitText.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.3.11/dist/lenis.min.js" defer></script>
 <script src="js/cuadros.js" defer></script>
 <script src="js/movimiento.js" defer></script>
 </body>

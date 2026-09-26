@@ -85,14 +85,14 @@ export default function App() {
   // Scroll suave, sincronizado con ScrollTrigger (si nadie ha pedido menos movimiento)
   useEffect(() => {
     if (baja) return
-    const lenis = new Lenis({ lerp: 0.085, wheelMultiplier: 0.9 })
+    const lenis = new Lenis({ lerp: 0.1, wheelMultiplier: 1 })
     lenis.on('scroll', ScrollTrigger.update)
     const tic = (t: number) => lenis.raf(t * 1000)
     gsap.ticker.add(tic); gsap.ticker.lagSmoothing(0)
     // Paradas: el centro de cada capítulo (donde su forma está completa) y cada parada del
     // viaje. Si el lector suelta la rueda cerca de una, el scroll termina de llegar solo:
     // la animación nunca se queda congelada a medio transformar.
-    const snap = new Snap(lenis, { type: 'proximity', distanceThreshold: '42%', debounce: 160, duration: 1.1,
+    const snap = new Snap(lenis, { type: 'proximity', distanceThreshold: '22%', debounce: 420, duration: 1.3,
       easing: (t: number) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2) })
     let quitar: (() => void)[] = []
     const paradas = () => {
