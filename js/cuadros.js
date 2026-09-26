@@ -4,7 +4,10 @@
  *  - #e-composicion: anillo del mercado arabófono, CCG por dentro y países por fuera;
  *  - #e-corredor: diagrama de Sankey origen → aerolínea → puerta de Japón, con el
  *    grosor en vuelos por semana y lo anunciado aparte;
- *  - #e-estacion: el año en polar, Golfo contra España, para ver que se turnan.
+ *  - #e-estacion: el año en polar, Golfo contra España, para ver que se turnan;
+ *  - #e-calendario: los próximos doce meses, con Ramadán, Eid, fiestas nacionales y la
+ *    ventana de entrada, y el día de hoy latiendo;
+ *  - #e-escenarios: margen y honorarios de los tres escenarios, año 1 y año 2.
  *
  * ECharts (1 MB) sólo se descarga cuando el lector se acerca al primer cuadro. Los
  * colores salen de las variables CSS de la página y se repintan al cambiar de tema.
@@ -105,7 +108,75 @@
     }
   }
 
-  const OPCIONES = { 'e-composicion': opcComposicion, 'e-corredor': opcCorredor, 'e-estacion': opcEstacion }
+  // ── calendario de los próximos doce meses ───────────────────────────────────
+  // Ramadán y los Eid con el algoritmo hiyrí del propio estudio (calendario()); las fiestas
+  // nacionales y la ventana de entrada son las que cita el estudio.
+  const iso = d => d.toISOString().slice(0, 10)
+  const opcCalendario = p => {
+    const hoy = new Date(); hoy.setUTCHours(0, 0, 0, 0)
+    const fin = new Date(hoy); fin.setUTCFullYear(fin.getUTCFullYear() + 1); fin.setUTCDate(fin.getUTCDate() - 1)
+    const dias = new Map()
+    const marca = (d, c) => { const k = iso(d); if (d >= hoy && d <= fin && (!dias.has(k) || c > dias.get(k))) dias.set(k, c) }
+    // 1 = ventana de entrada, 2 = fiesta nacional, 3 = Ramadán, 4 = Eid
+    for (let d = new Date(Date.UTC(2026, 10, 1)); d <= new Date(Date.UTC(2027, 4, 31)); d.setUTCDate(d.getUTCDate() + 1)) marca(new Date(d), 1)
+    for (const [m, dd] of [[11, 2], [11, 16], [11, 18]]) for (const y of [hoy.getUTCFullYear(), hoy.getUTCFullYear() + 1]) marca(new Date(Date.UTC(y, m, dd)), 2)
+    if (typeof calendario === 'function') for (const y of [hoy.getUTCFullYear(), hoy.getUTCFullYear() + 1])
+      for (const ev of calendario(y)) for (let d = new Date(ev.inicio); d <= ev.fin; d.setUTCDate(d.getUTCDate() + 1))
+        marca(new Date(d), ev.clave === 'ramadan' ? 3 : 4)
+    const NOMBRE = { 1: 'Ventana de entrada', 2: 'Fiesta nacional (EAU, Baréin, Catar)', 3: 'Ramadán', 4: 'Eid' }
+    return {
+      animationDuration: baja ? 0 : 900,
+      tooltip: { backgroundColor: p.sup, borderColor: p.linea, textStyle: { color: p.tinta, fontFamily: p.cuerpo },
+        formatter: d => `${new Date(d.value[0] + 'T00:00:00Z').toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' })}<br><b>${NOMBRE[d.value[1]]}</b>` },
+      visualMap: { type: 'piecewise', seriesIndex: 0, orient: 'horizontal', left: 'center', bottom: 0, itemWidth: 12, itemHeight: 10,
+        textStyle: { color: p.tinta2, fontFamily: p.cuerpo, fontSize: 11 },
+        pieces: [{ value: 1, label: 'Ventana de entrada', color: p.marea }, { value: 2, label: 'Fiesta nacional', color: p.tinta2 },
+          { value: 3, label: 'Ramadán', color: p.coral }, { value: 4, label: 'Eid', color: p.duna }] },
+      calendar: { range: [iso(hoy), iso(fin)], top: 34, left: 38, right: 12, cellSize: ['auto', 15], orient: 'horizontal',
+        itemStyle: { color: 'transparent', borderColor: p.linea, borderWidth: 1 }, splitLine: { lineStyle: { color: p.tinta3, width: 1.4 } },
+        dayLabel: { firstDay: 1, nameMap: ['D', 'L', 'M', 'X', 'J', 'V', 'S'], color: p.tinta3, fontSize: 10 },
+        monthLabel: { nameMap: ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'], color: p.tinta2, fontFamily: p.mono, fontSize: 11 },
+        yearLabel: { show: false } },
+      series: [
+        { type: 'heatmap', coordinateSystem: 'calendar', data: [...dias.entries()] },
+        // hoy, con un pulso
+        { type: 'effectScatter', coordinateSystem: 'calendar', data: [[iso(hoy), 1]], symbolSize: 10,
+          itemStyle: { color: p.tinta }, rippleEffect: { scale: 3, brushType: 'stroke' }, tooltip: { show: false }, z: 5 },
+      ],
+    }
+  }
+
+  // ── escenarios: lo que deja cada nivel de actividad (apartado 16) ─────────────
+  const ESCENARIOS = [
+    ['Conservador', [1037800, 1816200], [622700, 1089700], [4, 7]],
+    ['Base', [3443900, 6122500], [2066300, 3673500], [9, 16]],
+    ['Optimista', [7003900, 12256800], [4202300, 7354100], [16, 28]],
+  ]
+  const opcEscenarios = p => {
+    const cats = ESCENARIOS.flatMap(([n]) => [`${n}\naño 1`, `${n}\naño 2`])
+    const val = (i) => ESCENARIOS.flatMap(e => e[i])
+    const yen = v => `${(v / 1e6).toLocaleString('es-ES', { maximumFractionDigits: 1 })} M¥`
+    return {
+      animationDuration: baja ? 0 : 1300, animationEasing: 'cubicOut',
+      grid: { left: 58, right: 16, top: 30, bottom: 64 },
+      legend: { bottom: 0, textStyle: { color: p.tinta2, fontFamily: p.cuerpo } },
+      tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' }, backgroundColor: p.sup, borderColor: p.linea, textStyle: { color: p.tinta, fontFamily: p.cuerpo },
+        formatter: ps => `<b>${ps[0].axisValue.replace('\n', ' · ')}</b> · ${val(3)[ps[0].dataIndex]} viajes<br>` +
+          ps.map(x => `${x.marker}${x.seriesName}: ${x.value.toLocaleString('es-ES')} ¥`).join('<br>') },
+      xAxis: { type: 'category', data: cats, axisLabel: { color: p.tinta2, fontFamily: p.cuerpo, fontSize: 11, lineHeight: 15 },
+        axisLine: { lineStyle: { color: p.linea } }, axisTick: { show: false } },
+      yAxis: { type: 'value', axisLabel: { color: p.tinta3, formatter: yen }, splitLine: { lineStyle: { color: p.linea } } },
+      series: [
+        { name: 'Margen del operador', type: 'bar', stack: 'a', data: val(1), barWidth: '46%', itemStyle: { color: p.marea } },
+        { name: 'Honorarios (supuesto)', type: 'bar', stack: 'a', data: val(2), itemStyle: { color: p.duna, borderRadius: [3, 3, 0, 0] },
+          label: { show: true, position: 'top', color: p.tinta, fontFamily: p.mono, fontSize: 10,
+            formatter: x => yen(val(1)[x.dataIndex] + x.value) } },
+      ],
+    }
+  }
+
+  const OPCIONES = { 'e-composicion': opcComposicion, 'e-corredor': opcCorredor, 'e-estacion': opcEstacion,
+    'e-calendario': opcCalendario, 'e-escenarios': opcEscenarios }
   const vivos = []
 
   function pinta() {
