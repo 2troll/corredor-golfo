@@ -8,8 +8,8 @@
 //          de las llegadas del Golfo (el calendario hiyrí manda en la demanda).
 // Forma 3: dos pilas de monedas, Oriente Medio frente a la media, en proporción.
 import { useMemo, useRef } from 'react'
-import { createPortal, useFrame, useThree } from '@react-three/fiber'
-import { Billboard, Sparkles, Text, useTexture } from '@react-three/drei'
+import { useFrame, useThree } from '@react-three/fiber'
+import { Billboard, Text, useTexture } from '@react-three/drei'
 import * as THREE from 'three'
 import { datos } from '../tipos'
 import { scroll, suave, acota } from '../lib/scroll'
@@ -88,7 +88,7 @@ export default function Particulas() {
   // material imperativo: con <shaderMaterial uniforms> los valores de cada fotograma no llegaban a la GPU
   const material = useMemo(() => new THREE.ShaderMaterial({ uniforms: u, vertexShader: vert, fragmentShader: frag,
     transparent: true, depthWrite: false, blending: THREE.AdditiveBlending }), [u])
-  const lado = viewport.aspect > 1.1 ? viewport.width * 0.2 : 0
+  const lado = viewport.aspect > 1.1 ? viewport.width * 0.25 : 0
   const tmp = useMemo(() => ({ e: new THREE.Euler(), q: new THREE.Quaternion() }), [])
 
   useFrame(st => {
@@ -150,10 +150,6 @@ export default function Particulas() {
     <>
       <points ref={puntos} geometry={geo} material={material} frustumCulled={false} />
       <primitive object={obj.raiz} />
-      {/* destellos alrededor de cada objeto, dentro de su grupo: se van con él */}
-      {createPortal(<Sparkles count={60} scale={[3.6, 1.6, 3.4]} size={2.2} speed={0.35} opacity={0.7} color="#dfe9ff" noise={0.6} />, obj.formas[0])}
-      {createPortal(<Sparkles count={90} scale={[3.8, 1.2, 3.8]} size={2.6} speed={0.25} opacity={0.8} color="#e9d7a8" noise={0.4} />, obj.formas[1])}
-      {createPortal(<Sparkles count={70} scale={[2.6, 2.2, 1.6]} position={[0, 0, 0]} size={3} speed={0.3} opacity={0.9} color="#ffd98a" noise={0.3} />, obj.formas[2])}
 
       {/* 1 · el avión: la cifra del mercado sobre el ala */}
       <group ref={el => { rotulos.current[0] = el }}>

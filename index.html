@@ -19,7 +19,7 @@
 <title>El corredor del Golfo</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 /* ── Paleta: del puerto y de la duna, no del catálogo ──────────────────── */
 :root{
@@ -339,6 +339,90 @@ footer ol{padding-inline-start:1.3rem;line-height:1.7;max-width:74ch}
 footer h3{font-family:var(--mono);font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;
   margin-bottom:.8rem;color:var(--tinta3)}
 @media print{.rail{display:none}main{margin:0}.bt,.mandos{display:none}}
+
+/* ══ Edición editorial ═════════════════════════════════════════════════════
+   Un informe de lujo, no un panel: tipografía de titular grande (Instrument
+   Serif), mucho aire, cifras sin cajas separadas por filetes, tablas de hilo
+   fino y láminas fotográficas a sangre entre capítulos. Todo lo de arriba
+   sigue valiendo; esto sólo cambia la voz visual. */
+:root{
+  --papel:#f5f2eb; --papel2:#efebe2; --sup:#faf8f3;
+  --tinta:#15171a; --tinta2:#4a4f55; --tinta3:#7c7f80;
+  --marea:#1e5e54; --marea-sup:#e4ece6; --duna:#98682c; --duna-sup:#f1e8d8;
+  --linea:rgba(21,23,26,.16); --linea2:rgba(21,23,26,.08);
+  --titular:"Instrument Serif","Source Serif 4",Georgia,serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --papel:#0d0e10; --papel2:#121417; --sup:#15171a;
+  --tinta:#ece8df; --tinta2:#b3ada1; --tinta3:#857f75;
+  --marea:#6fc2ae; --marea-sup:#11211d; --duna:#d6a562; --duna-sup:#231c12;
+  --linea:rgba(236,232,223,.16); --linea2:rgba(236,232,223,.07);
+}}
+:root[data-theme="dark"]{
+  --papel:#0d0e10; --papel2:#121417; --sup:#15171a;
+  --tinta:#ece8df; --tinta2:#b3ada1; --tinta3:#857f75;
+  --marea:#6fc2ae; --marea-sup:#11211d; --duna:#d6a562; --duna-sup:#231c12;
+  --linea:rgba(236,232,223,.16); --linea2:rgba(236,232,223,.07);
+}
+body{font-size:18px;line-height:1.72;letter-spacing:.003em}
+p{max-width:62ch}
+.env{width:min(100% - 4rem,70rem)}
+.rail{background:var(--papel);border-inline-end-color:var(--linea2)}
+.rail .marca{font-family:var(--titular);font-size:1.6rem;font-weight:400}
+.rail a.aqui{background:transparent;border-inline-start-color:var(--duna);color:var(--tinta)}
+.rail a.aqui i{color:var(--duna)}
+
+/* portada: el titular manda */
+.portada{padding-block:clamp(5rem,12vw,10rem) clamp(3.5rem,7vw,6rem)}
+.portada h1{font-family:var(--titular);font-weight:400;font-size:clamp(3.2rem,8.2vw,7.6rem);
+  line-height:.96;letter-spacing:-.025em;max-width:13ch}
+.portada h1 em{color:var(--duna)}
+.entradilla{font-size:clamp(1.12rem,1.5vw,1.32rem);max-width:52ch;opacity:1;color:var(--tinta2);margin-top:2.4rem}
+.epig{color:var(--duna);letter-spacing:.3em}
+.sello{border-radius:0;border-color:var(--linea)}
+.sello.ok{background:transparent;color:var(--marea)}
+
+/* secciones: número grande, titular de revista, aire */
+section{padding-block:clamp(5rem,10vw,9rem);border-block-end:0}
+section > .env > header{display:grid;grid-template-columns:1fr;gap:.2rem;margin-bottom:clamp(2rem,4vw,3.4rem);
+  padding-top:1.4rem;border-top:1px solid var(--tinta)}
+.clave{font-family:var(--titular);font-size:clamp(3.4rem,7vw,6rem);line-height:.9;color:var(--duna);letter-spacing:-.02em;order:-1}
+section h2{font-family:var(--titular);font-weight:400;font-size:clamp(2.3rem,4.8vw,4.3rem);line-height:1;
+  letter-spacing:-.022em;max-width:17ch}
+.tras{margin:1rem 0 0;order:3;letter-spacing:.2em}
+section h3{font-family:var(--titular);font-weight:400;font-size:clamp(1.7rem,2.6vw,2.3rem)}
+
+/* cifras: sin caja, filete arriba y número grande */
+.rejilla{gap:0 2.2rem;margin-block:2.4rem}
+.tarj{background:transparent;border:0;border-top:1px solid var(--linea);border-radius:0;padding:1.1rem 0 1.4rem}
+.tarj .v{font-family:var(--titular);font-size:clamp(2.8rem,4.4vw,3.8rem);font-weight:400;letter-spacing:-.02em;line-height:1}
+.tarj.hondo{background:transparent;border-top:2px solid var(--tinta);color:var(--tinta)}
+.tarj.hondo .et,.tarj.hondo .n{color:var(--tinta2)}
+
+/* tablas y figuras de hilo fino */
+.tabla-caja{border:0;border-top:1px solid var(--tinta);border-bottom:1px solid var(--tinta);border-radius:0}
+table{background:transparent;font-size:.92rem}
+th{background:transparent;border-block-end-color:var(--linea)}
+tr.tot td{background:transparent;border-block:1px solid var(--linea)}
+.gr{background:transparent;border:0;border-top:1px solid var(--linea);border-bottom:1px solid var(--linea);border-radius:0;
+  padding:1.6rem 0 1.2rem;margin-block:2.4rem}
+.aviso{background:transparent;border-inline-start-width:2px;padding:.2rem 0 .2rem 1.4rem;border-radius:0;
+  font-family:var(--titular);font-size:clamp(1.25rem,1.9vw,1.55rem);line-height:1.35;max-width:52ch}
+.aviso.mal,.aviso.med{background:transparent}
+.aviso b{font-weight:400;font-style:italic}
+
+/* láminas: fotografía a sangre entre capítulos */
+.lamina{position:relative;margin:0;height:clamp(26rem,82vh,62rem);overflow:hidden;background:#0d0e10}
+.lamina img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transform-origin:50% 60%;will-change:transform}
+.lamina::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0) 45%,rgba(0,0,0,.72))}
+.lamina figcaption{position:absolute;left:clamp(1.5rem,5vw,4.5rem);right:clamp(1.5rem,5vw,4.5rem);bottom:clamp(1.5rem,5vw,3.6rem);
+  z-index:1;color:#f3efe6}
+.lamina figcaption b{display:block;font-family:var(--titular);font-weight:400;font-size:clamp(2rem,4.6vw,4rem);
+  line-height:1.02;letter-spacing:-.02em;max-width:20ch}
+.lamina figcaption span{display:block;margin-top:1rem;font-family:var(--mono);font-size:.64rem;letter-spacing:.14em;
+  text-transform:uppercase;opacity:.72}
+.lamina figcaption a{color:inherit}
+.experiencia{border-radius:0;background:var(--tinta);color:var(--papel);letter-spacing:.04em}
 </style>
 </head>
 <body>
@@ -465,6 +549,9 @@ footer h3{font-family:var(--mono);font-size:.7rem;letter-spacing:.14em;text-tran
     no de demanda». Era cómodo y no es lo que dice la fuente. Se corrigió.</p></div>
 </div></section>
 
+<figure class="lamina" aria-label="Dubái al atardecer, con el Burj Khalifa"><img src="img/viaje/dubai-900.jpg" srcset="img/viaje/dubai-900.jpg 900w, img/viaje/dubai.jpg 3840w"
+  sizes="100vw" alt="Dubái al atardecer, con el Burj Khalifa" loading="lazy" decoding="async">
+  <figcaption><b>Dubái. Más de la mitad de los vuelos directos del corredor salen de aquí.</b><span>Foto: <a href="https://commons.wikimedia.org/wiki/File:Burj_Khalifa_(worlds_tallest_building)_and_the_Dubai_skyline_(25781049892).jpg" target="_blank" rel="noopener">imran shahabuddin · CC BY 2.0</a> · Wikimedia Commons</span></figcaption></figure>
 <section id="composicion"><div class="env">
   <header><span class="clave">03</span><h2>El mercado es un 46 % mayor de lo que parece</h2>
     <span class="tras">Agencia de Servicios de Inmigración · e-Stat</span></header>
@@ -555,6 +642,9 @@ footer h3{font-family:var(--mono);font-size:.7rem;letter-spacing:.14em;text-tran
     vuelo, hay que esperar al anuncio.</p></div>
 </div></section>
 
+<figure class="lamina" aria-label="El aeropuerto de Kansai visto desde el aire"><img src="img/viaje/kix-900.jpg" srcset="img/viaje/kix-900.jpg 900w, img/viaje/kix.jpg 3840w"
+  sizes="100vw" alt="El aeropuerto de Kansai visto desde el aire" loading="lazy" decoding="async">
+  <figcaption><b>Kansai, la puerta: doce vuelos directos a la semana desde el Golfo.</b><span>Foto: <a href="https://commons.wikimedia.org/wiki/File:Kansai_International_Airport_Aerial_photograph.2007.jpg" target="_blank" rel="noopener">国土地理院 (GSI) · Attribution</a> · Wikimedia Commons</span></figcaption></figure>
 <section id="corredor"><div class="env">
   <header><span class="clave">06</span><h2>El corredor aéreo, que es el cuello de botella</h2>
     <span class="tras">Arrastre para girar</span></header>
@@ -655,6 +745,9 @@ footer h3{font-family:var(--mono);font-size:.7rem;letter-spacing:.14em;text-tran
     dinero encima de la mesa.</p>
 </div></section>
 
+<figure class="lamina" aria-label="El castillo de Osaka"><img src="img/viaje/osaka-900.jpg" srcset="img/viaje/osaka-900.jpg 900w, img/viaje/osaka.jpg 3840w"
+  sizes="100vw" alt="El castillo de Osaka" loading="lazy" decoding="async">
+  <figcaption><b>Osaka, la base desde la que se sirve todo lo demás.</b><span>Foto: <a href="https://commons.wikimedia.org/wiki/File:Osaka_Castle_2022-04-23.jpg" target="_blank" rel="noopener">Dick Thomas Johnson · CC BY 2.0</a> · Wikimedia Commons</span></figcaption></figure>
 <section id="gasto"><div class="env">
   <header><span class="clave">08</span><h2>Lo que se gasta, y por fin con fuente</h2>
     <span class="tras">Agencia de Turismo de Japón · 2.º trim. 2026</span></header>
@@ -709,6 +802,9 @@ footer h3{font-family:var(--mono);font-size:.7rem;letter-spacing:.14em;text-tran
     no buscando.</p></div>
 </div></section>
 
+<figure class="lamina" aria-label="Los torii de Fushimi Inari, en Kioto"><img src="img/viaje/kioto-900.jpg" srcset="img/viaje/kioto-900.jpg 900w, img/viaje/kioto.jpg 3840w"
+  sizes="100vw" alt="Los torii de Fushimi Inari, en Kioto" loading="lazy" decoding="async">
+  <figcaption><b>Kioto, a unos treinta minutos en tren.</b><span>Foto: <a href="https://commons.wikimedia.org/wiki/File:Double_torii_path_at_Fushimi_Inari_Taisha_Shrine,_Kyoto,_Japan.jpg" target="_blank" rel="noopener">Basile Morin · CC BY-SA 4.0</a> · Wikimedia Commons</span></figcaption></figure>
 <section id="producto"><div class="env">
   <header><span class="clave">11</span><h2>Tres productos, no un catálogo</h2>
     <span class="tras">Los que salen de los datos</span></header>
@@ -868,6 +964,9 @@ footer h3{font-family:var(--mono);font-size:.7rem;letter-spacing:.14em;text-tran
     día.</p></div>
 </div></section>
 
+<figure class="lamina" aria-label="Ciervos del parque de Nara en otoño"><img src="img/viaje/nara-900.jpg" srcset="img/viaje/nara-900.jpg 900w, img/viaje/nara.jpg 3840w"
+  sizes="100vw" alt="Ciervos del parque de Nara en otoño" loading="lazy" decoding="async">
+  <figcaption><b>Nara, a unos cuarenta y cinco minutos.</b><span>Foto: <a href="https://commons.wikimedia.org/wiki/File:003_Nara_deer_in_Japan_-_deer_of_Nara_Park_under_autumn_leaves.jpg" target="_blank" rel="noopener">Marek Ślusarczyk (Tupungato) · CC BY 3.0</a> · Wikimedia Commons</span></figcaption></figure>
 <section id="escenarios"><div class="env">
   <header><span class="clave">16</span><h2>Tres niveles de actividad, y qué hay que creerse</h2>
     <span class="tras">No es una previsión de ventas</span></header>
@@ -950,6 +1049,9 @@ footer h3{font-family:var(--mono);font-size:.7rem;letter-spacing:.14em;text-tran
     行政書士, no para esta página.</p></div>
 </div></section>
 
+<figure class="lamina" aria-label="La torre del puerto de Kobe al anochecer"><img src="img/viaje/kobe-900.jpg" srcset="img/viaje/kobe-900.jpg 900w, img/viaje/kobe.jpg 3840w"
+  sizes="100vw" alt="La torre del puerto de Kobe al anochecer" loading="lazy" decoding="async">
+  <figcaption><b>Kobe, la ciudad de la primera mezquita de Japón, de 1935.</b><span>Foto: <a href="https://commons.wikimedia.org/wiki/File:Kobe_Port_Tower_and_Maritime_Museum,_November_2016.jpg" target="_blank" rel="noopener">Martin Falbisoner · CC BY-SA 4.0</a> · Wikimedia Commons</span></figcaption></figure>
 <section id="halal"><div class="env">
   <header><span class="clave">18</span><h2>La cadena halal, que es lo que hace entregable el viaje</h2>
     <span class="tras">27 entradas verificadas</span></header>
@@ -2380,7 +2482,7 @@ setTimeout(globo,60);
 
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js" defer></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js" defer></script>
-<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrambleTextPlugin.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/SplitText.min.js" defer></script>
 <script src="js/cuadros.js" defer></script>
 <script src="js/movimiento.js" defer></script>
 </body>

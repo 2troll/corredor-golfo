@@ -108,7 +108,7 @@ export default function Globo({ trafico }: { trafico: Trafico | null }) {
   const tmp = useMemo(() => ({ q: new THREE.Quaternion(), m: new THREE.Matrix4(), P: new THREE.Vector3(), D: new THREE.Vector3(),
     X: new THREE.Vector3(), Z: new THREE.Vector3(), s: new THREE.Vector3(0.022, 0.022, 0.022), gira: new THREE.Quaternion(),
     eY: new THREE.Vector3(0, 1, 0) }), [])
-  const lado = viewport.aspect > 1.1 ? viewport.width * 0.2 : 0
+  const lado = viewport.aspect > 1.1 ? viewport.width * 0.25 : 0
 
   useFrame((st, dt) => {
     const g = grupo.current; if (!g) return

@@ -1,6 +1,6 @@
 // «El viaje»: el recorrido de un viajero del Golfo, de Dubái a las cuatro ciudades
 // de Kansai. La sección se queda fija y las paradas pasan en horizontal con el
-// scroll; cada medallón se dibuja a pluma (DrawSVG) al entrar en pantalla y un
+// scroll; cada fotografía se abre desde un recorte al entrar en pantalla y un
 // avión recorre la ruta de arriba al ritmo del viaje. Las frecuencias salen del
 // estudio; los tiempos de tren son aproximados y así se dice.
 import { useEffect, useRef, useState } from 'react'
@@ -11,7 +11,7 @@ import { DrawSVGPlugin } from 'gsap/DrawSVGPlugin'
 import { MotionPathPlugin } from 'gsap/MotionPathPlugin'
 import { useGSAP } from '@gsap/react'
 import { datos } from '../tipos'
-import { Medallon, FOTOS, NOMBRES, foto } from './Dibujos'
+import { FOTOS, NOMBRES, foto } from './Dibujos'
 
 gsap.registerPlugin(ScrollTrigger, DrawSVGPlugin, MotionPathPlugin)
 
@@ -63,19 +63,12 @@ export default function Viaje() {
     // cada medallón se dibuja a pluma cuando su parada entra en pantalla
     gsap.utils.toArray<HTMLElement>('.parada').forEach(p => {
       const st = { trigger: p, containerAnimation: mov, start: 'left 85%' }
+      // la foto se abre desde un recorte y el texto sube detrás, una vez
       gsap.timeline({ scrollTrigger: st })
-        .from(p.querySelectorAll('.aro'), { drawSVG: 0, duration: 1.1, ease: 'power2.inOut', stagger: 0.15 })
-        .from(p.querySelectorAll('.trazos path'), { drawSVG: 0, duration: 1.3, ease: 'power1.inOut', stagger: 0.05 }, '<0.2')
-        .from(p.querySelectorAll('.sol'), { scale: 0, transformOrigin: '50% 50%', duration: 1.2, ease: 'expo.out' }, '<')
-        // el boceto se revela en foto: la imagen real aparece bajo las líneas y las líneas se van
-        .fromTo(p.querySelectorAll('.foto'), { opacity: 0, scale: 1.12, transformOrigin: '50% 50%' },
-          { opacity: 1, scale: 1, duration: 1.6, ease: 'power2.out' }, '>-0.2')
-        .to(p.querySelectorAll('.trazos, .sol'), { opacity: 0, duration: 1.2, ease: 'power1.out' }, '<0.3')
-        .from(p.querySelectorAll('.cuerpo > *'), { y: 28, opacity: 0, duration: 0.9, ease: 'power3.out', stagger: 0.07 }, '<0.3')
+        .fromTo(p.querySelector('.foto-parada'), { clipPath: 'inset(14% 14% 14% 14%)' }, { clipPath: 'inset(0% 0% 0% 0%)', duration: 1.3, ease: 'expo.inOut' })
+        .fromTo(p.querySelector('.foto-parada img'), { scale: 1.3 }, { scale: 1.12, duration: 1.8, ease: 'power2.out' }, '<')
+        .from(p.querySelectorAll('.cuerpo > *'), { y: 28, opacity: 0, duration: 0.9, ease: 'power3.out', stagger: 0.07 }, '<0.35')
     })
-    // los anillos de texto giran despacio, cada uno a su aire
-    gsap.utils.toArray<SVGGElement>('.parada .giro').forEach((g, i) =>
-      gsap.to(g, { rotation: i % 2 ? -360 : 360, svgOrigin: '100 100', duration: 90 + i * 7, ease: 'none', repeat: -1 }))
   }, { scope: ref })
 
   return (
@@ -92,9 +85,11 @@ export default function Viaje() {
       <div className="pista-viaje">
         {PARADAS.map((p, i) => (
           <article key={p.clave} className="parada">
-            <button className="abre-foto" onClick={() => setAbierta(p.clave)} aria-label={`Ver la foto de ${NOMBRES[p.clave][0]} a pantalla completa`}>
-              <Medallon clave={p.clave} id={`v${i}`} />
-              <span className="lupa" aria-hidden="true">4K</span>
+            <button className="foto-parada" onClick={() => setAbierta(p.clave)} aria-label={`Ver la foto de ${NOMBRES[p.clave][0]} a pantalla completa`}>
+              <img src={foto(p.clave)} srcSet={`${foto(p.clave)} 900w, ${foto(p.clave, true)} 3840w`} sizes="(max-width: 760px) 84vw, 20rem"
+                alt={NOMBRES[p.clave][0]} loading="lazy" decoding="async" />
+              <figcaption><span>{NOMBRES[p.clave][1]}</span><span dir="rtl">{NOMBRES[p.clave][2]}</span></figcaption>
+              <span className="lupa" aria-hidden="true">VER EN 4K</span>
             </button>
             <div className="cuerpo">
               <p className="paso"><span>{String(i + 1).padStart(2, '0')}</span>{p.paso}</p>
