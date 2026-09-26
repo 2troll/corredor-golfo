@@ -1,7 +1,7 @@
 // La escena fija detrás del relato: estrellas, el globo, las partículas de los
 // datos y un postprocesado de cine (bloom, tono ACES, viñeta, grano y SMAA).
 import { useFrame, useThree } from '@react-three/fiber'
-import { Stars } from '@react-three/drei'
+import { Stars, Environment, Lightformer } from '@react-three/drei'
 import { EffectComposer, Bloom, Vignette, Noise, SMAA, ToneMapping, ChromaticAberration } from '@react-three/postprocessing'
 import { BlendFunction, ToneMappingMode } from 'postprocessing'
 import { Vector2 } from 'three'
@@ -34,6 +34,13 @@ export default function Escena({ trafico }: { trafico: Trafico | null }) {
     <>
       <color attach="background" args={['#02060a']} />
       <Fondo />
+      {/* estudio fotográfico procedural para los reflejos del metal y la pintura: sin descargar HDR */}
+      <Environment resolution={256} frames={1}>
+        <Lightformer form="rect" intensity={3} position={[0, 4, 3]} scale={[8, 2, 1]} />
+        <Lightformer form="rect" intensity={1.6} color="#9fd8ff" position={[-5, 1, -2]} rotation-y={Math.PI / 2} scale={[6, 3, 1]} />
+        <Lightformer form="ring" intensity={2.2} color="#e9b872" position={[4, 1, 2]} scale={2} />
+        <Lightformer form="rect" intensity={0.6} position={[0, -3, 0]} rotation-x={Math.PI / 2} scale={[10, 10, 1]} />
+      </Environment>
       <Stars radius={70} depth={50} count={4200} factor={2.6} saturation={0} fade speed={0.35} />
       <Camara />
       {!SIN.has('globo') && <Globo trafico={trafico} />}
