@@ -1,0 +1,2521 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Estudio de viabilidad del mercado emisor del Golfo hacia Japón: tamaño, estacionalidad, corredor aéreo, costes del operador y honorarios de la consultora. Con simulador orientativo de costes.">
+<meta name="color-scheme" content="light dark">
+<meta property="og:title" content="El corredor del Golfo">
+<meta property="og:description" content="Estudio de viabilidad del mercado emisor del Golfo hacia Japón, con simulador orientativo de costes del operador.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://2troll.github.io/corredor-golfo/estudio.html">
+<meta property="og:image" content="https://2troll.github.io/corredor-golfo/img/compartir.jpg">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="El corredor del Golfo: la Tierra con el corredor aéreo Golfo–Japón">
+<meta property="og:locale" content="es_ES">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#0a161d">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230d1f2a'/%3E%3Ccircle cx='16' cy='16' r='9' fill='none' stroke='%231f6b5e' stroke-width='2'/%3E%3Cpath d='M16 7v18M7 16h18' stroke='%231f6b5e' stroke-width='1.2' opacity='.6'/%3E%3C/svg%3E">
+<title>El corredor del Golfo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&family=Geist+Mono:wght@400..600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ── Paleta: del puerto y de la duna, no del catálogo ──────────────────── */
+:root{
+  --papel:#eceee9; --papel2:#e2e6e0; --sup:#f6f7f4;
+  --tinta:#0d1f2a; --tinta2:#455a5f; --tinta3:#6a7570;
+  --marea:#1f6b5e; --marea-sup:#dfeae4;
+  --duna:#a86d2a; --duna-sup:#f2e7d6;
+  --coral:#a33b2a; --coral-sup:#f6e2dd;
+  --linea:rgba(13,31,42,.14); --linea2:rgba(13,31,42,.07);
+  --hondo:#0d1f2a; --hondo-txt:#dde5e2;
+  --disp:"Source Serif 4",Georgia,serif;
+  --cuerpo:"IBM Plex Sans",system-ui,-apple-system,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,monospace;
+  --rail:15rem;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --papel:#0a161d; --papel2:#0f202a; --sup:#122430;
+  --tinta:#e0e7e5; --tinta2:#a5b7b8; --tinta3:#7b8d8c;
+  --marea:#5fbfa8; --marea-sup:#0f2e28;
+  --duna:#d9a45c; --duna-sup:#2e2416;
+  --coral:#e08a76; --coral-sup:#2e1a16;
+  --linea:rgba(224,231,229,.15); --linea2:rgba(224,231,229,.07);
+  --hondo:#061118; --hondo-txt:#dde5e2;
+}}
+:root[data-theme="dark"]{
+  --papel:#0a161d; --papel2:#0f202a; --sup:#122430;
+  --tinta:#e0e7e5; --tinta2:#a5b7b8; --tinta3:#7b8d8c;
+  --marea:#5fbfa8; --marea-sup:#0f2e28;
+  --duna:#d9a45c; --duna-sup:#2e2416;
+  --coral:#e08a76; --coral-sup:#2e1a16;
+  --linea:rgba(224,231,229,.15); --linea2:rgba(224,231,229,.07);
+  --hondo:#061118; --hondo-txt:#dde5e2;
+}
+*,*::before,*::after{box-sizing:border-box}
+.ahora{display:flex;flex-wrap:wrap;align-items:center;gap:.4rem 1.3rem;margin-top:1.6rem;padding:.75rem 1rem;
+  border:1px solid var(--linea);border-radius:4px;background:var(--sup);color:var(--tinta2);text-decoration:none;
+  font-size:.9rem;max-width:62rem;transition:border-color .2s}
+.ahora[hidden]{display:none}
+.experiencia{display:inline-flex;align-items:center;gap:.5rem;margin-top:1.2rem;padding:.7rem 1.2rem;border-radius:999px;
+  background:var(--marea);color:var(--marea-sup);font-weight:600;text-decoration:none;transition:transform .2s,box-shadow .2s}
+.experiencia:hover{transform:translateY(-1px);box-shadow:0 8px 24px rgba(79,214,182,.25)}
+.ahora:hover{border-color:var(--marea)}
+.ahora b{font-family:var(--disp);font-weight:600;font-size:1.25rem;color:var(--tinta);font-variant-numeric:tabular-nums}
+.ahora .et{font-family:var(--mono);font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;color:var(--marea)}
+.ahora .ir{margin-inline-start:auto;font-family:var(--mono);font-size:.72rem;color:var(--marea)}
+.ahora .punto{width:.55rem;height:.55rem;border-radius:50%;background:var(--marea);box-shadow:0 0 0 0 var(--marea);
+  animation:late 2s infinite}
+@keyframes late{0%{box-shadow:0 0 0 0 color-mix(in srgb,var(--marea) 60%,transparent)}
+  100%{box-shadow:0 0 0 .6rem transparent}}
+.lectura{position:fixed;top:0;left:0;right:0;height:2px;background:var(--marea);transform-origin:0 50%;
+  transform:scaleX(0);z-index:50;pointer-events:none}
+.revela{opacity:0;transform:translateY(14px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.7,.2,1)}
+.revela.visto{opacity:1;transform:none}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation:none!important;transition:none!important}}
+body{margin:0;background:var(--papel);color:var(--tinta);
+  font-family:var(--cuerpo);font-weight:400;font-size:17px;line-height:1.62;
+  -webkit-font-smoothing:antialiased}
+h1,h2,h3{font-family:var(--disp);font-weight:600;font-optical-sizing:auto;margin:0;line-height:1.08;text-wrap:balance}
+p{margin:0 0 1em;max-width:68ch}
+a{color:var(--marea)}
+:focus-visible{outline:2px solid var(--marea);outline-offset:3px;border-radius:2px}
+.num{font-variant-numeric:tabular-nums}
+.env{width:min(100% - 2.5rem,72rem);margin-inline:auto}
+
+/* ── Raíl de índice ─────────────────────────────────────────────────────── */
+.rail{position:fixed;inset-block:0;inset-inline-start:0;width:var(--rail);
+  padding:1.5rem 1rem;overflow-y:auto;border-inline-end:1px solid var(--linea);
+  background:var(--papel2);display:flex;flex-direction:column;gap:.1rem;z-index:30}
+.rail .marca{font-family:var(--disp);font-size:1.3rem;line-height:1.1;margin-bottom:.15rem}
+.rail .sub{font-family:var(--mono);font-size:.62rem;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--tinta3);margin-bottom:1.3rem}
+.rail a{display:flex;gap:.5rem;align-items:baseline;color:var(--tinta2);
+  text-decoration:none;font-size:.79rem;padding:.28rem .4rem;border-radius:3px;
+  border-inline-start:2px solid transparent;line-height:1.35}
+.rail a:hover{background:var(--papel);color:var(--tinta)}
+.rail a.aqui{color:var(--marea);border-inline-start-color:var(--marea);
+  background:var(--marea-sup);font-weight:500}
+.rail a i{font-family:var(--mono);font-style:normal;font-size:.66rem;
+  color:var(--tinta3);min-width:1.3rem}
+.rail a.aqui i{color:var(--marea)}
+.rail .pie{margin-top:auto;padding-top:1rem;font-size:.7rem;color:var(--tinta3);
+  border-top:1px solid var(--linea)}
+.tema{margin-top:.6rem;font:inherit;font-size:.72rem;cursor:pointer;background:none;
+  border:1px solid var(--linea);color:var(--tinta2);padding:.3rem .6rem;border-radius:3px}
+.tema:hover{border-color:var(--tinta2);color:var(--tinta)}
+main{margin-inline-start:var(--rail)}
+@media(max-width:900px){
+  .rail{position:static;width:auto;inset:auto;border-inline-end:0;
+    border-block-end:1px solid var(--linea);flex-direction:row;flex-wrap:wrap;
+    align-items:center;gap:.3rem;padding:.9rem 1rem}
+  .rail .sub,.rail .pie{display:none}
+  .rail a{font-size:.72rem;padding:.3rem .45rem;border-inline-start:0;border-radius:99px;
+    border:1px solid var(--linea)}
+  .rail a i{display:none}
+  main{margin-inline-start:0}
+}
+
+/* ── Portada ────────────────────────────────────────────────────────────── */
+.portada{padding-block:clamp(2.6rem,6vw,4.5rem) clamp(2rem,4vw,3rem);
+  border-block-end:1px solid var(--linea)}
+.epig{font-family:var(--mono);font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--marea);margin:0 0 1.1rem}
+.portada h1{font-size:clamp(2.2rem,5.2vw,3.9rem);max-width:18ch;letter-spacing:-.018em}
+.portada h1 em{font-style:italic;color:var(--marea)}
+.entradilla{margin-top:1.5rem;font-size:clamp(1.05rem,1.4vw,1.22rem);max-width:56ch;
+  color:var(--tinta);opacity:.85;line-height:1.55}
+.sellos{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:1.6rem}
+.sello{font-family:var(--mono);font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;
+  border:1px solid var(--linea);border-radius:99px;padding:.32rem .8rem;color:var(--tinta2)}
+.sello.ok{color:var(--marea);border-color:color-mix(in srgb,var(--marea) 45%,transparent);
+  background:var(--marea-sup)}
+
+/* ── Secciones ──────────────────────────────────────────────────────────── */
+section{padding-block:clamp(2.2rem,4vw,3.4rem);border-block-end:1px solid var(--linea2)}
+section > .env > header{display:flex;gap:.9rem;align-items:baseline;margin-bottom:1.3rem;
+  flex-wrap:wrap}
+section h2{font-size:clamp(1.5rem,2.4vw,1.95rem);letter-spacing:-.012em}
+.clave{font-family:var(--mono);font-size:.74rem;color:var(--marea);letter-spacing:.08em}
+section h3{font-size:clamp(1.3rem,2vw,1.55rem);margin:2rem 0 .8rem}
+.tras{margin-inline-start:auto;font-family:var(--mono);font-size:.7rem;color:var(--tinta3);
+  letter-spacing:.06em;text-transform:uppercase}
+
+/* ── Tarjetas de cifra ──────────────────────────────────────────────────── */
+.rejilla{display:grid;gap:.9rem;grid-template-columns:repeat(auto-fit,minmax(12rem,1fr));
+  margin-block:1.2rem}
+.tarj{background:var(--sup);border:1px solid var(--linea);border-radius:4px;
+  padding:1.1rem 1.15rem 1.25rem;display:flex;flex-direction:column}
+/* La línea de precio cae al mismo alto en las tres aunque el texto de arriba
+   mida distinto: si no, tres tarjetas iguales se leen como tres desiguales. */
+.tarj .n{margin-top:auto}
+.tarj .et{font-family:var(--mono);font-size:.66rem;letter-spacing:.11em;text-transform:uppercase;
+  color:var(--tinta3);display:block;margin-bottom:.5rem}
+.tarj .v{font-family:var(--disp);font-size:2.3rem;line-height:1.05;display:block;
+  font-variant-numeric:tabular-nums}
+.tarj .n{font-size:.82rem;color:var(--tinta2);margin-top:.6rem;display:block;line-height:1.45}
+.tarj.ac .v{color:var(--marea)} .tarj.al .v{color:var(--coral)} .tarj.av .v{color:var(--duna)}
+.tarj.hondo{background:var(--hondo);border-color:var(--hondo);color:var(--hondo-txt)}
+.tarj.hondo .et{color:color-mix(in srgb,var(--hondo-txt) 62%,transparent)}
+.tarj.hondo .n{color:color-mix(in srgb,var(--hondo-txt) 78%,transparent)}
+
+/* ── Avisos ─────────────────────────────────────────────────────────────── */
+.aviso{border-inline-start:3px solid var(--marea);background:var(--marea-sup);
+  padding:.85rem 1.05rem;border-radius:0 3px 3px 0;margin-block:1.1rem;font-size:.94rem}
+.aviso.mal{border-inline-start-color:var(--coral);background:var(--coral-sup)}
+.aviso.med{border-inline-start-color:var(--duna);background:var(--duna-sup)}
+.aviso b{font-weight:600}
+.aviso p:last-child{margin-bottom:0}
+
+/* ── Tablas ─────────────────────────────────────────────────────────────── */
+.tabla-caja{overflow-x:auto;margin-block:1.1rem;border:1px solid var(--linea);border-radius:4px}
+table{width:100%;border-collapse:collapse;font-size:.9rem;background:var(--sup)}
+th,td{text-align:start;padding:.6rem .85rem;border-block-end:1px solid var(--linea2);
+  vertical-align:top}
+th{font-family:var(--mono);font-size:.67rem;letter-spacing:.09em;text-transform:uppercase;
+  color:var(--tinta3);font-weight:500;background:var(--papel2);
+  border-block-end:1px solid var(--linea);white-space:nowrap}
+td.n,th.n{text-align:end;font-variant-numeric:tabular-nums;white-space:nowrap}
+tr.tot td{border-block:1px solid var(--tinta);font-weight:600;background:var(--papel2)}
+.det{display:block;font-size:.78rem;color:var(--tinta3);margin-top:.2rem;line-height:1.42}
+.orig{display:inline-block;font-family:var(--mono);font-size:.6rem;letter-spacing:.07em;
+  text-transform:uppercase;padding:.08rem .36rem;border-radius:2px;border:1px solid;
+  margin-inline-start:.35rem;vertical-align:.1em}
+.orig.dato{color:var(--marea);border-color:color-mix(in srgb,var(--marea) 45%,transparent)}
+.orig.observado{color:var(--duna);border-color:color-mix(in srgb,var(--duna) 45%,transparent)}
+.orig.supuesto{color:var(--tinta3);border-color:var(--linea)}
+
+/* ── Gráficos ───────────────────────────────────────────────────────────── */
+.gr{background:var(--sup);border:1px solid var(--linea);border-radius:4px;
+  padding:1.1rem 1.15rem 1rem;margin-block:1.2rem}
+.gr{position:relative}
+.tres{position:relative;margin-top:.4rem;border-radius:3px;overflow:hidden;
+  background:radial-gradient(ellipse at 50% 35%,color-mix(in srgb,var(--marea) 9%,transparent),transparent 70%)}
+.tres[hidden]{display:none}
+.tres canvas{display:block;width:100%;cursor:grab}
+.tres-rotulos{position:absolute;inset:0;pointer-events:none}
+.tres-rotulos .r{position:absolute;left:0;top:0;font-family:var(--mono);font-size:.66rem;color:var(--tinta2);
+  white-space:nowrap;letter-spacing:.03em}
+.tres-rotulos .r.fuerte{color:var(--marea);font-weight:500}
+.tres-rotulos .r.alerta{color:var(--coral)}
+.tres-rotulos .r.suave{color:var(--tinta3)}
+.tres-tip{position:absolute;left:0;top:0;pointer-events:none;background:var(--hondo);color:var(--hondo-txt);
+  font-family:var(--mono);font-size:.7rem;padding:.4rem .55rem;border-radius:3px;white-space:nowrap;
+  box-shadow:0 4px 14px rgba(0,0,0,.3)}
+.tres-tip b{display:block;font-family:var(--cuerpo);font-size:.78rem;margin-bottom:.1rem}
+.tres-tip[hidden]{display:none}
+.tres-aviso{position:absolute;right:.6rem;bottom:.5rem;font-family:var(--mono);font-size:.6rem;color:var(--tinta3)}
+.tres-modo{position:absolute;top:.7rem;right:.7rem;display:flex;border:1px solid var(--linea);border-radius:999px;
+  overflow:hidden;z-index:2;background:var(--sup)}
+.tres-modo button{font:500 .68rem/1 var(--mono);letter-spacing:.06em;padding:.38rem .7rem;border:0;cursor:pointer;
+  background:transparent;color:var(--tinta3)}
+.tres-modo button[aria-pressed="true"]{background:var(--marea);color:var(--papel)}
+@media print{.tres,.tres-modo{display:none!important}.gr svg{display:block!important}}
+.ech .lienzo-e{width:100%}
+.gr figcaption{font-size:.8rem;color:var(--tinta3);margin-top:.7rem;line-height:1.45;
+  max-width:70ch}
+.gr svg{display:block;width:100%;height:auto;max-width:100%;overflow:visible}
+.leyenda{display:flex;gap:1.1rem;flex-wrap:wrap;font-size:.76rem;color:var(--tinta2);
+  margin-bottom:.7rem;font-family:var(--mono)}
+.leyenda span{display:flex;align-items:center;gap:.35rem}
+.leyenda i{width:.8rem;height:.8rem;border-radius:2px;display:block}
+
+/* Calendario de meses: pulsable */
+.meses{display:grid;grid-template-columns:repeat(12,1fr);gap:.25rem}
+@media(max-width:760px){.meses{grid-template-columns:repeat(6,1fr)}}
+.mes{background:var(--papel2);border:1px solid var(--linea);border-radius:3px;
+  padding:.5rem .2rem .45rem;text-align:center;cursor:pointer;position:relative;
+  overflow:hidden;font:inherit;color:var(--tinta);transition:border-color .15s,transform .1s}
+.mes:hover{border-color:var(--tinta2)} .mes:active{transform:translateY(1px)}
+.mes b{display:block;font-family:var(--mono);font-size:.62rem;letter-spacing:.07em;
+  text-transform:uppercase;color:var(--tinta3);position:relative;z-index:1}
+.mes .v{font-family:var(--disp);font-size:1.15rem;position:relative;z-index:1;
+  font-variant-numeric:tabular-nums}
+.mes i{position:absolute;inset-inline:0;bottom:0;display:block;
+  background:color-mix(in srgb,var(--marea) 24%,transparent)}
+.mes[aria-pressed="true"]{border-color:var(--marea);box-shadow:inset 0 0 0 1px var(--marea)}
+.mes.malo i{background:color-mix(in srgb,var(--coral) 22%,transparent)}
+.mes.malo{border-color:color-mix(in srgb,var(--coral) 40%,transparent)}
+
+/* ── Mandos del cotizador ───────────────────────────────────────────────── */
+.mesa{display:grid;gap:1.2rem;grid-template-columns:1fr;align-items:start}
+@media(max-width:1059px){.mandos{position:static}}
+@media(min-width:1060px){.mesa{grid-template-columns:19rem 1fr}}
+.mandos{position:sticky;top:1.2rem;background:var(--sup);border:1px solid var(--linea);border-radius:4px;
+  padding:1.1rem 1.1rem 1.3rem;display:grid;gap:.9rem}
+.campo{display:grid;gap:.35rem}
+.campo > span{font-family:var(--mono);font-size:.66rem;letter-spacing:.11em;
+  text-transform:uppercase;color:var(--tinta3)}
+select,input[type=number]{font:inherit;font-size:.94rem;color:var(--tinta);
+  background:var(--papel);border:1px solid var(--linea);border-radius:3px;
+  padding:.5rem .6rem;width:100%}
+select:focus,input:focus{outline:0;border-color:var(--marea);
+  box-shadow:0 0 0 3px color-mix(in srgb,var(--marea) 20%,transparent)}
+.par{display:grid;grid-template-columns:1fr 1fr;gap:.6rem}
+.pista{font-size:.75rem;color:var(--tinta3);line-height:1.45}
+.botones{display:flex;gap:.55rem;flex-wrap:wrap;margin-top:1rem;align-items:center}
+.bt{font:inherit;font-size:.86rem;cursor:pointer;border:1px solid var(--tinta);
+  background:none;color:var(--tinta);padding:.55rem 1.05rem;border-radius:3px;
+  transition:background-color .15s,color .15s,transform .1s}
+.bt:hover{background:var(--tinta);color:var(--papel)}
+.bt:active{transform:translateY(1px)}
+.bt.pri{background:var(--marea);border-color:var(--marea);color:#fff}
+.bt.pri:hover{filter:brightness(1.1)}
+.bt[disabled]{opacity:.45;cursor:not-allowed}
+.soplo{font-size:.82rem;color:var(--marea);opacity:0;transition:opacity .25s}
+.soplo.ver{opacity:1}
+
+/* ── Globo del corredor ─────────────────────────────────────────────────── */
+.globo-caja{position:relative;background:var(--hondo);border-radius:4px;overflow:hidden;
+  border:1px solid var(--hondo);min-height:340px}
+#globo{display:block;width:100%;height:clamp(460px,58vw,640px)}
+.globo-hud{position:absolute;top:.9rem;left:.9rem;display:flex;gap:.55rem;flex-wrap:wrap;pointer-events:none;
+  max-width:calc(100% - 1.8rem)}
+.globo-hud div{background:rgba(4,12,18,.62);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
+  border:1px solid rgba(221,229,226,.14);border-radius:3px;padding:.5rem .7rem;min-width:8.5rem;color:#dde5e2}
+.globo-hud .et{display:block;font-family:var(--mono);font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;
+  color:rgba(221,229,226,.62)}
+.globo-hud b{display:block;font-family:var(--disp);font-weight:600;font-size:1.55rem;line-height:1.15;
+  font-variant-numeric:tabular-nums;color:#fff}
+.globo-hud i{display:block;font-style:normal;font-family:var(--mono);font-size:.62rem;color:#8fe6cf}
+.globo-pie .ley{display:inline-flex;align-items:center;gap:.35rem;margin-inline-end:.9rem}
+.globo-pie .l{display:inline-block;width:1.1rem;height:2px;background:#5fe0c0}
+.globo-pie .l.an{background:repeating-linear-gradient(90deg,#f0c078 0 4px,transparent 4px 7px)}
+.globo-pie .l.ccg{height:.6rem;width:.6rem;background:none;border:1.5px solid #5fe0c0}
+.globo-pie .l.jp{height:.6rem;width:.6rem;background:none;border:1.5px solid #f0c078}
+.globo-pie .l.lluvia{height:.5rem;width:1.3rem;background:linear-gradient(90deg,#26a4ff,#1ec94a,#f4e21c,#f0452c)}
+.globo-pie .l.fuego{height:.4rem;width:.4rem;border-radius:50%;background:#ff8a3a;box-shadow:0 0 6px #ff7a2a}
+.globo-pie .l.aire{height:.4rem;width:.4rem;border-radius:50%;background:#ffe2a8;box-shadow:0 0 6px #ffc56b}
+.globo-nombres .nombre b{display:block;font-weight:500}
+.globo-nombres .nombre small{display:block;font-size:.58rem;letter-spacing:.02em;opacity:.78;font-weight:400}
+.globo-pie .reloj{color:#fff}
+.globo-pie .nota{display:block;margin-top:.3rem;color:rgba(221,229,226,.55);font-size:.62rem}
+
+.globo-pie{position:absolute;inset-inline:0;bottom:0;padding:.7rem .9rem;
+  background:linear-gradient(to top,rgba(6,17,24,.92),transparent);
+  color:var(--hondo-txt);font-family:var(--mono);font-size:.72rem;letter-spacing:.05em}
+.globo-nombres{position:absolute;inset:0;pointer-events:none}
+.globo-escala{position:absolute;right:.9rem;top:.9rem;display:grid;grid-template-columns:auto 7rem auto;gap:.45rem;
+  align-items:center;font-family:var(--mono);font-size:.6rem;color:#dde5e2;background:rgba(4,12,18,.62);
+  border:1px solid rgba(221,229,226,.14);border-radius:3px;padding:.4rem .6rem}
+.globo-escala[hidden],.globo-pie .ley[hidden]{display:none}
+.globo-escala i{height:.45rem;border-radius:2px}
+.globo-escala[data-tipo="calor"] i{background:linear-gradient(90deg,#7b2dbd,#2f64ff,#1ec9c9,#56d64b,#f4e21c,#f08a24,#e3342f)}
+.globo-escala[data-tipo="polvo"] i{background:linear-gradient(90deg,#fff7c9,#fcd37a,#f39c4a,#d4502a,#8c1d17)}
+.globo-escala[data-tipo="calor"] .e-polvo,.globo-escala[data-tipo="polvo"] .e-calor{display:none}
+.globo-mandos{display:flex;flex-wrap:wrap;gap:.55rem 1.4rem;margin-top:.8rem;align-items:center}
+.globo-mandos .grupo{display:flex;flex-wrap:wrap;gap:.3rem;align-items:center}
+.globo-mandos .et{font-family:var(--mono);font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--tinta3);margin-inline-end:.25rem}
+.globo-mandos button{font:500 .78rem/1 var(--cuerpo);color:var(--tinta2);background:var(--sup);
+  border:1px solid var(--linea);border-radius:999px;padding:.42rem .75rem;cursor:pointer;
+  transition:background .15s,color .15s,border-color .15s}
+.globo-mandos button:hover{border-color:var(--marea);color:var(--tinta)}
+.globo-mandos button[aria-pressed="true"]{background:var(--marea);border-color:var(--marea);color:var(--papel)}
+.globo-mandos .hora input{accent-color:var(--marea);width:9rem}
+.globo-mandos .hora-v{font-family:var(--mono);font-size:.68rem;color:var(--tinta2);min-width:9.5rem}
+/* en el móvil el panel va encima de la esfera y la leyenda debajo: superpuestos la tapaban */
+@media (max-width:760px){
+  .globo-caja{display:flex;flex-direction:column}
+  .globo-hud{order:-1;position:static;display:grid;grid-template-columns:1fr 1fr;gap:.4rem;padding:.6rem .6rem 0;max-width:none}
+  .globo-hud div{min-width:0;padding:.35rem .5rem}.globo-hud b{font-size:1.1rem}.globo-hud i{font-size:.56rem}
+  .globo-pie{position:static;background:none;padding-top:.2rem}
+  #globo{height:420px}
+}
+.globo-nombres .nombre{position:absolute;top:0;left:0;font-family:var(--mono);
+  font-size:.68rem;letter-spacing:.05em;color:#dde5e2;white-space:nowrap;
+  transform-origin:0 0;margin:-.62em 0 0 1.05em;text-shadow:0 1px 4px rgba(0,0,0,.95);
+  transition:opacity .2s}
+.globo-nombres .nombre.puerta{color:#e7bd7e;font-weight:500}
+.globo-nombres .nombre.apagado{color:#8a9691}
+.globo-carga{position:absolute;inset:0;display:grid;place-items:center;
+  color:color-mix(in srgb,var(--hondo-txt) 60%,transparent);font-family:var(--mono);
+  font-size:.76rem}
+
+footer{padding-block:2.4rem 4rem;color:var(--tinta3);font-size:.84rem}
+footer ol{padding-inline-start:1.3rem;line-height:1.7;max-width:74ch}
+footer h3{font-family:var(--mono);font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;
+  margin-bottom:.8rem;color:var(--tinta3)}
+@media print{.rail{display:none}main{margin:0}.bt,.mandos{display:none}}
+
+/* ══ Edición cristal ═══════════════════════════════════════════════════════
+   La letra del sistema de Apple (SF Pro y SF Mono en un Mac; Geist y Geist Mono,
+   libres y casi idénticas, en el resto), cifras y etiquetas en monoespaciada como
+   una terminal bien cuidada, y paneles de cristal líquido: translúcidos, con brillo
+   en el borde y desenfoque de lo que hay detrás. Sobre un fondo con luz ambiental,
+   para que el cristal tenga algo que refractar. */
+:root{
+  --ui:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text","Geist",system-ui,sans-serif;
+  --mono:"SF Mono",ui-monospace,"Geist Mono",Menlo,Consolas,monospace;
+  --disp:var(--ui); --cuerpo:var(--ui);
+  --papel:#f5f5f7; --papel2:#ececf0; --sup:rgba(255,255,255,.62);
+  --tinta:#1d1d1f; --tinta2:#515154; --tinta3:#86868b;
+  --marea:#0f7a6a; --marea-sup:rgba(15,122,106,.1); --duna:#a8641c; --duna-sup:rgba(168,100,28,.1);
+  --coral:#c2412d; --coral-sup:rgba(194,65,45,.1);
+  --linea:rgba(0,0,0,.1); --linea2:rgba(0,0,0,.05);
+  --vidrio:rgba(255,255,255,.62); --vidrio-alto:rgba(255,255,255,.86); --vidrio-borde:rgba(255,255,255,.8); --vidrio-sombra:0 1px 1px rgba(0,0,0,.04),0 12px 40px -12px rgba(0,0,0,.18);
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --papel:#000; --papel2:#0b0b0d; --sup:rgba(28,28,30,.55);
+  --tinta:#f5f5f7; --tinta2:#aeaeb2; --tinta3:#7c7c80;
+  --marea:#5fd4bd; --marea-sup:rgba(95,212,189,.12); --duna:#f0b35e; --duna-sup:rgba(240,179,94,.12);
+  --coral:#ff7a63; --coral-sup:rgba(255,122,99,.12);
+  --linea:rgba(255,255,255,.12); --linea2:rgba(255,255,255,.06);
+  --vidrio:rgba(30,30,33,.62); --vidrio-alto:rgba(48,48,52,.62); --vidrio-borde:rgba(255,255,255,.12); --vidrio-sombra:0 1px 0 rgba(255,255,255,.06) inset,0 18px 50px -18px rgba(0,0,0,.8);
+}}
+:root[data-theme="dark"]{
+  --papel:#000; --papel2:#0b0b0d; --sup:rgba(28,28,30,.55);
+  --tinta:#f5f5f7; --tinta2:#aeaeb2; --tinta3:#7c7c80;
+  --marea:#5fd4bd; --marea-sup:rgba(95,212,189,.12); --duna:#f0b35e; --duna-sup:rgba(240,179,94,.12);
+  --coral:#ff7a63; --coral-sup:rgba(255,122,99,.12);
+  --linea:rgba(255,255,255,.12); --linea2:rgba(255,255,255,.06);
+  --vidrio:rgba(30,30,33,.62); --vidrio-alto:rgba(48,48,52,.62); --vidrio-borde:rgba(255,255,255,.12); --vidrio-sombra:0 1px 0 rgba(255,255,255,.06) inset,0 18px 50px -18px rgba(0,0,0,.8);
+}
+html{scroll-behavior:auto}
+body{font-family:var(--ui);font-size:17px;line-height:1.6;letter-spacing:-.011em;background:var(--papel)}
+/* la luz ambiental va en una capa fija propia: la GPU la compone sin repintar al hacer scroll */
+body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:
+    radial-gradient(60rem 40rem at 85% -5%,color-mix(in srgb,var(--marea) 16%,transparent),transparent 70%),
+    radial-gradient(50rem 36rem at 10% 45%,color-mix(in srgb,var(--duna) 11%,transparent),transparent 70%),
+    radial-gradient(56rem 40rem at 90% 95%,color-mix(in srgb,var(--marea) 10%,transparent),transparent 70%)}
+h1,h2,h3{font-family:var(--ui);font-weight:650;letter-spacing:-.035em}
+p{max-width:64ch}
+.env{width:min(100% - 3rem,70rem)}
+/* el cristal: un solo sitio lo define. El desenfoque real sólo en el índice (un elemento
+   fijo); tarjetas, tablas y figuras llevan cristal simulado, translúcido con brillo en el
+   borde, porque desenfocar decenas de bloques al hacer scroll da tirones */
+.tarj,.tabla-caja,.gr,.aviso,.ahora,.sello{background:linear-gradient(180deg,var(--vidrio-alto),var(--vidrio));
+  border:1px solid var(--vidrio-borde);box-shadow:var(--vidrio-sombra)}
+.rail{background:var(--vidrio);-webkit-backdrop-filter:blur(22px) saturate(1.8);backdrop-filter:blur(22px) saturate(1.8)}
+.rail{border-width:0 1px 0 0;border-radius:0}
+.rail .marca{font-family:var(--ui);font-weight:650;letter-spacing:-.03em;font-size:1.25rem}
+.rail .sub,.rail a i{font-family:var(--mono)}
+.rail a{border-radius:9px;border-inline-start:0;transition:background .25s,color .25s}
+.rail a.aqui{background:var(--marea-sup);color:var(--marea)}
+.rail a.aqui i{color:var(--marea)}
+/* portada: grande y limpia, como una keynote */
+.portada{padding-block:clamp(4rem,10vw,8rem) clamp(3rem,6vw,5rem)}
+.portada h1{font-weight:700;font-size:clamp(2.8rem,6.6vw,5.8rem);line-height:1.02;letter-spacing:-.045em;max-width:15ch}
+.portada h1 em{font-style:normal;background:linear-gradient(90deg,var(--marea),var(--duna));-webkit-background-clip:text;background-clip:text;color:transparent}
+.entradilla{font-size:clamp(1.1rem,1.5vw,1.3rem);color:var(--tinta2);max-width:54ch;margin-top:2rem;opacity:1}
+.epig{font-family:var(--mono);color:var(--marea);letter-spacing:.04em;text-transform:none;font-size:.8rem}
+.epig::before{content:"$ ";color:var(--tinta3)}
+.sello{border-radius:999px;font-family:var(--mono);letter-spacing:0;text-transform:none;font-size:.74rem}
+.sello.ok{color:var(--marea)}
+/* secciones: una línea de terminal encima del titular */
+section{padding-block:clamp(4rem,8vw,7rem);border-block-end:0}
+section > .env > header{display:flex;flex-direction:column;align-items:flex-start;gap:.7rem;margin-bottom:2rem;border:0;padding:0}
+.clave{order:-1;font-family:var(--mono);font-size:.8rem;letter-spacing:0;color:var(--marea);
+  padding:.28rem .7rem;border-radius:999px;background:var(--marea-sup);border:1px solid color-mix(in srgb,var(--marea) 30%,transparent)}
+.clave::before{content:"~/estudio/";color:var(--tinta3)}
+.clave::after{content:"▍";margin-inline-start:.15rem;animation:cursor 1.1s steps(1) infinite}
+@keyframes cursor{50%{opacity:0}}
+section h2{font-weight:700;font-size:clamp(2rem,4vw,3.3rem);line-height:1.05;letter-spacing:-.04em;max-width:22ch}
+.tras{margin:0;font-family:var(--mono);letter-spacing:0;text-transform:none;font-size:.76rem}
+.tras::before{content:"// ";opacity:.6}
+section h3{font-weight:650;font-size:clamp(1.3rem,2vw,1.6rem);letter-spacing:-.03em}
+/* cifras: tarjetas de cristal con número en monoespaciada */
+.rejilla{gap:1rem;margin-block:1.8rem}
+.tarj{border-radius:18px;padding:1.2rem 1.25rem 1.3rem;transition:transform .35s cubic-bezier(.2,.8,.2,1),box-shadow .35s}
+.tarj:hover{transform:translateY(-2px)}
+.tarj .et{font-family:var(--mono);letter-spacing:0;text-transform:none;font-size:.72rem}
+.tarj .v{font-family:var(--mono);font-weight:500;font-size:clamp(1.9rem,3vw,2.5rem);letter-spacing:-.04em}
+.tarj.hondo{background:color-mix(in srgb,var(--tinta) 88%,transparent);color:var(--papel);border-color:transparent}
+.tarj.hondo .et,.tarj.hondo .n{color:color-mix(in srgb,var(--papel) 70%,transparent)}
+/* tablas y figuras */
+.tabla-caja{border-radius:18px;overflow:hidden}
+table{background:transparent;font-size:.9rem}
+th{background:transparent;font-family:var(--mono);letter-spacing:0;text-transform:none;font-size:.72rem}
+td.n{font-family:var(--mono);font-size:.86rem}
+tr.tot td{background:var(--marea-sup);border-block:0}
+.gr{border-radius:22px;padding:1.4rem 1.4rem 1.1rem;margin-block:1.8rem}
+.gr figcaption{font-family:var(--ui)}
+.aviso{border-radius:16px;border-inline-start-width:1px;padding:1rem 1.2rem;font-size:.96rem}
+.aviso.med{border-color:color-mix(in srgb,var(--duna) 35%,transparent)} .aviso.mal{border-color:color-mix(in srgb,var(--coral) 35%,transparent)}
+.aviso::before{content:"⚠︎ nota";display:block;font-family:var(--mono);font-size:.7rem;color:var(--duna);margin-bottom:.3rem}
+.aviso:not(.med):not(.mal)::before{content:"✓ clave";color:var(--marea)}
+.orig{border-radius:6px;font-family:var(--mono);text-transform:none;letter-spacing:0}
+/* láminas fotográficas con pie de cristal */
+.lamina{position:relative;margin:0 clamp(.8rem,2vw,1.6rem);height:clamp(24rem,74vh,54rem);overflow:hidden;border-radius:28px;background:#000}
+.lamina img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;will-change:transform}
+.lamina figcaption{position:absolute;left:1.2rem;bottom:1.2rem;right:auto;max-width:min(36rem,calc(100% - 2.4rem));z-index:1;color:#fff;
+  padding:1rem 1.2rem;border-radius:18px;background:rgba(14,14,16,.58);-webkit-backdrop-filter:blur(24px) saturate(1.8);backdrop-filter:blur(24px) saturate(1.8);
+  border:1px solid rgba(255,255,255,.22);box-shadow:inset 0 1px 0 rgba(255,255,255,.25),0 20px 50px -20px rgba(0,0,0,.6)}
+.lamina figcaption b{display:block;font-weight:650;font-size:clamp(1.2rem,2.2vw,1.7rem);line-height:1.2;letter-spacing:-.03em}
+.lamina figcaption span{display:block;margin-top:.5rem;font-family:var(--mono);font-size:.68rem;opacity:.75}
+.lamina figcaption a{color:inherit}
+.experiencia{border-radius:999px;background:var(--tinta);color:var(--papel);font-family:var(--ui);font-weight:600;letter-spacing:-.01em}
+.lectura{height:3px;background:linear-gradient(90deg,var(--marea),var(--duna))}
+@media (prefers-reduced-transparency:reduce){.rail,.lamina figcaption{
+  -webkit-backdrop-filter:none;backdrop-filter:none;background:var(--papel2)}}
+</style>
+</head>
+<body>
+<nav class="rail" aria-label="Índice">
+  <span class="marca">El corredor<br>del Golfo</span>
+  <span class="sub">Estudio de viabilidad</span>
+  <a href="#veredicto" class="aqui"><i>00</i>Veredicto</a>
+  <a href="#tamano"><i>01</i>Tamaño y caída</a>
+  <a href="#porque"><i>02</i>Por qué cayó</a>
+  <a href="#composicion"><i>03</i>Los 22 países</a>
+  <a href="#estacion"><i>04</i>Estacionalidad</a>
+  <a href="#hiyri"><i>05</i>Calendario hiyrí</a>
+  <a href="#corredor"><i>06</i>Corredor aéreo</a>
+  <a href="#puerta"><i>07</i>Puerta de entrada</a>
+  <a href="#gasto"><i>08</i>Gasto y estancia</a>
+  <a href="#hueco"><i>09</i>El hueco de oferta</a>
+  <a href="#competencia"><i>10</i>Competencia</a>
+  <a href="#producto"><i>11</i>Los tres productos</a>
+  <a href="#costes"><i>12</i>Costes y márgenes</a>
+  <a href="#mesa"><i>13</i>Simulador de costes</a>
+  <a href="#modelos"><i>14</i>Dos tipos de encargo</a>
+  <a href="#cuenta"><i>15</i>Cuenta del año 1</a>
+  <a href="#escenarios"><i>16</i>Escenarios</a>
+  <a href="#legal"><i>17</i>Marco legal</a>
+  <a href="#halal"><i>18</i>Cadena halal</a>
+  <a href="#mercado"><i>19</i>Ir al mercado</a>
+  <a href="#limites"><i>20</i>Límites</a>
+  <div class="pie">
+    Datos de JNTO, la Agencia de Turismo de Japón y la Prefectura de Osaka.
+    <button class="tema" id="tema" type="button">Cambiar tema</button>
+  </div>
+</nav>
+
+<main>
+
+<header class="portada"><div class="env">
+  <p class="epig">Consultoría turística · Dubái → Kansai</p>
+  <h1>Sí, pero como servicio de <em>ticket alto</em> y sin coste fijo.</h1>
+  <p class="entradilla">El mercado del Golfo hacia Japón es pequeño y en 2026 ha caído un 38,6 %.
+    Pero la caída tiene causa conocida y fecha de reversión, el visitante de la región es el
+    <b>segundo que más gasta</b> de los veintitrés que mide Japón, y nadie reúne base en Kansai, guía
+    árabe residente, operador con licencia en Japón y consultora de diseño en los Emiratos. La ventana para entrar
+    va de noviembre de 2026 a mayo de 2027.</p>
+  <div class="sellos">
+    <span class="sello ok">Veredicto: adelante</span>
+    <span class="sello">21 apartados</span>
+    <span class="sello">Simulador de costes</span>
+    <span class="sello">Fuentes citadas una a una</span>
+  </div>
+  <a class="experiencia" href="experiencia/">Ver la versión 3D inmersiva <span aria-hidden="true">→</span></a>
+  <a class="ahora" id="ahora" href="#corredor" hidden>
+    <span class="punto" aria-hidden="true"></span>
+    <span class="et">Ahora en el corredor</span>
+    <span><b id="ahora-golfo">–</b> aviones en el aire sobre el Golfo</span>
+    <span><b id="ahora-japon">–</b> sobre Japón</span>
+    <span id="ahora-horas"></span>
+    <span class="ir">Ver el globo en vivo →</span>
+  </a>
+</div></header>
+
+<section id="veredicto"><div class="env">
+  <header><span class="clave">00</span><h2>El veredicto, antes que los datos</h2>
+    <span class="tras">La conclusión primero</span></header>
+  <div class="rejilla">
+    <div class="tarj hondo"><span class="et">Llegadas del Golfo, 2025</span>
+      <span class="v">55.924</span><span class="n">el 0,13 % de todo lo que entra en Japón</span></div>
+    <div class="tarj al"><span class="et">Caída ene–jul 2026</span>
+      <span class="v">−38,6 %</span><span class="n">frente a −1,7 % del conjunto de Japón</span></div>
+    <div class="tarj ac"><span class="et">Gasto por visitante</span>
+      <span class="v">482.836 ¥</span><span class="n">2.º de 23 mercados · 1,98 × la media</span></div>
+    <div class="tarj ac"><span class="et">Estancia media</span>
+      <span class="v">12,5</span><span class="n">noches, frente a 8,7 del conjunto</span></div>
+  </div>
+  <div class="aviso"><p><b>Qué recomienda este informe.</b> Entrar, pero sin montar estructura.
+    HARUNANA <b>no opera ni vende el viaje</b>: lo diseña y lo asigna a la empresa del grupo con
+    licencia de agencia de viajes en Japón, que lo contrata y lo factura directamente al cliente; la
+    consultora factura aparte sus honorarios. Sobre ese modelo, empezar con <b>jornadas de guía en
+    árabe</b> —39.600 ¥ la jornada, sin riesgo de caja— y pasar a viajes completos en cuanto una
+    agencia emisora los pida. La barrera no es un registro: es el riesgo de caja del operador, que
+    anticipa hoteles antes de cobrar.</p></div>
+  <p>La forma de ganar dinero con este mercado es un servicio bajo demanda sobre una capacidad que
+    ya existe, sin nómina ni coste fijo, de modo que cada viaje es margen desde el primero. En el
+    escenario base, <span id="base-viajes">—</span> viajes dejan <b><span id="base-margen">—</span> de
+    margen al operador</b> y <span id="base-hon">—</span> de honorarios a la consultora, con los dos porcentajes como supuestos declarados (apartado 16).
+    Con dos agencias emisoras dando volumen recurrente (escenario optimista), el margen del operador
+    se duplica el primer año y el segundo año deja casi 20 millones de yenes al grupo. Cada supuesto
+    está declarado y se puede cambiar en el simulador del apartado 13.</p>
+</div></section>
+
+<section id="tamano"><div class="env">
+  <header><span class="clave">01</span><h2>Tamaño y trayectoria</h2>
+    <span class="tras">JNTO · llegadas mensuales</span></header>
+  <p>Entre enero y julio de 2026 llegaron 18.655 visitantes de los seis países del Consejo de
+    Cooperación del Golfo, frente a 30.384 en el mismo periodo de 2025. En el mismo intervalo el
+    conjunto de Japón apenas se movió, así que no es un efecto general.</p>
+  <div class="aviso med"><p><b>Cuidado con el titular regional.</b> JNTO agrupa bajo «Oriente
+    Medio» a Israel, Turquía y el CCG. Ese agregado <i>sube</i> un 15 % porque Turquía crece un
+    51 %. La caída es exclusiva del Golfo, y quien lea sólo la etiqueta regional no la ve.</p></div>
+  <figure class="gr"><div class="leyenda">
+      <span><i style="background:var(--marea)"></i>Golfo · CCG</span>
+      <span><i style="background:var(--duna)"></i>España, para comparar</span></div>
+    <svg id="g-serie" viewBox="0 0 720 226" role="img"
+      aria-label="Llegadas mensuales del Golfo a Japón entre 2023 y 2026"></svg>
+    <figcaption>Llegadas mensuales del CCG, 2023-2026. La línea de 2026 se corta en julio, que es
+      el último mes publicado. Cálculo propio sobre el fichero de nacionalidades del JNTO.</figcaption>
+  </figure>
+</div></section>
+
+<section id="porque"><div class="env">
+  <header><span class="clave">02</span><h2>Por qué cayó, y quién lo dice</h2>
+    <span class="tras">Respuesta escrita de JNTO, 8-9-2026</span></header>
+  <p>Esto no hay que deducirlo. Se le preguntó a JNTO por escrito y contestó atribuyendo la caída
+    a <b>dos causas distintas en dos periodos distintos</b>, no a una:</p>
+  <div class="rejilla">
+    <div class="tarj al"><span class="et">Febrero y marzo</span><span class="v">Demanda</span>
+      <span class="n">Ramadán. Calendario, y se repite cada año.</span></div>
+    <div class="tarj av"><span class="et">Abril y mayo</span><span class="v">Oferta</span>
+      <span class="n">Suspensión y reducción de vuelos por la situación regional.</span></div>
+  </div>
+  <p>Lo segundo se ve en los datos con una nitidez poco habitual: en abril de 2026 las llegadas
+    del Golfo cayeron un <b>71,5 %</b> mientras Turquía subía un <b>20,2 %</b> en el mismo mes y la
+    misma región. Misma región, mismo mes, distinta ruta aérea. A las compañías del Golfo les
+    cerraron el espacio aéreo.</p>
+  <div class="aviso"><p>El borrador anterior de este informe decía que la caída era «de oferta y
+    no de demanda». Era cómodo y no es lo que dice la fuente. Se corrigió.</p></div>
+</div></section>
+
+<figure class="lamina" aria-label="Dubái al atardecer, con el Burj Khalifa"><img src="img/viaje/dubai-900.jpg" srcset="img/viaje/dubai-900.jpg 900w, img/viaje/dubai.jpg 3840w"
+  sizes="100vw" alt="Dubái al atardecer, con el Burj Khalifa" loading="lazy" decoding="async">
+  <figcaption><b>Dubái. Más de la mitad de los vuelos directos del corredor salen de aquí.</b><span>Foto: <a href="https://commons.wikimedia.org/wiki/File:Burj_Khalifa_(worlds_tallest_building)_and_the_Dubai_skyline_(25781049892).jpg" target="_blank" rel="noopener">imran shahabuddin · CC BY 2.0</a> · Wikimedia Commons</span></figcaption></figure>
+<section id="composicion"><div class="env">
+  <header><span class="clave">03</span><h2>El mercado es un 46 % mayor de lo que parece</h2>
+    <span class="tras">Agencia de Servicios de Inmigración · e-Stat</span></header>
+  <p>La conversación entera ha ido sobre «el Golfo», pero JNTO y la estadística de inmigración
+    cuentan <b>nacionalidad</b>, no idioma. Si lo que se vende es un servicio en árabe, el mercado
+    no son seis países: son los veintidós de la Liga Árabe.</p>
+  <div class="tabla-caja"><table>
+    <thead><tr><th>Mercado</th><th class="n">Entradas de corta estancia, 2025</th><th>Nota</th></tr></thead>
+    <tbody>
+      <tr><td>Arabia Saudí</td><td class="n">22.408</td><td>42,9 % del Golfo. Visado electrónico desde el 15-5-2026</td></tr>
+      <tr><td>Emiratos Árabes Unidos</td><td class="n">15.183</td><td>Sin visado, 90 días. Única nacionalidad árabe que entra más por Kansai que por Narita</td></tr>
+      <tr><td><b>Egipto</b></td><td class="n"><b>7.229</b></td><td><b>Tercer mercado arabófono</b>: más que Kuwait, más que Catar y Baréin juntos</td></tr>
+      <tr><td>Kuwait</td><td class="n">5.901</td><td></td></tr>
+      <tr><td>Catar</td><td class="n">4.902</td><td></td></tr>
+      <tr><td>Baréin · Omán</td><td class="n">3.810</td><td>Túnez y Marruecos superan a Omán</td></tr>
+      <tr class="tot"><td>CCG (seis países)</td><td class="n">52.204</td><td>lo que suele llamarse «el mercado»</td></tr>
+      <tr class="tot"><td>Arabófono total</td><td class="n">76.456</td><td><b>+46 %</b> sin cambiar de idioma ni de propuesta</td></tr>
+    </tbody></table></div>
+  <figure class="gr ech" id="e-composicion"><div class="lienzo-e" style="height:400px"></div>
+    <figcaption>El mismo dato que la tabla, en anillo: por dentro, el CCG frente al resto del mundo
+      arabófono; por fuera, cada país. Pase el cursor por encima para ver cada cifra.</figcaption></figure>
+  <p>Y hay un segundo efecto que multiplica lo anterior aunque no se pueda cuantificar: una
+    agencia emisora de Dubái no vende sólo a emiratíes, vende a <b>residentes</b> de los Emiratos.
+    Buena parte de esa clientela es arabófona con pasaporte egipcio, jordano, libanés o palestino.</p>
+</div></section>
+
+<section id="estacion"><div class="env">
+  <header><span class="clave">04</span><h2>El pico árabe no está en verano</h2>
+    <span class="tras">Índice: 100 = mes medio</span></header>
+  <p>La hipótesis de partida era que la demanda del Golfo pica en junio-agosto, cuando la región
+    huye del calor, y que eso llenaría el valle del cliente hispanohablante. <b>Es falso en las dos
+    mitades.</b> Pulse un mes para ver su veredicto.</p>
+  <div class="gr">
+    <div class="leyenda">
+      <span><i style="background:var(--marea)"></i>Golfo</span>
+      <span><i style="background:var(--duna)"></i>España</span>
+      <span><i style="background:color-mix(in srgb,var(--coral) 55%,transparent)"></i>Meses de Ramadán</span></div>
+    <div class="meses" id="meses"></div>
+    <div id="veredicto-mes" class="aviso" style="margin-bottom:0"></div>
+  </div>
+  <figure class="gr"><svg id="g-estacion" viewBox="0 0 720 236" role="img"
+      aria-label="Índice de estacionalidad del Golfo frente a España"></svg>
+    <figcaption>Para cada mercado y cada año de 2023 a 2025 se divide la cifra del mes entre la
+      media mensual de ese año y se multiplica por cien; luego se promedian los tres años. La
+      correlación de Pearson entre las dos curvas es de sólo <b>0,25</b>. El mes más flojo del
+      Golfo es marzo (52,5); agosto, con 74, es donde más se separan: es el más fuerte de España
+      (169).</figcaption>
+  </figure>
+  <figure class="gr ech" id="e-estacion"><div class="lienzo-e" style="height:430px"></div>
+    <figcaption>El año como una esfera de reloj: cada barra es un mes, verde el Golfo y ocre España,
+      sobre anillos de 50, 100 y 150 (100 es el mes medio). Donde una crece la otra suele encoger: se turnan.</figcaption></figure>
+  <div class="aviso"><p><b>La explicación es logística antes que cultural.</b> Agosto es el mes
+    más caro y más saturado de Japón, con calor extremo y humedad. La familia del Golfo que huye
+    de los 45 °C de Riad no elige un destino a 35 °C con 80 % de humedad pudiendo ir a Londres.</p></div>
+  <h3>Qué meses aguantan cualquier criterio</h3>
+  <p>Decir «diciembre y abril» obliga a elegir cuánto pesan la demanda del Golfo, el choque con el
+    mercado hispanohablante y el Ramadán, y con unos pesos gana un mes y con otros gana otro. En vez
+    de elegir, se han probado <b id="rob-n"></b> repartos de pesos al azar y se ha contado cuántas
+    veces queda cada mes entre los tres mejores de 2027. Al lado, por una vía independiente de las
+    llegadas, los días de fiesta que tiene el Golfo cada mes.</p>
+  <div class="tabla-caja"><table>
+    <thead><tr><th>Mes</th><th class="n">Entre los tres mejores</th><th class="n">Días de fiesta</th>
+      <th>Qué fiestas, 2027</th></tr></thead>
+    <tbody id="tabla-robustez"></tbody></table></div>
+  <div class="aviso" id="robustez-lectura"></div>
+  <p class="pista">Fuente: ~/projects/golfo-datos, salida/para-web.json, generado el 10-9-2026
+    (<i>Rscript R/calendario.R 2027</i> para los repartos; <i>python/fiestas.py 2027</i> para las
+    fiestas). Las fiestas nacionales son fijas y públicas; los dos Eid se calculan con la regla
+    tabular, con un día de margen.</p>
+</div></section>
+
+<section id="hiyri"><div class="env">
+  <header><span class="clave">05</span><h2>El calendario que manda de verdad</h2>
+    <span class="tras">Calculado en su navegador</span></header>
+  <p>El Ramadán se desplaza once días cada año y se nota en las llegadas: en 2024 cayó en marzo,
+    y abril tuvo <b>6,6 veces</b> los visitantes de marzo. Pero eso es un caso, no una medida. Con
+    los tres años de 2023 a 2025 el efecto sale con el signo esperado y sin significación:
+    <b>−1,5 % por día de Ramadán</b> en el mes, con un intervalo de −3,7 a +0,6 y p = 0,16. Hace
+    falta más serie para fijar su tamaño.</p>
+  <div class="rejilla" id="hiyri-tarjetas"></div>
+  <figure class="gr ech" id="e-calendario"><div class="lienzo-e" style="height:205px"></div>
+    <figcaption>Los próximos doce meses desde hoy, que late. Ramadán y Eid con el mismo algoritmo
+      que las tarjetas; fiestas nacionales de los Emiratos, Baréin y Catar; en verde, la ventana de
+      entrada. Pase el cursor por cualquier día.</figcaption></figure>
+  <div class="aviso med"><p>Las fechas se calculan con el algoritmo tabular civil, que es
+    aritmético y reproducible. <b>No sustituye al avistamiento real de la luna</b>: los ministerios
+    del Golfo anuncian con uno o dos días de margen. Para fijar una campaña sirve; para cerrar un
+    vuelo, hay que esperar al anuncio.</p></div>
+</div></section>
+
+<figure class="lamina" aria-label="El aeropuerto de Kansai visto desde el aire"><img src="img/viaje/kix-900.jpg" srcset="img/viaje/kix-900.jpg 900w, img/viaje/kix.jpg 3840w"
+  sizes="100vw" alt="El aeropuerto de Kansai visto desde el aire" loading="lazy" decoding="async">
+  <figcaption><b>Kansai, la puerta: doce vuelos directos a la semana desde el Golfo.</b><span>Foto: <a href="https://commons.wikimedia.org/wiki/File:Kansai_International_Airport_Aerial_photograph.2007.jpg" target="_blank" rel="noopener">国土地理院 (GSI) · Attribution</a> · Wikimedia Commons</span></figcaption></figure>
+<section id="corredor"><div class="env">
+  <header><span class="clave">06</span><h2>El corredor aéreo, que es el cuello de botella</h2>
+    <span class="tras">Arrastre para girar</span></header>
+  <p>Sin avión no hay mercado, y el avión es exactamente lo que falló en 2026. El corredor se está
+    reconstruyendo con fechas públicas. Cada arco es una ruta real; el grosor es la frecuencia
+    semanal y el color distingue lo que ya vuela de lo anunciado. La Tierra se ilumina con la
+    posición real del sol en este momento. Debajo, las vistas cambian el mundo (la foto de
+    satélite de ayer, el relieve, el mapa político, el calor del suelo y del mar) y las capas
+    añaden nubes, lluvia, polvo, incendios y el tráfico aéreo; todo son datos públicos de la NASA,
+    Open-Meteo y OpenSky.</p>
+  <div class="globo-caja">
+    <div class="globo-carga" id="globo-carga">cargando el corredor…</div>
+    <canvas id="globo"></canvas>
+    <div class="globo-hud" aria-label="Datos del corredor">
+      <div><span class="et">Salidas directas al día</span><b id="hud-diarias">–</b><i id="hud-diarias-n"></i></div>
+      <div><span class="et">En el aire · Golfo</span><b id="hud-golfo">–</b><i id="hud-golfo-n">sin datos de tráfico</i></div>
+      <div><span class="et">En el aire · Japón</span><b id="hud-japon">–</b><i id="hud-japon-n">sin datos de tráfico</i></div>
+      <div><span class="et">Saudia Riad–Narita</span><b id="hud-saudia">–</b><i>arranca el 17 nov 2026</i></div>
+    </div>
+    <div class="globo-pie">
+      <span class="ley"><i class="l op"></i>Operativa</span>
+      <span class="ley"><i class="l an"></i>Anunciada</span>
+      <span class="ley"><i class="l ccg"></i>CCG</span>
+      <span class="ley"><i class="l jp"></i>Japón</span>
+      <span class="ley" data-ley="lluvia"><i class="l lluvia"></i>Lluvia</span>
+      <span class="ley" data-ley="fuego"><i class="l fuego"></i>Incendio activo</span>
+      <span class="ley" data-ley="trafico"><i class="l aire"></i>Aeronave en vuelo</span>
+      <span class="reloj" id="hud-reloj"></span>
+      <span class="nota" id="hud-fuentes"></span>
+    </div>
+    <div class="globo-escala" id="globo-escala" hidden>
+      <span class="e-calor">Temperatura · frío</span><span class="e-polvo">Polvo y aerosoles · limpio</span>
+      <i></i><span class="e-calor">caliente</span><span class="e-polvo">denso</span>
+    </div>
+  </div>
+  <div class="globo-mandos">
+    <div class="grupo" id="globo-vistas" role="group" aria-label="Vista del mundo">
+      <span class="et">Vista</span>
+      <button data-vista="real" aria-pressed="true">Tiempo real</button>
+      <button data-vista="noche">Noche</button>
+      <button data-vista="foto">Satélite de ayer</button>
+      <button data-vista="relieve">Relieve</button>
+      <button data-vista="politica">Política</button>
+      <button data-vista="calor">Calor</button>
+    </div>
+    <div class="grupo" id="globo-capas" role="group" aria-label="Capas">
+      <span class="et">Capas</span>
+      <button data-capa="nubes">Nubes</button>
+      <button data-capa="lluvia">Lluvia</button>
+      <button data-capa="polvo">Polvo</button>
+      <button data-capa="fuego">Incendios</button>
+      <button data-capa="trafico">Tráfico</button>
+      <button data-capa="rutas">Rutas</button>
+      <button data-capa="fronteras">Fronteras</button>
+      <button data-capa="rotulos">Ciudades y tiempo</button>
+    </div>
+    <div class="grupo" id="globo-ir" role="group" aria-label="Ir a">
+      <span class="et">Ir a</span>
+      <button data-ir="corredor" aria-pressed="true">Corredor</button>
+      <button data-ir="golfo">Golfo</button>
+      <button data-ir="japon">Japón</button>
+      <button data-ir="mundo">Mundo</button>
+      <button data-zoom="+" aria-label="Acercar">+</button>
+      <button data-zoom="-" aria-label="Alejar">−</button>
+    </div>
+    <label class="grupo hora"><span class="et">Sol</span>
+      <input type="range" id="globo-hora" min="-12" max="12" step="1" value="0" aria-label="Mover la hora del sol">
+      <span id="globo-hora-v" class="hora-v">ahora</span></label>
+  </div>
+  <figure class="gr ech" id="e-corredor"><div class="lienzo-e" style="height:360px"></div>
+    <figcaption>Cómo se reparte el corredor: de cada ciudad del Golfo a su aerolínea y de ahí a la
+      puerta de Japón. El grosor es la frecuencia semanal; en ocre, lo anunciado que todavía no vuela.</figcaption></figure>
+  <div class="tabla-caja"><table>
+    <thead><tr><th>Compañía</th><th>Ruta</th><th class="n">Frecuencia</th><th>Puerta</th><th>Estado</th></tr></thead>
+    <tbody id="tabla-rutas"></tbody></table></div>
+  <div class="aviso"><p><b>Lo que cambia el negocio en los próximos meses:</b> Emirates duplicó
+    Narita el 26 de octubre, y <b>Saudia inaugura Riad–Tokio el 17 de noviembre de 2026</b>, la
+    primera ruta directa entre Arabia Saudí y Japón desde 2022. Arabia Saudí es el 42,9 % del
+    mercado del Golfo y acaba de perder sus dos barreras el mismo año: el visado y el vuelo.</p></div>
+</div></section>
+
+<section id="puerta"><div class="env">
+  <header><span class="clave">07</span><h2>Por dónde entran, que decide dónde se opera</h2>
+    <span class="tras">Puerto de entrada</span></header>
+  <p>Casi todo el mercado arabófono entra por Tokio. Hay una excepción, y es justamente la del
+    cliente de esta consultora.</p>
+  <div class="rejilla">
+    <div class="tarj ac"><span class="et">Emiratíes por Kansai</span><span class="v">6.706</span>
+      <span class="n">frente a 6.476 por Narita. La <b>única</b> nacionalidad árabe que entra más
+      por Kansai que por Tokio</span></div>
+    <div class="tarj"><span class="et">Vuelos semanales directos</span><span class="v">12</span>
+      <span class="n">del Golfo al aeropuerto de Kansai</span></div>
+    <div class="tarj"><span class="et">Sala de oración en KIX</span><span class="v">T1</span>
+      <span class="n">institucional, verificada</span></div>
+  </div>
+  <p>Eso vale un producto entero: un programa que empieza y acaba en Kansai para el emiratí, y uno
+    que entra por Tokio y sale por Kansai para el resto. No es lo mismo, y venderlo igual es dejar
+    dinero encima de la mesa.</p>
+</div></section>
+
+<figure class="lamina" aria-label="El castillo de Osaka"><img src="img/viaje/osaka-900.jpg" srcset="img/viaje/osaka-900.jpg 900w, img/viaje/osaka.jpg 3840w"
+  sizes="100vw" alt="El castillo de Osaka" loading="lazy" decoding="async">
+  <figcaption><b>Osaka, la base desde la que se sirve todo lo demás.</b><span>Foto: <a href="https://commons.wikimedia.org/wiki/File:Osaka_Castle_2022-04-23.jpg" target="_blank" rel="noopener">Dick Thomas Johnson · CC BY 2.0</a> · Wikimedia Commons</span></figcaption></figure>
+<section id="gasto"><div class="env">
+  <header><span class="clave">08</span><h2>Lo que se gasta, y por fin con fuente</h2>
+    <span class="tras">Agencia de Turismo de Japón · 2.º trim. 2026</span></header>
+  <p>Hasta 2026 no existía cifra de gasto del Golfo: sólo la del cajón de «otras nacionalidades»,
+    que contenía 2,49 millones de personas de las cuales el Golfo era el 2,2 %. Desde 2026 la
+    encuesta publica <b>Oriente Medio como mercado propio</b>.</p>
+  <figure class="gr"><svg id="g-gasto" viewBox="0 0 720 300" role="img"
+      aria-label="Gasto por visitante y mercado"></svg>
+    <figcaption>Gasto por visitante dentro de Japón, segundo trimestre de 2026, primera estimación.
+      Oriente Medio es el segundo de veintitrés mercados. La muestra es de 101 respuestas y el
+      objetivo de error estándar declarado por la propia agencia es del 10 %: es una cifra para
+      decidir, no para defender al yen.</figcaption></figure>
+  <div class="aviso med"><p><b>Y el agregado no es el Golfo.</b> «Oriente Medio» incluye a Turquía
+    e Israel y deja fuera a Egipto y el Magreb. La Agencia de Turismo confirmó por escrito el
+    9 de septiembre que <b>cede los microdatos a quien los pida</b>, así que el gasto de los seis
+    países del CCG se puede calcular por separado. Es la tarea con mejor relación entre esfuerzo y
+    solidez de todo este plan, y cuesta cero.</p></div>
+</div></section>
+
+<section id="hueco"><div class="env">
+  <header><span class="clave">09</span><h2>El hueco de oferta, medido y no supuesto</h2>
+    <span class="tras">Índice sectorial + comprobación directa</span></header>
+  <div class="rejilla">
+    <div class="tarj al"><span class="et">Japón · comunicación con el viajero musulmán</span>
+      <span class="v">10<small style="font-family:var(--cuerpo);font-size:1rem">/100</small></span>
+      <span class="n">su peor nota de diecisiete indicadores</span></div>
+    <div class="tarj al"><span class="et">Japón · salas de oración</span>
+      <span class="v">10<small style="font-family:var(--cuerpo);font-size:1rem">/100</small></span>
+      <span class="n">empatada como peor nota</span></div>
+    <div class="tarj ac"><span class="et">Idiomas de la mayor red de guías del país</span>
+      <span class="v">10</span><span class="n">y <b>ninguno es el árabe</b>. Comprobado dos veces
+      con dos días de diferencia</span></div>
+  </div>
+  <p>Ese es el argumento entero, y no depende de ninguna proyección: el destino puntúa alto en
+    seguridad y transporte y suspende justo en lo que arregla un guía que habla el idioma y conoce
+    dónde se reza. El hueco no es de demanda, es de intermediación.</p>
+</div></section>
+
+<section id="competencia"><div class="env">
+  <header><span class="clave">10</span><h2>Sí hay competencia, y conviene decirlo</h2>
+    <span class="tras">Búsqueda en árabe y en japonés</span></header>
+  <div class="rejilla">
+    <div class="tarj"><span class="et">Operadores localizados</span><span class="v">8</span></div>
+    <div class="tarj av"><span class="et">De amenaza alta</span><span class="v">3</span></div>
+    <div class="tarj ac"><span class="et">Que reúnan las cuatro cosas</span><span class="v">0</span>
+      <span class="n">base en Kansai · guía árabe residente · operador con licencia en Japón ·
+      consultora de diseño en los Emiratos</span></div>
+  </div>
+  <div class="aviso med"><p>El mapa competitivo sólo cubre el <b>mercado abierto</b>: operadores
+    con presencia digital pública. En este nicho hay operación que va por recomendación y por
+    WhatsApp y que no aparece en ninguna búsqueda. Se conoce preguntando a las agencias emisoras,
+    no buscando.</p></div>
+</div></section>
+
+<figure class="lamina" aria-label="Los torii de Fushimi Inari, en Kioto"><img src="img/viaje/kioto-900.jpg" srcset="img/viaje/kioto-900.jpg 900w, img/viaje/kioto.jpg 3840w"
+  sizes="100vw" alt="Los torii de Fushimi Inari, en Kioto" loading="lazy" decoding="async">
+  <figcaption><b>Kioto, a unos treinta minutos en tren.</b><span>Foto: <a href="https://commons.wikimedia.org/wiki/File:Double_torii_path_at_Fushimi_Inari_Taisha_Shrine,_Kyoto,_Japan.jpg" target="_blank" rel="noopener">Basile Morin · CC BY-SA 4.0</a> · Wikimedia Commons</span></figcaption></figure>
+<section id="producto"><div class="env">
+  <header><span class="clave">11</span><h2>Tres productos, no un catálogo</h2>
+    <span class="tras">Los que salen de los datos</span></header>
+  <div class="rejilla" id="productos"></div>
+  <p>No son tres versiones del mismo viaje. El de cuatro días no mueve de hotel y existe para el
+    emiratí que entra por Kansai; el de ocho entra por Tokio y sale por Kansai; el de doce está
+    dimensionado para tres generaciones viajando juntas, que es el tamaño de grupo real del Golfo
+    y el que no cabe en un taxi: nueve personas y el guía son diez pasajeros, y el jumbo taxi lleva
+    nueve. Por eso va en microbús.</p>
+  <p class="pista">Precio del operador = coste directo + margen del operador (supuesto); lo factura el
+    operador japonés del grupo al cliente final. Honorarios de consultoría = porcentaje supuesto del
+    precio del operador, facturados aparte por HARUNANA. No hay comisión de agencia sumada al precio.
+    Sin billete internacional.</p>
+  <div class="aviso"><p><b>Corregido el 14 de septiembre de 2026.</b> El producto de doce días llevaba
+    a nueve personas en un jumbo taxi de nueve plazas de pasajero y el guía no cabía. Ahora va en un
+    microbús de la categoría コミューター車, de hasta catorce plazas, con la tarifa publicada por el
+    近畿運輸局 y los kilómetros como supuesto. Dos taxis salían más caros, y bajar el producto a ocho
+    personas contradecía su definición: de nueve a doce. La comparación está en el apartado 16 del
+    informe.</p></div>
+</div></section>
+
+<section id="costes"><div class="env">
+  <header><span class="clave">12</span><h2>Lo que cuesta cada cosa, con su origen</h2>
+    <span class="tras"><span class="n-partidas">—</span> partidas</span></header>
+  <p>Un modelo de costes es creíble o no lo es según lo que hace con lo que no sabe. Cada línea
+    va etiquetada: <span class="orig dato">dato</span> si hay tarifa publicada por el proveedor,
+    <span class="orig observado">observado</span> si es precio consultado con fecha y condiciones
+    declaradas, y <span class="orig supuesto">supuesto</span> si lo hemos puesto nosotros. Quedan
+    <span class="n-sup">—</span> supuestos de coste de <span class="n-partidas">—</span> partidas, y dos de precio: el margen del operador y los
+    honorarios de la consultora.</p>
+  <div class="tabla-caja"><table>
+    <thead><tr><th>Concepto</th><th class="n">Importe</th><th>Unidad</th><th>Fuente</th></tr></thead>
+    <tbody id="tabla-tarifas"></tbody></table></div>
+  <h3>El tamaño mínimo del grupo</h3>
+  <p>El coste de una salida no crece con las personas: crece a trozos. Guía, vehículo y traslados
+    cuestan lo mismo con dos pasajeros que con seis; camas, comidas, trenes y entradas no. Por eso el
+    precio por persona sólo funciona por encima de un tamaño de grupo, y por debajo el operador pierde
+    dinero en la salida. Los honorarios de la consultora no cambian ese umbral: no cubren costes del
+    operador.</p>
+  <div class="tabla-caja"><table>
+    <thead><tr><th>Producto</th><th class="n">Diseñado para</th><th class="n">% fijo</th>
+      <th class="n">Grupo mínimo</th><th>Qué pasa por debajo</th></tr></thead>
+    <tbody id="tabla-umbrales"></tbody></table></div>
+  <p class="pista">Precio por persona fijado al tamaño de diseño con el margen del operador supuesto;
+    una habitación por cada dos personas. Grupo mínimo y % fijo: golfo-datos, salida/para-web.json.
+    Las pérdidas se calculan en esta página con la misma fórmula que el apartado 16 del informe.</p>
+  <h3>Lo que se lleva el tipo de cambio</h3>
+  <p>Si el operador fija su precio en dirhams o en dólares y paga en yenes, cuando el yen se aprecia
+    ese mismo precio compra menos yenes y su margen baja sin que nadie toque nada:</p>
+  <div class="tabla-caja"><table><thead id="divisa-cab"></thead>
+    <tbody id="divisa-cuerpo"></tbody></table></div>
+  <p class="pista">Margen del operador sobre su precio, con precio = coste + margen del operador
+    supuesto. Rejilla de escenarios, no de probabilidades. Los honorarios de consultoría no entran: no
+    tienen coste en yenes. Fuente: golfo-datos, salida/para-web.json.</p>
+</div></section>
+
+<section id="mesa"><div class="env">
+  <header><span class="clave">13</span><h2>Simule los costes del operador</h2>
+    <span class="tras">Simulación orientativa · no es oferta</span></header>
+  <p>Los conceptos salen de la fórmula del apartado anterior. Cambie lo que quiera y la
+    simulación se rehace. <b>Es una simulación orientativa de los costes del operador, no una oferta
+    ni un presupuesto de la consultora</b>: el viaje lo cotiza y lo factura el operador japonés del
+    grupo a nombre del cliente final, y HARUNANA factura aparte sus honorarios.</p>
+  <div class="mesa">
+    <form class="mandos" id="mandos" autocomplete="off">
+      <label class="campo"><span>Programa</span>
+        <select id="f-prog"></select></label>
+      <div class="par">
+        <label class="campo"><span>Viajeros</span>
+          <input type="number" id="f-pax" min="2" max="16" value="6"></label>
+        <label class="campo"><span>Habitaciones</span>
+          <input type="number" id="f-hab" min="1" max="8" value="3"></label>
+      </div>
+      <label class="campo"><span>Alojamiento · ¥/noche</span>
+        <select id="f-hotel">
+          <option value="10300">10.300 · suelo observado en Kioto</option>
+          <option value="26400" selected>26.400 · certificado en Osaka</option>
+          <option value="45000">45.000 · temporada de cerezo</option>
+        </select></label>
+      <label class="campo"><span>Margen del operador · supuesto</span>
+        <select id="f-margen">
+          <option value="0.15">15 %</option>
+          <option value="0.20" selected>20 %</option>
+          <option value="0.25">25 %</option>
+        </select></label>
+      <div class="campo"><span>Honorarios de consultoría · supuesto</span>
+        <p class="pista" id="pista-hon" style="margin:0"></p></div>
+      <p class="pista" id="pista-prog"></p>
+    </form>
+    <div>
+      <div id="aviso-minimo" class="aviso mal" hidden></div>
+      <div class="tabla-caja"><table>
+        <thead><tr><th>Concepto</th><th class="n">Importe</th></tr></thead>
+        <tbody id="lineas"></tbody></table></div>
+      <div class="rejilla" id="totales"></div>
+      <div class="botones">
+        <button class="bt pri" id="bajar" type="button">Descargar la simulación</button>
+        <button class="bt" id="copiar" type="button">Copiar al portapapeles</button>
+        <span class="soplo" id="soplo"></span>
+      </div>
+    </div>
+  </div>
+</div></section>
+
+<section id="modelos"><div class="env">
+  <header><span class="clave">14</span><h2>Dos tipos de encargo, no uno</h2>
+    <span class="tras">La bifurcación que hay que decidir</span></header>
+  <p>En ninguno de los dos la consultora contrata servicios ni toca el dinero del viaje: contrata y
+    factura el operador japonés del grupo. Lo que cambia es el riesgo de caja del operador y el tamaño
+    del ticket.</p>
+  <div class="tabla-caja"><table>
+    <thead><tr><th>&nbsp;</th><th>Jornada de guía en árabe</th><th>Viaje completo</th></tr></thead>
+    <tbody>
+      <tr><td>Qué se vende</td><td>la jornada</td><td>el viaje entero</td></tr>
+      <tr><td>Qué deja por día<span class="det">ruta de ocho días</span></td>
+        <td>39.600 ¥ que retribuyen al guía</td>
+        <td>44.400 ¥ de margen del operador, más 26.600 ¥ de honorarios</td></tr>
+      <tr><td>Quién factura qué</td><td>el operador del grupo factura la jornada, sin margen de
+        operador ni honorarios</td><td>el operador factura el viaje al cliente final; HARUNANA
+        factura aparte sus honorarios</td></tr>
+      <tr><td>Riesgo de caja</td><td><b>ninguno</b>: no hay proveedores que anticipar</td>
+        <td>del operador, que anticipa hoteles y proveedores</td></tr>
+      <tr><td>Requisito legal</td><td>guiar cobrando no exige permiso</td>
+        <td>contratar hoteles y transporte lo hace el operador con su licencia de agencia de viajes;
+        <b>alcance a confirmar</b> (apartado 17)</td></tr>
+    </tbody></table></div>
+  <p class="pista">Margen del operador (20 %) y honorarios (10 % del precio del operador): supuestos
+    propios. En Japón no hay comisión de prescripción, porque el operador es del grupo. Fuente:
+    apartado 16 del informe.</p>
+  <div class="aviso"><p><b>El error caro sería que el operador comprometiera hoteles y vehículos antes
+    de tener demanda.</b> El error barato es empezar vendiendo jornadas y tardar unas semanas más en el
+    primer viaje completo. De los dos errores posibles hay que elegir el segundo.</p></div>
+</div></section>
+
+<section id="cuenta"><div class="env">
+  <header><span class="clave">15</span><h2>La cuenta del primer año</h2>
+    <span class="tras">Escenario base · 9 viajes</span></header>
+  <p>Nueve viajes equivalen a <b>68 jornadas</b> al año. Las mismas jornadas, vendidas de dos
+    maneras:</p>
+  <div class="rejilla">
+    <div class="tarj"><span class="et">Solo jornadas · lo que paga el cliente</span><span class="v">2.680.100 ¥</span>
+      <span class="n">retribuye al guía: no es margen del operador ni lleva honorarios</span></div>
+    <div class="tarj hondo"><span class="et">Viajes completos · margen del operador</span><span class="v">3.478.300 ¥</span>
+      <span class="n">sobre 20.869.600 ¥ de precio de los viajes, que factura el operador</span></div>
+    <div class="tarj ac"><span class="et">Viajes completos · honorarios</span><span class="v">2.087.000 ¥</span>
+      <span class="n">los factura HARUNANA aparte. Supuesto: 10 % del precio del operador</span></div>
+    <div class="tarj ac"><span class="et">Lo que añade el viaje completo</span><span class="v">5.565.200 ¥</span>
+      <span class="n">margen más honorarios, unos 82.200 ¥ por jornada, además de pagar al guía</span></div>
+  </div>
+  <div class="aviso"><p><b>La barrera para dar ese paso no es un registro.</b> La tasa del alta de
+    旅行サービス手配業 (16.000 ¥, confirmada por la Prefectura de Osaka) no entra en esta cuenta: no la
+    paga la consultora, que no contrata servicios en Japón, ni el guía. Contrata el operador del grupo,
+    que según HARUNANA tiene licencia de agencia de viajes en Japón; si esa licencia cubre por sí sola
+    todo lo que hace falta es una pregunta abierta (apartado 17). <b>La barrera real es el riesgo de
+    caja del operador</b>, que anticipa hoteles antes de cobrar. Por eso se empieza con jornadas: no
+    porque haga falta registrarse, sino porque no hay riesgo de caja y se factura desde el primer
+    día.</p></div>
+</div></section>
+
+<figure class="lamina" aria-label="Ciervos del parque de Nara en otoño"><img src="img/viaje/nara-900.jpg" srcset="img/viaje/nara-900.jpg 900w, img/viaje/nara.jpg 3840w"
+  sizes="100vw" alt="Ciervos del parque de Nara en otoño" loading="lazy" decoding="async">
+  <figcaption><b>Nara, a unos cuarenta y cinco minutos.</b><span>Foto: <a href="https://commons.wikimedia.org/wiki/File:003_Nara_deer_in_Japan_-_deer_of_Nara_Park_under_autumn_leaves.jpg" target="_blank" rel="noopener">Marek Ślusarczyk (Tupungato) · CC BY 3.0</a> · Wikimedia Commons</span></figcaption></figure>
+<section id="escenarios"><div class="env">
+  <header><span class="clave">16</span><h2>Tres niveles de actividad, y qué hay que creerse</h2>
+    <span class="tras">Cada nivel, con la condición que lo hace posible</span></header>
+  <p>Como el mercado todavía no tiene un histórico propio del servicio, el estudio no da una única
+    previsión: fija tres niveles de actividad, dice qué hace falta para alcanzar cada uno y calcula
+    lo que deja al grupo.</p>
+  <div class="tabla-caja"><table>
+    <thead><tr><th>Escenario</th><th class="n">Viajes<br>año 1 / 2</th>
+      <th class="n">Precio de los viajes<br>año 1</th><th class="n">Margen del operador<br>año 1 / 2</th>
+      <th class="n">Honorarios<br>año 1 / 2 <span class="orig supuesto">supuesto</span></th></tr></thead>
+    <tbody>
+      <tr><td>Conservador<span class="det">Una por ventana comercial. Es lo que sale de estar
+        disponible y contestar</span></td><td class="n">4<br>7</td><td class="n">6.227.100 ¥</td>
+        <td class="n">1.037.800 ¥<br>1.816.200 ¥</td><td class="n">622.700 ¥<br>1.089.700 ¥</td></tr>
+      <tr class="tot"><td>Base<span class="det">Con ronda comercial activa y presencia en una
+        feria</span></td><td class="n">9<br>16</td><td class="n">20.869.600 ¥</td>
+        <td class="n">3.478.300 ¥<br>6.183.600 ¥</td><td class="n">2.087.000 ¥<br>3.710.100 ¥</td></tr>
+      <tr><td>Optimista<span class="det">Con dos agencias emisoras dando volumen recurrente</span></td>
+        <td class="n">16<br>28</td><td class="n">42.539.800 ¥</td>
+        <td class="n">7.090.000 ¥<br>12.407.500 ¥</td><td class="n">4.254.000 ¥<br>7.444.500 ¥</td></tr>
+    </tbody></table></div>
+  <figure class="gr ech" id="e-escenarios"><div class="lienzo-e" style="height:360px"></div>
+    <figcaption>Lo que deja cada escenario, año 1 y año 2: margen del operador (verde) y honorarios
+      (ocre, supuesto), con el total encima. Las mismas cifras que la tabla.</figcaption></figure>
+  <p class="pista">Precio de los viajes: lo que factura el operador japonés del grupo a los clientes
+    finales. Margen del operador: lo que le queda tras pagar a todos los proveedores, incluida la
+    jornada de guía a tarifa de mercado. Honorarios: lo que HARUNANA factura aparte al cliente por el
+    diseño y la gestión. En Japón no hay comisión de prescripción. Antes de impuestos. Fuente:
+    apartado 17 del informe.</p>
+  <div class="aviso"><p><b>Una línea de alto margen y sin coste fijo.</b> Se suma a una capacidad
+    que ya existe —la consultora, el guía y el operador del grupo— y no hay nómina ni local que
+    amortizar, así que el riesgo de empezar es bajo. Crece con el volumen que traigan las agencias
+    emisoras: del escenario base al optimista, el margen del operador se duplica ya el primer año.
+    El reparto por meses sale del índice de estacionalidad del apartado 4, sin ventas en febrero
+    (Ramadán) ni en agosto y septiembre, que se reservan para el mercado hispanohablante.</p></div>
+</div></section>
+
+<section id="legal"><div class="env">
+  <header><span class="clave">17</span><h2>Quién necesita qué permiso, y qué queda abierto</h2>
+    <span class="tras">No es asesoramiento jurídico</span></header>
+  <p>Este apartado es el mapa de lo que hay que preguntarle a un 行政書士 antes de facturar el primer
+    viaje, no una conclusión legal. El modelo: <b>la consultora diseña el itinerario y asigna un
+    operador con licencia en Japón, que contrata y factura el viaje directamente al cliente</b>. El
+    dinero del viaje va del cliente al operador y nunca pasa por la consultora.</p>
+  <div class="tabla-caja"><table>
+    <thead><tr><th>Actividad</th><th>¿Hace falta permiso?</th><th>Quién y por qué</th></tr></thead>
+    <tbody>
+      <tr><td>Guiar en árabe cobrando por ello</td><td><b>No</b></td>
+        <td>La reforma de la 通訳案内士法, en vigor desde el 4-1-2018, eliminó el monopolio. Lo que sigue
+        protegido es el título.</td></tr>
+      <tr><td>Contratar hoteles y transporte por encargo de una agencia emisora extranjera</td>
+        <td><b>Sí</b></td><td>Es 旅行サービス手配業 (land operator). <b>En este modelo lo hace el
+        operador del grupo</b>, nunca la consultora ni el guía.</td></tr>
+      <tr><td>Vender el viaje completo directamente al viajero</td><td>Sí, y más exigente</td>
+        <td>Es 旅行業 (agencia de viajes). Según HARUNANA, es la licencia que tiene la empresa del
+        grupo que opera en Japón.</td></tr>
+      <tr><td>Asesorar, diseñar el itinerario y seleccionar el operador, cobrando honorarios al
+        cliente</td><td><b>Pregunta abierta</b></td><td>Es lo que hace la consultora, que no contrata
+        servicios en Japón ni cobra el viaje. Que eso la deje fuera de la 旅行業法 es razonable, pero
+        ninguna de las fuentes consultadas lo dice.</td></tr>
+      <tr><td>Cobrar al operador una comisión de prescripción</td><td>No aplica en Japón</td>
+        <td>El operador es del grupo: no hay comisión.</td></tr>
+    </tbody></table></div>
+  <div class="rejilla">
+    <div class="tarj"><span class="et">Tasa del alta de land operator</span><span class="v">16.000 ¥</span>
+      <span class="n">旅行サービス手配業, confirmada por escrito por la Prefectura de Osaka el 10-9-2026.
+      Afecta a quien contrata servicios, no a la consultora</span></div>
+    <div class="tarj"><span class="et">Autónomo vs. sociedad</span><span class="v">Igual</span>
+      <span class="n">mismos requisitos; lo que cambia es la documentación</span></div>
+    <div class="tarj"><span class="et">Gestor titulado</span><span class="v">Exigido</span>
+      <span class="n">旅行サービス手配業務取扱管理者, con curso de entidad registrada</span></div>
+  </div>
+  <div class="aviso"><p><b>Regla práctica mientras tanto:</b> la consultora no contrata hoteles,
+    transporte ni guías en Japón, no emite bonos ni facturas del viaje y no cobra su importe: factura
+    solo sus honorarios. Todo lo demás lo contrata y lo factura el operador del grupo, a nombre del
+    cliente final. No al revés.</p></div>
+  <div class="aviso med"><p>Lo que este apartado <b>no</b> puede cerrar: si la licencia de agencia de
+    viajes del operador del grupo cubre también el trabajo de land operator sin registro aparte; si la
+    consultora queda fuera de la 旅行業法 también cuando recomienda hoteles por su nombre; y el
+    tratamiento del 消費税 sobre servicios a clientes y empresas extranjeros, que depende de dónde se
+    considere prestado el servicio y requiere confirmación de un asesor fiscal. Son preguntas para un
+    行政書士, no para esta página.</p></div>
+</div></section>
+
+<figure class="lamina" aria-label="La torre del puerto de Kobe al anochecer"><img src="img/viaje/kobe-900.jpg" srcset="img/viaje/kobe-900.jpg 900w, img/viaje/kobe.jpg 3840w"
+  sizes="100vw" alt="La torre del puerto de Kobe al anochecer" loading="lazy" decoding="async">
+  <figcaption><b>Kobe, la ciudad de la primera mezquita de Japón, de 1935.</b><span>Foto: <a href="https://commons.wikimedia.org/wiki/File:Kobe_Port_Tower_and_Maritime_Museum,_November_2016.jpg" target="_blank" rel="noopener">Martin Falbisoner · CC BY-SA 4.0</a> · Wikimedia Commons</span></figcaption></figure>
+<section id="halal"><div class="env">
+  <header><span class="clave">18</span><h2>La cadena halal, que es lo que hace entregable el viaje</h2>
+    <span class="tras">27 entradas verificadas</span></header>
+  <p>Aquí está la barrera real que hace que el viajero del Golfo no repita, mucho más que el
+    idioma. Y aquí está también la mentira más común del sector: llamar «halal» a lo que sólo es
+    «sin cerdo».</p>
+  <div class="rejilla" id="halal-cifras"></div>
+  <div class="tabla-caja"><table>
+    <thead><tr><th>Nivel</th><th>Qué significa</th><th>Cómo se usa</th></tr></thead>
+    <tbody>
+      <tr><td><span class="orig dato">institucional</span></td>
+        <td>La propia entidad o un organismo público lo declara</td>
+        <td>Se puede poner por escrito en el itinerario</td></tr>
+      <tr><td><span class="orig observado">sectorial</span></td>
+        <td>Una fuente del ramo, no la entidad</td>
+        <td>Se confirma por teléfono antes de cada salida</td></tr>
+      <tr><td><span class="orig supuesto">sin cerdo</span></td>
+        <td>No hay certificación de ningún tipo</td>
+        <td><b>No se ofrece como halal.</b> Ni una vez</td></tr>
+    </tbody></table></div>
+  <p>El protocolo de verificación es de cinco pasos y se ejecuta antes de cada salida, no una vez
+    al año: un restaurante cambia de proveedor y deja de serlo sin avisar a nadie.</p>
+</div></section>
+
+<section id="mercado"><div class="env">
+  <header><span class="clave">19</span><h2>A quién se le escribe, y cuándo</h2>
+    <span class="tras">Calendario comercial</span></header>
+  <div class="tabla-caja"><table>
+    <thead><tr><th>Cuándo</th><th>Qué</th></tr></thead>
+    <tbody>
+      <tr><td class="n">Semana 1</td><td><b>Pedir los microdatos de consumo</b> a la Agencia de
+        Turismo<span class="det">Coste cero. Es lo que separa el gasto del CCG del agregado
+        contaminado con Turquía e Israel, y es la única cifra que hoy le falta al argumento de
+        precio</span></td></tr>
+      <tr><td class="n">Semanas 2-3</td><td>Ronda a las siete agencias emisoras del directorio
+        <span class="det">Cuatro en los Emiratos, una en Arabia Saudí, una en Catar, una en
+        Baréin. Con plantilla de contacto en árabe</span></td></tr>
+      <tr><td class="n">17 nov 2026</td><td>Inaugura Riad–Tokio
+        <span class="det">Arabia Saudí es el 42,9 % del mercado y acaba de perder sus dos
+        barreras el mismo año</span></td></tr>
+      <tr class="tot"><td class="n">3–6 may 2027</td><td><b>Arabian Travel Market, Dubái</b>
+        <span class="det">Si sólo se va a una feria al año, es ésta. Y ahora hay una razón
+        concreta: la oficina de JNTO en Dubái expone en ATM, confirmado por escrito por su sede de
+        Tokio el 11 de septiembre de 2026. Es decir, la feria es también donde se encuentra al
+        organismo que decide a quién presenta</span></td></tr>
+    </tbody></table></div>
+</div></section>
+
+<section id="limites"><div class="env">
+  <header><span class="clave">20</span><h2>Qué no sostiene este informe</h2>
+    <span class="tras">Las limitaciones, declaradas</span></header>
+  <p>Un informe sin esta sección no se puede usar para decidir, porque no se sabe dónde deja de
+    ser fiable.</p>
+  <ul style="max-width:70ch;line-height:1.7">
+    <li><b>El gasto de «Oriente Medio» no es el gasto del Golfo.</b> El agregado incluye Turquía e
+      Israel, la muestra es de un centenar de respuestas por trimestre y el dato es preliminar.</li>
+    <li><b>La estacionalidad y el gasto son del Golfo; el mercado del apartado 3 es un 46 %
+      mayor.</b> Lo trasladable es el Ramadán, que es calendario religioso y opera igual en los
+      veintidós países. El resto de la curva es del Golfo.</li>
+    <li><b>El índice se calcula sobre tres años</b> (2023-2025), los únicos posteriores a la
+      pandemia con serie completa. Es poco. Es también todo lo que hay.</li>
+    <li><b>2025 está contaminado por la Expo de Osaka.</b> Cualquier comparación contra 2025
+      exagera las caídas.</li>
+    <li><b>El modelo de costes tiene <span class="n-sup">—</span> supuestos de coste, dos de precio y
+      ninguna tarifa contratada.</b> El margen del operador y los honorarios de la consultora son supuestos: HARUNANA
+      no ha dado tarifa de honorarios. Antes de dar un precio en firme hay que negociar con dos
+      hoteles.</li>
+    <li><b>El microbús del producto de doce días va al mínimo publicado.</b> La tarifa del
+      近畿運輸局 es lo menos que puede cobrar un operador, y la hora de cochera y los kilómetros de cada
+      jornada son supuestos. Una cotización real puede salir por encima.</li>
+    <li><b>El apartado legal no es asesoramiento jurídico.</b> Sigue abierta la pregunta de fondo del
+      modelo: que la consultora quede fuera de la 旅行業法 y qué cubre exactamente la licencia del
+      operador del grupo.</li>
+    <li><b>El mapa competitivo sólo cubre el mercado abierto.</b> La operación que va por
+      recomendación no aparece en ninguna búsqueda.</li>
+    <li><b>La disponibilidad del guía tiene fecha.</b> El permiso de residencia en Japón del guía
+      arabófono residente de este planteamiento vence en abril de 2027. Es la limitación más importante de todas para un plan a
+      veinticuatro meses, y por eso figura aquí y no en una nota al pie.</li>
+  </ul>
+  <div class="aviso"><p><b>Qué haría que este informe se quedara corto:</b> que el corredor aéreo
+    se recupere en 2027 y el mercado vuelva a la senda de 2023-2025. En ese escenario todas las
+    conclusiones se mantienen y las cifras de tamaño se quedan cortas, que es el error preferible
+    de los dos.</p></div>
+</div></section>
+
+<footer><div class="env">
+  <h3>De dónde sale cada número</h3>
+  <ol>
+    <li>JNTO, llegadas mensuales por nacionalidad, 2023-2026. Fichero oficial, cálculo propio.</li>
+    <li>JNTO, respuesta escrita del 8 de septiembre de 2026 sobre los factores de la caída de 2026.</li>
+    <li>JNTO, respuesta escrita del 11 de septiembre de 2026: la consulta se traslada a la oficina
+      de Dubái, que expone en Arabian Travel Market.</li>
+    <li>Agencia de Turismo de Japón, encuesta de consumo, 2.º trimestre de 2026, primera
+      estimación. Respuesta escrita del 9 de septiembre: cesión de microdatos y objetivo de error
+      estándar del 10 %.</li>
+    <li>Agencia de Servicios de Inmigración, entradas por nacionalidad, e-Stat.</li>
+    <li>Prefectura de Osaka, 企画・観光課, respuesta escrita del 10 de septiembre de 2026: tasa de
+      16.000 ¥ y requisitos del registro.</li>
+    <li>協同組合 全日本通訳案内士連盟 (JFG), tarifas publicadas de guía titulado.</li>
+    <li>JR Central, tarifa oficial Tokio-Kioto. JPS 京都観光貸切タクシー, tarifas publicadas.</li>
+    <li>Precios de alojamiento consultados el 8 de septiembre de 2026 para la ventana del 10 al 13
+      de diciembre de 2026.</li>
+    <li>Tipos de cambio medios de mercado del 8 de septiembre de 2026. Para cotizar en firme hay
+      que fijar el cambio en el contrato.</li>
+    <li>Modelo de precio del estudio (datos/costes.json): precio del operador = coste directo + margen
+      del operador; honorarios de consultoría en factura aparte. Los dos porcentajes son supuestos
+      propios. En Japón no hay comisión de prescripción.</li>
+    <li>~/projects/golfo-datos, salida/para-web.json, generado el 10 de septiembre de 2026: calendario
+      robusto, fiestas del Golfo de 2027, grupo mínimo por producto, modelo de precio y rejilla de
+      divisa.</li>
+  </ol>
+  <p style="margin-top:1.4rem">Documento de trabajo preparado sin coste para una consultora
+    turística con sede en Dubái. Las cifras de mercado son públicas y verificables; los
+    supuestos propios van marcados como tales en todo el documento.</p>
+</div></footer>
+</main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.min.js"></script>
+<script>
+/* ════════════════════════════════════════════════════════════════════════
+   Datos. Todos salen del estudio y llevan su origen marcado.
+   ════════════════════════════════════════════════════════════════════════ */
+const IDX_G=[61,63,52,131,110,114,121,74,83,118,139,133];
+const IDX_E=[33,41,92,94,93,88,125,169,128,152,119,67];
+const MES=['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+const MESL=['enero','febrero','marzo','abril','mayo','junio','julio','agosto',
+            'septiembre','octubre','noviembre','diciembre'];
+
+/* Serie mensual del CCG, copiada de golfo-datos/datos/series.csv, que la extrae
+   del Excel de JNTO (GCC6か国). 2026 se corta en julio, el último publicado.
+   No se redondea ni se suaviza: una versión anterior llevaba una curva
+   inventada, y un dato así lo detecta cualquiera que abra el Excel. */
+const SERIE={
+ 2023:[1510,1560,2024,2693,2644,3089,3909,2427,2167,3582,3835,3772],
+ 2024:[2236,2736,891,5918,4550,4709,4118,2373,2380,4175,5500,5075],
+ 2025:[3208,2717,2819,6322,5279,4879,5160,3301,5003,5210,6111,5915],
+ 2026:[4107,1247,1404,1819,3578,2600,3900,null,null,null,null,null]};
+
+/* Copia literal de ~/projects/golfo-datos/salida/para-web.json (sólo los
+   campos que usa esta página). No se teclea: se pega desde el fichero, y la
+   verificación comprueba que coincide con él. */
+const GOLFO={"generado":"2026-09-14","fuente":"JNTO, 国籍/月別 訪日外客数 · agregado GCC6か国, 2023-2025","robustez_top3":[40.3,8.6,0,78.9,0,16.9,0,0,0,0,55.2,100],"repartos_probados":10000,"umbrales":[{"clave":"kansai4","nombre":"Kansai esencial","dias":4,"pax_diseno":6,"pct_fijo":46,"minimo":5,"precio_operador_pax":163900,"honorarios_pax":16400,"total_cliente_pax":180300},{"clave":"clasica8","nombre":"Ruta clásica de ocho días","dias":8,"pax_diseno":6,"pct_fijo":41,"minimo":5,"precio_operador_pax":355000,"honorarios_pax":35500,"total_cliente_pax":390500},{"clave":"familia12","nombre":"Familia extensa, doce días","dias":12,"pax_diseno":9,"pct_fijo":37,"minimo":6,"precio_operador_pax":528900,"honorarios_pax":52900,"total_cliente_pax":581800}],"modelo_precio":{"margen_operador":0.2,"margen_operador_tipo":"supuesto","honorarios_consultoria":0.1,"honorarios_consultoria_unidad":"fracción del precio del operador, por expediente","honorarios_consultoria_tipo":"supuesto","comision_agencia":0,"moneda":"JPY"},"rejilla_divisa":{"variacion_yen_pct":[-15,-10,-5,0,5,10,15],"margen_operador_sobre_precio_pct":[29.2,25.0,20.8,16.7,12.5,8.3,4.2]},"fiestas_por_mes":[0,2,4,0,4,0,0,0,1,0,2,5],"fiestas_anio":2027,"fiestas":[{"pais":"Kuwait","fiesta":"Día Nacional y Liberación","fecha":"2027-02-25","dias":2,"tipo":"nacional"},{"pais":"Todo el Golfo","fiesta":"Eid al-Fitr","fecha":"2027-03-10","dias":4,"tipo":"islamica"},{"pais":"Todo el Golfo","fiesta":"Eid al-Adha","fecha":"2027-05-17","dias":4,"tipo":"islamica"},{"pais":"Arabia Saudí","fiesta":"Día Nacional","fecha":"2027-09-23","dias":1,"tipo":"nacional"},{"pais":"Omán","fiesta":"Día Nacional","fecha":"2027-11-18","dias":2,"tipo":"nacional"},{"pais":"Emiratos","fiesta":"Día de la Unión","fecha":"2027-12-02","dias":2,"tipo":"nacional"},{"pais":"Baréin","fiesta":"Día Nacional","fecha":"2027-12-16","dias":2,"tipo":"nacional"},{"pais":"Catar","fiesta":"Día Nacional","fecha":"2027-12-18","dias":1,"tipo":"nacional"}],"escenario_base":{"viajes":9,"margen_operador":3478300,"honorarios":2087000}};
+
+const TARIFAS=[
+ ['guia_4h','Guía titulado, base hasta 4 horas (grupo de 1 a 9)',30800,'grupo','dato',
+  'Tarifa publicada por la JFG · 協同組合 全日本通訳案内士連盟, IVA incluido'],
+ ['guia_hora_extra','Guía, cada hora adicional desde la cuarta',2200,'hora','dato',
+  'Tarifa publicada por la JFG'],
+ ['guia_pernocta','Guía, recargo por pernocta fuera de base',5500,'noche','dato',
+  'Tarifa publicada por la JFG'],
+ ['vehiculo_9_8h','Jumbo taxi de 9 plazas de pasajero con conductor, 8 h',66400,'día','dato',
+  'JPS 京都観光貸切タクシー, tarifa publicada: 【乗客定員】9名様, sin contar al conductor. Peajes y aparcamiento aparte'],
+ ['vehiculo_9_10h','Jumbo taxi de 9 plazas de pasajero con conductor, 10 h',83000,'día','dato',
+  'JPS 京都観光貸切タクシー, tarifa publicada'],
+ ['vehiculo_6_8h','Vehículo grande de 6 plazas con conductor, 8 h',61600,'día','dato',
+  'JPS 京都観光貸切タクシー, tarifa publicada'],
+ ['comuter_10h_tiempo','Microbús コミューター車 (hasta 14 plazas) con conductor, 10 h: 12 h facturables',69960,'día','dato',
+  '近畿運輸局, tarifas del 26-9-2025: 5.300 ¥ por hora, con 2 h de 点呼点検 y el 10 % de IVA añadidos. Consultado el 14-9-2026'],
+ ['comuter_10h_extra','Microbús コミューター車: 1 h de cochera y 120 km por jornada',20350,'día','supuesto',
+  'Supuesto propio sobre las tarifas del 近畿運輸局: 5.300 ¥ por hora y 110 ¥ por km, más IVA'],
+ ['tren_tokio_kioto','Shinkansen Nozomi Tokio-Kioto, asiento reservado',14170,'persona','dato',
+  'Tarifa oficial de JR Central: billete más suplemento'],
+ ['hotel_habitacion','Habitación doble o familiar, Osaka, ventana de diciembre',26400,
+  'habitación y noche','observado',
+  'Media de Richmond Namba Daikokucho (26.064 ¥) y Sheraton Miyako Osaka (26.767 ¥) para el 10-13 de diciembre de 2026, consultado el 8-9-2026'],
+ ['comida_halal','Almuerzo y cena en restaurante halal certificado o verificado',4500,
+  'persona y día','supuesto','Supuesto propio sobre la oferta halal de Osaka y Kioto'],
+ ['entradas','Entradas y transporte local',2500,'persona y día','supuesto','Supuesto propio'],
+ ['traslado_kix','Traslado de aeropuerto',30000,'trayecto','supuesto','Supuesto propio'],
+ ['traslado_kix_comuter','Traslado de aeropuerto en microbús コミューター車',43670,'trayecto','supuesto',
+  'Supuesto propio sobre las tarifas del 近畿運輸局: 3 h de servicio, 2 de 点呼点検 y 120 km, más IVA'],
+ ['sim_y_extras','eSIM, consigna e imprevistos',1500,'persona y día','supuesto','Supuesto propio'],
+];
+const T=Object.fromEntries(TARIFAS.map(t=>[t[0],{v:t[2],tipo:t[4],fuente:t[5],n:t[1]}]));
+
+const PROG={
+ kansai4:{n:'Kansai esencial',sub:'Osaka, Kioto y Nara sin cambiar de hotel. Para el emiratí que entra por KIX.',
+   dias:4,noches:3,pax:6,hab:3,bom:{dg:3,hg:8,pg:0,dv:3,veh:'vehiculo_9_8h',kix:2,tren:0}},
+ clasica8:{n:'Ruta clásica de ocho días',sub:'Entra por Tokio, sale por Kansai. El producto por defecto.',
+   dias:8,noches:7,pax:6,hab:3,bom:{dg:7,hg:8,pg:4,dv:6,veh:'vehiculo_9_8h',kix:1,tren:6}},
+ familia12:{n:'Familia extensa, doce días',sub:'Tres generaciones, nueve personas y el guía, en microbús. El tamaño real del Golfo.',
+   dias:12,noches:11,pax:9,hab:5,bom:{dg:11,hg:10,pg:7,dv:10,
+     veh:['comuter_10h_tiempo','comuter_10h_extra'],tras:'traslado_kix_comuter',kix:1,tren:9}},
+};
+/* Mismo nombre de línea que negocio.LINEA_VEHICULO del estudio: la parte
+   supuesta del vehículo va en su propia línea, con su etiqueta. */
+const LINEA_VEH={comuter_10h_extra:'Vehículo: cochera y kilómetros'};
+/* Modelo de la consultora: no hay comisión de agencia. El precio del viaje es
+   el del operador (coste + su margen) y los honorarios van en factura aparte.
+   Los dos porcentajes son supuestos y salen de para-web.json. */
+const MARGEN=GOLFO.modelo_precio.margen_operador,
+      HONOR=GOLFO.modelo_precio.honorarios_consultoria, AED=41.887, USD=154.36;
+const UMB=Object.fromEntries(GOLFO.umbrales.map(u=>[u.clave,u]));
+
+const RUTAS=[
+ ['Emirates','Dubái (DXB)','Osaka Kansai (KIX)',7,'KIX','operativa',25.25,55.36],
+ ['Emirates','Dubái (DXB)','Tokio Narita (NRT)',7,'Tokio','operativa',25.25,55.36],
+ ['Emirates','Dubái (DXB)','Tokio Narita · 2.ª diaria',7,'Tokio','anunciada',25.25,55.36],
+ ['Emirates','Dubái (DXB)','Tokio Haneda (HND)',7,'Tokio','operativa',25.25,55.36],
+ ['Qatar Airways','Doha (DOH)','Osaka Kansai (KIX)',5,'KIX','operativa',25.27,51.61],
+ ['Qatar Airways','Doha (DOH)','Tokio Haneda (HND)',7,'Tokio','operativa',25.27,51.61],
+ ['Etihad Airways','Abu Dabi (AUH)','Tokio Narita (NRT)',7,'Tokio','operativa',24.43,54.65],
+ ['Saudia','Riad (RUH)','Tokio Narita (NRT)',3,'Tokio','anunciada',24.71,46.68],
+ ['Gulf Air','Baréin (BAH)','—',0,'—','sin ruta',26.22,50.58],
+ ['Kuwait Airways','Kuwait (KWI)','—',0,'—','sin ruta',29.38,47.98],
+];
+const PUERTAS={KIX:[34.43,135.23],Tokio:[35.76,140.39]};
+const HALAL={mezquitas:4,salas_oracion:9,restaurantes:10,hoteles:4};
+const HALAL_ET={mezquitas:'Mezquitas',salas_oracion:'Salas de oración',
+  restaurantes:'Restaurantes verificados',hoteles:'Hoteles con cocina halal'};
+
+const $=s=>document.querySelector(s);
+/* Intl no agrupa los números de cuatro cifras en español, así que «4500 ¥»
+   quedaba al lado de «39.600 ¥» en la misma columna. Se fuerza el agrupado
+   para que la columna de importes lea como una sola. */
+const yen=v=>Math.round(v).toLocaleString('es-ES',{useGrouping:true,
+  minimumFractionDigits:0}).replace(/^(\d)(\d{3})$/,'$1.$2')+' ¥';
+/* El informe redondea al centenar todo importe calculado; si aquí se
+   redondeara a la unidad, 163.920 no leería como el 163.900 del informe. */
+const yenC=v=>yen(Math.round(v/100)*100);
+const pct1=v=>v.toLocaleString('es-ES',{minimumFractionDigits:1,maximumFractionDigits:1})+'\u00a0%';
+const lista=a=>a.length<2?a.join(''):a.slice(0,-1).join(', ')+' y '+a[a.length-1];
+const may=t=>t.charAt(0).toUpperCase()+t.slice(1);
+const col=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+
+/* ── Calendario hiyrí, tabular civil, sin librería ─────────────────────── */
+function hiyriAGreg(ah,mh,dh){
+  const jdn=Math.floor((11*ah+3)/30)+354*ah+30*mh-Math.floor((mh-1)/2)+dh+1948440-385;
+  let l=jdn+68569;const n=Math.floor(4*l/146097);l-=Math.floor((146097*n+3)/4);
+  const i=Math.floor(4000*(l+1)/1461001);l=l-Math.floor(1461*i/4)+31;
+  const j=Math.floor(80*l/2447);const d=l-Math.floor(2447*j/80);
+  const l2=Math.floor(j/11);const m=j+2-12*l2;const y=100*(n-49)+i+l2;
+  return new Date(Date.UTC(y,m-1,d));
+}
+function calendario(anio){
+  const out=[];
+  for(const ah of [anio-579,anio-578]){
+    const ev=[['ramadan',hiyriAGreg(ah,9,1),29],['eid_al_fitr',hiyriAGreg(ah,10,1),3],
+              ['eid_al_adha',hiyriAGreg(ah,12,10),4]];
+    for(const [c,f,dd] of ev){
+      if(f.getUTCFullYear()===anio){
+        const fin=new Date(f); fin.setUTCDate(fin.getUTCDate()+dd-1);
+        out.push({clave:c,inicio:f,fin});
+      }}}
+  return out.sort((a,b)=>a.inicio-b.inicio);
+}
+const CAL=calendario(2027);
+const MESES_RAM=new Set(); const cr=CAL.find(c=>c.clave==='ramadan');
+if(cr){const d=new Date(cr.inicio);while(d<=cr.fin){MESES_RAM.add(d.getUTCMonth());d.setUTCDate(d.getUTCDate()+1);}}
+const M_FITR=(CAL.find(c=>c.clave==='eid_al_fitr')||{}).inicio?.getUTCMonth();
+const M_ADHA=(CAL.find(c=>c.clave==='eid_al_adha')||{}).inicio?.getUTCMonth();
+const fdate=d=>d.toLocaleDateString('es-ES',{day:'numeric',month:'long',timeZone:'UTC'});
+
+function veredicto(m){
+  const g=IDX_G[m],e=IDX_E[m];
+  if(MESES_RAM.has(m))return{n:'mal',t:`<b>Ramadán cubre ${MESL[m]}.</b> Se esperan menos llegadas, aunque con tres años el efecto aún no es significativo (p = 0,16): mes de preparar más que de vender. Índice del Golfo ${g}.`};
+  if(m===M_FITR)return{n:'',t:`<b>Cae el Eid al-Fitr.</b> Buena ventana: en 2024 el mes del Eid tuvo 6,6 veces las llegadas del anterior. Con tres años es una observación, no una medida, y el mes que gana con cualquier criterio es diciembre. Índice ${g}.`};
+  if(m===M_ADHA)return{n:'',t:`<b>Cae el Eid al-Adha</b>, la segunda fiesta grande. Ventana corta y de ticket alto. Índice ${g}.`};
+  if(g>=110&&e<=110)return{n:'',t:`<b>${MESL[m].charAt(0).toUpperCase()+MESL[m].slice(1)} es de los buenos:</b> índice del Golfo ${g}, por encima de su media, y España en ${e}, así que no compite por la misma agenda.`};
+  if(g<90)return{n:'mal',t:`<b>Mes flojo para el Golfo</b> (índice ${g}). Se puede operar, pero no es donde está el dinero — y España está en ${e}.`};
+  return{n:'med',t:`<b>Mes trabajable con competencia interna:</b> el Golfo en ${g} y España en ${e}. Hay que elegir a quién se atiende.`};
+}
+
+/* ── Simulación de costes del operador (orientativa, no es oferta) ────── */
+function presupuesto(clave,pax,hab,hotel,margen){
+  const p=PROG[clave],b=p.bom;
+  const gd=T.guia_4h.v+Math.max(0,b.hg-4)*T.guia_hora_extra.v;
+  const bil=Math.round(b.tren*pax/p.pax), tras=b.tras||'traslado_kix';
+  const L=[
+   ['Guía titulado en árabe',b.dg*gd+b.pg*T.guia_pernocta.v,
+    `${b.dg} jornadas de ${b.hg} h a ${yen(gd)}`+(b.pg?` + ${b.pg} pernoctas`:''),'guia_4h'],
+   ...[].concat(b.veh).map(v=>[LINEA_VEH[v]||'Vehículo con conductor',b.dv*T[v].v,
+    `${b.dv} días a ${yen(T[v].v)}`,v]),
+   ['Traslados de aeropuerto',b.kix*T[tras].v,
+    `${b.kix} trayecto(s) a ${yen(T[tras].v)}`,tras],
+   ['Shinkansen',bil*T.tren_tokio_kioto.v,
+    bil?`${bil} billetes a ${yen(T.tren_tokio_kioto.v)}`:'no aplica en este programa','tren_tokio_kioto'],
+   ['Alojamiento',p.noches*hab*hotel,
+    `${p.noches} noches × ${hab} habitaciones a ${yen(hotel)}`,'hotel_habitacion'],
+   ['Restauración halal',p.dias*pax*T.comida_halal.v,
+    `${p.dias} días × ${pax} personas a ${yen(T.comida_halal.v)}`,'comida_halal'],
+   ['Entradas y transporte local',p.dias*pax*T.entradas.v,
+    `${p.dias} días × ${pax} personas a ${yen(T.entradas.v)}`,'entradas'],
+   ['eSIM, consigna e imprevistos',p.dias*pax*T.sim_y_extras.v,
+    `${p.dias} días × ${pax} personas a ${yen(T.sim_y_extras.v)}`,'sim_y_extras'],
+  ];
+  const coste=L.reduce((a,x)=>a+x[1],0);
+  const marg=coste*margen, precio=coste+marg, hon=precio*HONOR, total=precio+hon;
+  return{L,coste,marg,precio,hon,total,pax,hab,hotel,margen,p,clave};
+}
+/* Con el precio por persona fijado al tamaño de diseño, qué deja la salida
+   con cada grupo real. Misma regla que negocio.umbral_grupo del estudio: una
+   habitación por cada dos personas y el alojamiento observado. */
+function umbral(clave,margen){
+  const p=PROG[clave], h=T.hotel_habitacion.v;
+  const precioPax=presupuesto(clave,p.pax,p.hab,h,margen).precio/p.pax, filas=[];
+  for(let n=2;n<=p.pax;n++)
+    filas.push([n,precioPax*n-presupuesto(clave,n,Math.ceil(n/2),h,margen).coste]);
+  const ok=filas.find(f=>f[1]>0);
+  return{minimo:ok?ok[0]:null,filas,precioPax};
+}
+
+/* ── Gráficos en SVG, dibujados a la escala ────────────────────────────── */
+function ejeY(g,x0,y0,y1,max,pasos,fmt){
+  for(let i=0;i<=pasos;i++){
+    const v=max*i/pasos, y=y1-(y1-y0)*(i/pasos);
+    g.push(`<line x1="${x0}" y1="${y}" x2="700" y2="${y}" stroke="${col('--linea2')}" stroke-width="1"/>`);
+    g.push(`<text x="${x0-8}" y="${y+4}" text-anchor="end" font-size="10" fill="${col('--tinta3')}"
+      font-family="var(--mono)">${fmt(v)}</text>`);
+  }
+}
+function serie(){
+  const s=$('#g-serie'); if(!s)return;
+  const x0=48,y0=14,y1=196,max=9000,g=[];
+  ejeY(g,x0,y0,y1,max,3,v=>(v/1000).toFixed(0)+'k');
+  const px=m=>x0+(700-x0)*(m/11), py=v=>y1-(y1-y0)*(v/max);
+  for(let m=0;m<12;m++) g.push(`<text x="${px(m)}" y="${y1+18}" text-anchor="middle"
+    font-size="10" fill="${col('--tinta3')}" font-family="var(--mono)">${MES[m]}</text>`);
+  const grises=[2023,2024,2025];
+  grises.forEach((a,i)=>{
+    const d=SERIE[a].map((v,m)=>`${m?'L':'M'}${px(m)},${py(v)}`).join('');
+    g.push(`<path d="${d}" fill="none" stroke="${col('--tinta3')}" stroke-width="1.2"
+      opacity="${0.25+i*0.12}"/>`);
+  });
+  const v26=SERIE[2026], pts=[];
+  v26.forEach((v,m)=>{if(v!=null)pts.push(`${pts.length?'L':'M'}${px(m)},${py(v)}`)});
+  g.push(`<path d="${pts.join('')}" fill="none" stroke="${col('--coral')}" stroke-width="2.4"
+    stroke-linejoin="round"/>`);
+  v26.forEach((v,m)=>{if(v!=null)g.push(`<circle cx="${px(m)}" cy="${py(v)}" r="3"
+    fill="${col('--coral')}"/>`)});
+  // el mes del Ramadán de cada año, que es el que manda
+  g.push(`<text x="${px(3)}" y="${py(SERIE[2025][3])-12}" text-anchor="middle" font-size="10.5"
+    fill="${col('--marea')}" font-family="var(--mono)">abr 2025 · 6.322</text>`);
+  g.push(`<text x="${px(3)}" y="${py(SERIE[2026][3])+20}" text-anchor="middle" font-size="10.5"
+    fill="${col('--coral')}" font-family="var(--mono)">abr 2026 · 1.819 (−71,2 %)</text>`);
+  g.push(`<text x="700" y="${py(SERIE[2025][11])-8}" text-anchor="end" font-size="10"
+    fill="${col('--tinta3')}" font-family="var(--mono)">2023-2025</text>`);
+  s.innerHTML=g.join('');
+}
+function estacion(){
+  const s=$('#g-estacion'); if(!s)return;
+  const x0=44,y0=22,y1=196,max=180,g=[];
+  ejeY(g,x0,y0,y1,max,3,v=>Math.round(v));
+  const px=m=>x0+(700-x0)*(m/11), py=v=>y1-(y1-y0)*(v/max);
+  // la línea del 100, que es la referencia que da sentido al índice
+  g.push(`<line x1="${x0}" y1="${py(100)}" x2="700" y2="${py(100)}" stroke="${col('--tinta2')}"
+    stroke-width="1" stroke-dasharray="4 3"/>`);
+  g.push(`<text x="${x0+4}" y="${py(100)-6}" font-size="10" fill="${col('--tinta2')}"
+    font-family="var(--mono)">100 · mes medio</text>`);
+  for(let m=0;m<12;m++) g.push(`<text x="${px(m)}" y="${y1+18}" text-anchor="middle"
+    font-size="10" fill="${MESES_RAM.has(m)?col('--coral'):col('--tinta3')}"
+    font-family="var(--mono)">${MES[m]}</text>`);
+  const anchoMes=(700-x0)/11;
+  for(const m of MESES_RAM){
+    g.push(`<rect x="${px(m)-anchoMes/2}" y="${y0}" width="${anchoMes}" height="${y1-y0}"
+      fill="${col('--coral')}" opacity=".14"/>`);
+  }
+  {const ms=[...MESES_RAM].sort((a,b)=>a-b);
+   g.push(`<text x="${px((ms[0]+ms[ms.length-1])/2)}" y="${y0+13}" text-anchor="middle"
+     font-size="10.5" fill="${col('--coral')}" font-family="var(--mono)">Ramadán 2027</text>`);}
+  const linea=(arr,color,w)=>arr.map((v,m)=>`${m?'L':'M'}${px(m)},${py(v)}`).join('');
+  g.push(`<path d="${linea(IDX_E)}" fill="none" stroke="${col('--duna')}" stroke-width="2"/>`);
+  g.push(`<path d="${linea(IDX_G)}" fill="none" stroke="${col('--marea')}" stroke-width="2.6"/>`);
+  IDX_G.forEach((v,m)=>g.push(`<circle cx="${px(m)}" cy="${py(v)}" r="3" fill="${col('--marea')}"/>`));
+  g.push(`<text x="${px(7)}" y="${py(169)-10}" text-anchor="middle" font-size="10.5"
+    fill="${col('--duna')}" font-family="var(--mono)">ago · España 169</text>`);
+  g.push(`<text x="${px(7)}" y="${py(74)+18}" text-anchor="middle" font-size="10.5"
+    fill="${col('--marea')}" font-family="var(--mono)">ago · Golfo 74</text>`);
+  g.push(`<text x="${px(10)}" y="${py(139)-10}" text-anchor="middle" font-size="10.5"
+    fill="${col('--marea')}" font-family="var(--mono)">nov 139</text>`);
+  s.innerHTML=g.join('');
+}
+function gasto(){
+  const s=$('#g-gasto'); if(!s)return;
+  const D=MERCADOS_GASTO; // una sola fuente para el gráfico plano y el 3D
+  const x0=118,max=560000,g=[],alto=26;
+  D.forEach((d,i)=>{
+    const y=14+i*alto, w=(700-x0)*(d[1]/max);
+    g.push(`<rect x="${x0}" y="${y}" width="${w}" height="17" rx="2"
+      fill="${d[2]?col('--marea'):col('--tinta3')}" opacity="${d[2]?1:.42}"/>`);
+    g.push(`<text x="${x0-8}" y="${y+13}" text-anchor="end" font-size="11"
+      fill="${d[2]?col('--marea'):col('--tinta2')}" font-weight="${d[2]?600:400}">${d[0]}</text>`);
+    g.push(`<text x="${x0+w+7}" y="${y+13}" font-size="10.5" fill="${col('--tinta2')}"
+      font-family="var(--mono)">${d[1].toLocaleString('es-ES')} ¥</text>`);
+  });
+  const ym=14+8*alto+17;
+  g.push(`<line x1="${x0+(700-x0)*(244500/max)}" y1="10" x2="${x0+(700-x0)*(244500/max)}"
+    y2="${ym+6}" stroke="${col('--tinta2')}" stroke-dasharray="4 3" stroke-width="1"/>`);
+  s.innerHTML=g.join('');
+}
+
+/* ── Pintado de secciones ──────────────────────────────────────────────── */
+let mesSel=3;
+function pintaMeses(){
+  const max=Math.max(...IDX_G);
+  $('#meses').innerHTML=IDX_G.map((v,i)=>
+    `<button type="button" class="mes ${MESES_RAM.has(i)?'malo':''}" data-m="${i}"
+      aria-pressed="${i===mesSel}"><b>${MES[i]}</b><span class="v">${v}</span>
+      <i style="height:${Math.round(v/max*100*.45)}%"></i></button>`).join('');
+  const ver=veredicto(mesSel);
+  const c=$('#veredicto-mes'); c.className='aviso '+ver.n;
+  c.innerHTML='<p>'+ver.t+`<span class="det">Entre los tres mejores meses en el
+    ${Math.round(GOLFO.robustez_top3[mesSel])}\u00a0% de los repartos de pesos probados ·
+    ${GOLFO.fiestas_por_mes[mesSel]} días de fiesta del Golfo en ${GOLFO.fiestas_anio}.</span></p>`;
+}
+function pintaHiyri(){
+  const et={ramadan:['Ramadán','mes de preparar, no de vender','mal'],
+    eid_al_fitr:['Eid al-Fitr','la mejor ventana del año','ac'],
+    eid_al_adha:['Eid al-Adha','ventana corta y de ticket alto','av']};
+  $('#hiyri-tarjetas').innerHTML=CAL.map(c=>{
+    const [n,nota,cl]=et[c.clave];
+    return `<div class="tarj ${cl}"><span class="et">${n} · 2027</span>
+      <span class="v" style="font-size:1.5rem">${fdate(c.inicio)}</span>
+      <span class="n">hasta el ${fdate(c.fin)} — ${nota}</span></div>`;}).join('');
+}
+function pintaRutas(){
+  $('#tabla-rutas').innerHTML=RUTAS.map(r=>{
+    const est=r[5]==='operativa'?'<span class="orig dato">operativa</span>'
+      :r[5]==='anunciada'?'<span class="orig observado">anunciada</span>'
+      :'<span class="orig supuesto">sin ruta</span>';
+    return `<tr><td>${r[0]}</td><td>${r[1]} → ${r[2]}</td>
+      <td class="n">${r[3]?r[3]+'/sem':'—'}</td><td>${r[4]}</td><td>${est}</td></tr>`;}).join('');
+}
+function pintaProductos(){
+  $('#productos').innerHTML=Object.entries(PROG).map(([k,p])=>{
+    const r=presupuesto(k,p.pax,p.hab,T.hotel_habitacion.v,MARGEN), u=UMB[k];
+    return `<div class="tarj"><span class="et">${p.dias} días · ${p.pax} personas · mínimo ${u.minimo}</span>
+      <span class="v" style="font-size:1.35rem;font-family:var(--cuerpo);font-weight:600">${p.n}</span>
+      <span class="n">${p.sub}<br>Por persona: <b>${yenC(r.precio/p.pax)}</b> precio del operador
+      + ${yenC(r.hon/p.pax)} de honorarios <span class="orig supuesto">supuesto</span>
+      = <b>${yenC(r.total/p.pax)}</b> que paga el cliente</span></div>`;
+  }).join('');
+}
+function pintaRobustez(){
+  const R=GOLFO.robustez_top3, F=GOLFO.fiestas_por_mes;
+  const porMes=Array.from({length:12},()=>[]), nac=Array(12).fill(0), paises=Array.from({length:12},()=>[]);
+  GOLFO.fiestas.forEach(f=>{const m=+f.fecha.slice(5,7)-1; porMes[m].push(f);
+    if(f.tipo==='nacional'){nac[m]+=f.dias; paises[m].push(f.pais);}});
+  const orden=R.map((v,m)=>[v,m]).sort((a,b)=>b[0]-a[0]), top=orden.slice(0,3).map(x=>x[1]);
+  const n=GOLFO.repartos_probados;
+  $('#rob-n').textContent=yen(n).replace(' ¥','');
+  $('#tabla-robustez').innerHTML=R.map((v,m)=>
+    `<tr${top.includes(m)?' class="tot"':''}><td>${may(MESL[m])}</td>
+     <td class="n">${v?Math.round(v)+'\u00a0%':'nunca'}</td><td class="n">${F[m]||'—'}</td>
+     <td>${porMes[m].map(f=>`${f.pais} · ${f.fiesta} (${f.dias})`).join('<br>')||'—'}</td></tr>`).join('');
+  const nunca=R.map((v,m)=>v?null:MESL[m]).filter(Boolean);
+  const mNac=nac.indexOf(Math.max(...nac));
+  let t=`<b>${may(MESL[top[0]])} entra entre los tres mejores meses en el ${Math.round(R[top[0]])}\u00a0%
+    de los ${yen(n).replace(' ¥','')} repartos</b>, ${MESL[top[1]]} en el ${Math.round(R[top[1]])}\u00a0% y
+    ${MESL[top[2]]} en el ${Math.round(R[top[2]])}\u00a0%. ${may(lista(nunca))} no entran nunca.
+    Y por la otra vía, ${MESL[mNac]} concentra <b>${nac[mNac]} días de fiesta nacional</b> del Golfo,
+    de ${lista(paises[mNac])}.`;
+  if(mNac===top[0]) t+=` Dos caminos independientes —las llegadas y el calendario laboral— señalan el
+    mismo mes.`;
+  $('#robustez-lectura').innerHTML='<p>'+t+'</p>';
+}
+function pintaUmbrales(){
+  $('#tabla-umbrales').innerHTML=GOLFO.umbrales.map(u=>{
+    const c=umbral(u.clave,MARGEN), perd=Object.fromEntries(c.filas.filter(f=>f[1]<=0));
+    let nota;
+    if(u.minimo<=2) nota='Deja dinero desde dos personas.';
+    else { const b=u.minimo-1;
+      nota=`Con ${b} personas la salida pierde ${yenC(-perd[b])}`+(b>2?`; con 2, pierde ${yenC(-perd[2])}.`:'.'); }
+    if(c.minimo!==u.minimo){
+      console.error('Grupo mínimo distinto del de para-web.json',u.clave,c.minimo,u.minimo);
+      nota+=` <b>Atención: el cálculo de esta página da ${c.minimo}.</b>`;
+    }
+    return `<tr><td><b>${u.nombre}</b> · ${u.dias} días</td><td class="n">${u.pax_diseno}</td>
+      <td class="n">${u.pct_fijo}\u00a0%</td><td class="n"><b>${u.minimo} personas</b></td><td>${nota}</td></tr>`;
+  }).join('');
+}
+function pintaDivisa(){
+  const d=GOLFO.rejilla_divisa;
+  $('#divisa-cab').innerHTML='<tr><th>El yen se aprecia</th>'+d.variacion_yen_pct.map(v=>
+    `<th class="n">${v===0?'sin cambio':(v>0?'+':'−')+Math.abs(v)+'\u00a0%'}</th>`).join('')+'</tr>';
+  $('#divisa-cuerpo').innerHTML='<tr><td>Margen del operador sobre su precio</td>'+
+    d.margen_operador_sobre_precio_pct.map((m,i)=>{const v=d.variacion_yen_pct[i];
+      return `<td class="n">${v===0||v===15?'<b>'+pct1(m)+'</b>':pct1(m)}</td>`;}).join('')+'</tr>';
+}
+function pintaTarifas(){
+  $('#tabla-tarifas').innerHTML=TARIFAS.map(t=>
+    `<tr><td>${t[1]}<span class="orig ${t[4]}">${t[4]}</span></td>
+     <td class="n">${yen(t[2])}</td><td>${t[3]}</td>
+     <td><span class="det" style="margin:0">${t[5]}</span></td></tr>`).join('');
+}
+function pintaHalal(){
+  $('#halal-cifras').innerHTML=Object.entries(HALAL).map(([k,v])=>
+    `<div class="tarj"><span class="et">${HALAL_ET[k]}</span><span class="v">${v}</span></div>`).join('')
+    +`<div class="tarj ac"><span class="et">Entradas verificadas</span>
+      <span class="v">${Object.values(HALAL).reduce((a,b)=>a+b,0)}</span>
+      <span class="n">cada una con su nivel de verificación</span></div>`;
+}
+
+/* ── Cotizador ─────────────────────────────────────────────────────────── */
+let ULT=null;
+function cotiza(){
+  const k=$('#f-prog').value, pax=+$('#f-pax').value||6, hab=+$('#f-hab').value||3;
+  const r=presupuesto(k,pax,hab,+$('#f-hotel').value,+$('#f-margen').value);
+  ULT=r;
+  const pm=Math.round(r.margen*100), ph=Math.round(HONOR*100), u=UMB[k];
+  $('#pista-prog').textContent=PROG[k].sub;
+  $('#pista-hon').textContent=`${ph} % del precio del operador, en factura aparte. HARUNANA no ha dado tarifa: es un marcador de posición.`;
+  $('#lineas').innerHTML=r.L.map(([c,v,d,ref])=>
+    `<tr><td>${c}<span class="orig ${T[ref].tipo}">${T[ref].tipo}</span>
+      <span class="det">${d}</span></td><td class="n">${yenC(v)}</td></tr>`).join('')
+   +`<tr class="tot"><td>Coste directo</td><td class="n">${yenC(r.coste)}</td></tr>`
+   +`<tr><td>Margen del operador<span class="orig supuesto">supuesto</span>
+      <span class="det">${pm}\u00a0% sobre el coste directo</span></td><td class="n">${yenC(r.marg)}</td></tr>`
+   +`<tr class="tot"><td><b>Precio del operador</b><span class="det">lo cotiza y lo factura el operador
+      japonés del grupo al cliente final</span></td><td class="n"><b>${yenC(r.precio)}</b></td></tr>`
+   +`<tr><td>Honorarios de consultoría<span class="orig supuesto">supuesto</span>
+      <span class="det">${ph}\u00a0% del precio del operador · los factura HARUNANA aparte</span></td>
+      <td class="n">${yenC(r.hon)}</td></tr>`
+   +`<tr class="tot"><td><b>Total que paga el cliente</b><span class="det">en dos facturas: la del
+      operador y la de la consultora</span></td><td class="n"><b>${yenC(r.total)}</b></td></tr>`;
+  $('#totales').innerHTML=`
+    <div class="tarj"><span class="et">Precio del operador · por persona</span>
+      <span class="v" style="font-size:1.5rem" data-cifra="operador">${yenC(r.precio/pax)}</span>
+      <span class="n">lo cobra el operador: coste + ${pm}\u00a0% de margen</span></div>
+    <div class="tarj"><span class="et">Honorarios · por persona</span>
+      <span class="v" style="font-size:1.5rem" data-cifra="honorarios">${yenC(r.hon/pax)}</span>
+      <span class="n">los cobra HARUNANA, en factura aparte · supuesto del ${ph}\u00a0%</span></div>
+    <div class="tarj hondo"><span class="et">Total que paga el cliente · por persona</span>
+      <span class="v" style="font-size:1.5rem" data-cifra="total">${yenC(r.total/pax)}</span>
+      <span class="n">las dos facturas juntas. Cada cifra va redondeada al centenar por separado</span></div>
+    <div class="tarj"><span class="et">Total en dirhams · por persona</span>
+      <span class="v" style="font-size:1.5rem">${Math.round(r.total/pax/AED).toLocaleString('es-ES')}</span>
+      <span class="n">AED · 1 AED = ${AED} ¥ el 8-9-2026</span></div>
+    <div class="tarj"><span class="et">Total en dólares · por persona</span>
+      <span class="v" style="font-size:1.5rem">${Math.round(r.total/pax/USD).toLocaleString('es-ES')}</span>
+      <span class="n">USD · 1 USD = ${USD} ¥</span></div>`;
+  const av=$('#aviso-minimo');
+  if(pax<u.minimo){
+    const perd=umbral(k,r.margen).filas.find(f=>f[0]===pax);
+    av.innerHTML=`<p><b>Por debajo del mínimo: ${u.nombre} necesita al menos ${u.minimo} personas.</b>
+      El ${u.pct_fijo}\u00a0% del coste es fijo por salida —guía, vehículo y traslados cuestan lo mismo
+      con dos pasajeros que con ${u.pax_diseno}—, así que al precio por persona calculado para
+      ${u.pax_diseno} el operador perdería ${perd?yenC(Math.max(0,-perd[1])):'dinero'} con ${pax}
+      (una habitación por cada dos). Aquí el coste se recalcula para ${pax} personas y por eso el precio
+      por persona sube. Por debajo del mínimo, vehículo y guía se cotizan aparte.</p>`;
+    av.hidden=false;
+  } else { av.hidden=true; av.innerHTML=''; }
+}
+function comoTexto(){
+  const r=ULT; if(!r)return'';
+  const u=UMB[r.clave];
+  const fila=(t,v)=>`  ${t.padEnd(46)} ${yenC(v).padStart(14)}`;
+  const li=r.L.map(([c,v,d,ref])=>`${fila(c,v)}   [${T[ref].tipo}] ${d}`);
+  const pm=Math.round(r.margen*100), ph=Math.round(HONOR*100);
+  return ['SIMULACIÓN ORIENTATIVA DE COSTES DEL OPERADOR · Kansai para el Golfo',
+   'No es una oferta ni un presupuesto de HARUNANA TRAVEL AND CONSULTING — FZCO.',
+   'El viaje lo cotiza y lo factura el operador japonés del grupo a nombre del cliente final;',
+   'los honorarios de consultoría se facturan aparte. No hay comisión de agencia.','',
+   `${r.p.n} · ${r.p.dias} días · ${r.pax} personas · ${r.hab} habitaciones`,
+   `Alojamiento a ${yen(r.hotel)} por habitación y noche`,'',...li,'',
+   fila('Coste directo',r.coste),
+   fila(`Margen del operador ${pm} % [supuesto]`,r.marg),
+   fila('PRECIO DEL OPERADOR (lo factura el operador)',r.precio),
+   fila(`Honorarios de consultoría ${ph} % [supuesto]`,r.hon)+'   factura aparte de HARUNANA',
+   fila('TOTAL QUE PAGA EL CLIENTE',r.total),'',
+   'Por persona:',
+   fila('  Precio del operador',r.precio/r.pax),
+   fila('  Honorarios de consultoría',r.hon/r.pax),
+   fila('  Total que paga el cliente',r.total/r.pax),'',
+   ...(r.pax<u.minimo?[`AVISO: por debajo del mínimo de ${u.minimo} personas. El ${u.pct_fijo} % del coste es fijo`,
+     'por salida; vehículo y guía se cotizan aparte.','']:[]),
+   'Importes redondeados al centenar, cada uno por separado.',
+   'Tarifas publicadas: JFG (guías titulados), JR Central, JPS 京都観光貸切タクシー, 近畿運輸局 (microbús).',
+   'Alojamiento: precio observado el 8-9-2026 para la ventana del 10 al 13 de diciembre.',
+   'Cambio del 8-9-2026: 1 AED = 41,887 ¥ · 1 USD = 154,36 ¥.',
+   'Para cotizar en firme hay que fijar el cambio en el contrato.'].join('\n');
+}
+function descargar(){
+  /* Descarga sin depender de nada: un Blob y un enlace temporal. Funciona en
+     cualquier navegador y en cualquier alojamiento, que es justo lo que hace
+     falta cuando la página vive en un dominio propio. */
+  const s=$('#soplo');
+  try{
+    const b=new Blob([comoTexto()],{type:'text/plain;charset=utf-8'});
+    const u=URL.createObjectURL(b), a=document.createElement('a');
+    a.href=u; a.download='simulacion-costes-operador-kansai.txt';
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(()=>URL.revokeObjectURL(u),1500);
+    s.textContent='Descargado'; s.classList.add('ver');
+  }catch(e){ copiar('No se pudo descargar: copiado al portapapeles'); return; }
+  setTimeout(()=>s.classList.remove('ver'),2600);
+}
+
+async function copiar(msg){
+  const s=$('#soplo');
+  try{ await navigator.clipboard.writeText(comoTexto()); }
+  catch(e){ const t=document.createElement('textarea'); t.value=comoTexto();
+    document.body.appendChild(t); t.select(); document.execCommand('copy'); t.remove(); }
+  s.textContent=msg||'Copiado'; s.classList.add('ver');
+  setTimeout(()=>s.classList.remove('ver'),2600);
+}
+
+/* ── Globo: el corredor sobre la Tierra de verdad ─────────────────────────
+   Todo lo que se ve es un dato, y cada capa dice de dónde sale:
+   · Sol: el punto subsolar se calcula con la hora UTC del visitante (o con la
+     que elija en el control de la hora), así que el día, la noche y las luces
+     de las ciudades están donde están.
+   · Nubes: la imagen VIIRS (NOAA-20) de ayer, de NASA GIBS.
+   · Lluvia: NASA IMERG, precipitación casi en tiempo real.
+   · Calor: temperatura del suelo (MODIS) y del mar (GHRSST MUR), NASA GIBS.
+   · Polvo: espesor óptico de aerosoles (MODIS), e incendios activos (VIIRS).
+   · Tiempo en cada ciudad: Open-Meteo, actual.
+   · Tráfico: instantánea de OpenSky que toma una tarea de GitHub cada 20
+     minutos (la web no puede leer OpenSky directamente). Cada avión se
+     adelanta desde esa instantánea con su rumbo y velocidad reales.
+   Las vistas cambian el mundo de fondo; las capas se encienden y se apagan.
+   Cada capa de NASA se pide sólo cuando alguien la enciende. Todo gratis y
+   sin claves; si una fuente falla, el globo sigue y la leyenda deja de citarla. */
+const SAUDIA_INICIO=new Date('2026-11-17T00:00:00+03:00');
+const TRAFICO_URL='https://raw.githubusercontent.com/2troll/corredor-golfo/datos/trafico.json';
+const GIBS='https://gibs.earthdata.nasa.gov/wms/epsg4326/best/wms.cgi?SERVICE=WMS&REQUEST=GetMap'
+  +'&VERSION=1.3.0&CRS=EPSG:4326&BBOX=-90,-180,90,180&WIDTH=2048&HEIGHT=1024';
+const hhmm=(d,tz)=>new Intl.DateTimeFormat('es-ES',{hour:'2-digit',minute:'2-digit',
+  timeZone:tz||'UTC'}).format(d);
+const diaUTC=n=>new Date(Date.now()-n*864e5).toISOString().slice(0,10);
+const fechaEs=iso=>iso.split('-').reverse().join('-');
+
+function hudCorredor(){
+  const ops=RUTAS.filter(r=>r[5]==='operativa'), anun=RUTAS.filter(r=>r[5]==='anunciada');
+  const suma=a=>a.reduce((s,r)=>s+r[3],0);
+  $('#hud-diarias').textContent=(suma(ops)/7).toLocaleString('es-ES',{maximumFractionDigits:1});
+  $('#hud-diarias-n').textContent=`${suma(ops)}/sem · ${ops.length} rutas · +${suma(anun)} anunciados`;
+  const dias=Math.ceil((SAUDIA_INICIO-Date.now())/864e5);
+  $('#hud-saudia').textContent=dias>0?`${dias} días`:'en servicio';
+  const reloj=()=>{ const d=new Date(); $('#hud-reloj').textContent=
+    `Dubái ${hhmm(d,'Asia/Dubai')} · Riad ${hhmm(d,'Asia/Riyadh')} · Osaka ${hhmm(d,'Asia/Tokyo')} · ${hhmm(d)} UTC`; };
+  reloj(); setInterval(reloj,20000);
+}
+
+/* Punto subsolar: declinación por la aproximación de Cooper y longitud por la
+   hora UTC. Error de un par de grados, invisible a esta escala. */
+function subsolar(d){
+  const ini=Date.UTC(d.getUTCFullYear(),0,0), dia=(d-ini)/864e5;
+  const decl=-23.44*Math.cos(2*Math.PI/365*(dia+10));
+  const h=d.getUTCHours()+d.getUTCMinutes()/60;
+  return [decl,-15*(h-12)];
+}
+
+/* Punto de destino sobre la esfera dados rumbo y distancia (fórmula del
+   círculo máximo): con esto se adelanta cada avión desde la instantánea. */
+function avanza(la,lo,rumbo,km){
+  const r=Math.PI/180, d=km/6371, b=rumbo*r, f1=la*r, l1=lo*r;
+  const f2=Math.asin(Math.sin(f1)*Math.cos(d)+Math.cos(f1)*Math.sin(d)*Math.cos(b));
+  const l2=l1+Math.atan2(Math.sin(b)*Math.sin(d)*Math.cos(f1),Math.cos(d)-Math.sin(f1)*Math.sin(f2));
+  return [f2/r,((l2/r+540)%360)-180];
+}
+
+/* Códigos WMO de Open-Meteo, en una palabra */
+const CIELO=c=>c===0?'despejado':c<=2?'poco nuboso':c===3?'cubierto':c<=48?'niebla'
+  :c<=57?'llovizna':c<=67?'lluvia':c<=77?'nieve':c<=82?'chubascos':c<=86?'nieve':'tormenta';
+
+/* Mapa político dibujado en un lienzo equirrectangular a partir de las mismas
+   fronteras: sirve de textura a la vista «Política». Los anillos que cruzan el
+   antimeridiano se desenvuelven y se pintan también desplazados ±360°, y la
+   Antártida, que da la vuelta entera, se cierra por el borde de abajo. */
+function mapaPolitico(topo){
+  const W=2048,H=1024, c=document.createElement('canvas'); c.width=W; c.height=H;
+  const g=c.getContext('2d'), sc=topo.transform.scale, tr=topo.transform.translate;
+  const arcos=topo.arcs.map(a=>{ let x=0,y=0; return a.map(([dx,dy])=>{x+=dx;y+=dy;
+    return [x*sc[0]+tr[0], y*sc[1]+tr[1]];}); });
+  const anillo=idx=>{ const p=[];
+    idx.forEach((i,k)=>{ const a=i<0?arcos[~i].slice().reverse():arcos[i];
+      p.push(...(k?a.slice(1):a)); });
+    return p; };
+  const X=lo=>(lo+180)/360*W, Y=la=>(90-la)/180*H;
+  const oceano=g.createLinearGradient(0,0,0,H);
+  oceano.addColorStop(0,'#0c2233'); oceano.addColorStop(.5,'#0f2b3f'); oceano.addColorStop(1,'#0c2233');
+  g.fillStyle=oceano; g.fillRect(0,0,W,H);
+  const PAL=['#2a3a45','#324550','#2e404b','#384b55','#27363f','#3d4f58'];
+  const CCG=['682','784','634','048','414','512'];
+  for(const geo of topo.objects.countries.geometries){
+    if(!geo.arcs) continue;
+    const polis=geo.type==='Polygon'?[geo.arcs]:geo.arcs;
+    g.fillStyle=CCG.includes(geo.id)?'#2f9a84':geo.id==='392'?'#c99a4c':PAL[(+geo.id||7)%PAL.length];
+    g.strokeStyle='rgba(8,20,28,.9)'; g.lineWidth=1.2;
+    for(const off of [-W,0,W]){
+      g.beginPath();
+      for(const rings of polis) for(const r of rings){
+        const p=anillo(r); let lo0=p[0][0], sh=0, x0, xl;
+        p.forEach(([lo,la],k)=>{
+          if(k){ const d=lo-lo0; if(d>180) sh-=360; else if(d<-180) sh+=360; }
+          lo0=lo; const x=X(lo+sh)+off, y=Y(la);
+          if(!k){ g.moveTo(x,y); x0=x; } else g.lineTo(x,y); xl=x; });
+        if(Math.abs(xl-x0)>W*.9){ g.lineTo(xl,H); g.lineTo(x0,H); }
+        g.closePath();
+      }
+      g.fill('evenodd'); g.stroke();
+    }
+  }
+  return c;
+}
+
+async function globo(){
+  const lz=$('#globo-carga'), caja=$('.globo-caja');
+  hudCorredor();
+  if(typeof THREE==='undefined'){ lz.textContent='El corredor necesita WebGL'; return; }
+  const cv=$('#globo'); let ren;
+  try{ ren=new THREE.WebGLRenderer({canvas:cv,antialias:true}); }
+  catch(e){ lz.textContent='Su navegador no permite WebGL'; return; }
+  ren.outputColorSpace=THREE.SRGBColorSpace;
+  ren.setClearColor(0x03080d,1);
+
+  const capa=document.createElement('div'); capa.className='globo-nombres';
+  caja.appendChild(capa);
+
+  const esc=new THREE.Scene();
+  const cam=new THREE.PerspectiveCamera(32,1,0.05,200);
+  const R=1.5, grupo=new THREE.Group(); esc.add(grupo);
+
+  const cargador=new THREE.TextureLoader();
+  const tex=(url,srgb)=>new Promise((ok,mal)=>cargador.load(url,t=>{
+    if(srgb) t.colorSpace=THREE.SRGBColorSpace;
+    t.anisotropy=Math.min(8,ren.capabilities.getMaxAnisotropy()); ok(t);},undefined,mal));
+  let T, topo;
+  try{
+    T=await Promise.all([tex('img/dia.jpg',true),tex('img/noche.jpg',true),tex('img/agua.jpg'),tex('img/nubes.jpg')]);
+    topo=await (await fetch('img/paises-110m.json')).json();
+  }catch(e){ lz.textContent='No se pudieron cargar las texturas del globo'; return; }
+  lz.remove();
+
+  // la leyenda cita sólo las fuentes de lo que está encendido
+  const fuentes={};
+  const pintaFuentes=()=>{ $('#hud-fuentes').textContent=Object.values(fuentes).filter(Boolean).join(' · '); };
+
+  const aPos=(la,lo,r)=>{
+    const f=(90-la)*Math.PI/180, t=(lo+180)*Math.PI/180;
+    return new THREE.Vector3(-r*Math.sin(f)*Math.cos(t), r*Math.cos(f), r*Math.sin(f)*Math.sin(t));
+  };
+
+  // ── Estrellas: fijas en la escena, no giran con la Tierra
+  {
+    const n=1800, pos=new Float32Array(n*3);
+    for(let i=0;i<n;i++){
+      const v=new THREE.Vector3().randomDirection().multiplyScalar(60+Math.random()*30);
+      pos.set([v.x,v.y,v.z],i*3);
+    }
+    const g=new THREE.BufferGeometry(); g.setAttribute('position',new THREE.BufferAttribute(pos,3));
+    esc.add(new THREE.Points(g,new THREE.PointsMaterial({color:0xcfd8e3,size:.15,
+      sizeAttenuation:true,transparent:true,opacity:.7,depthWrite:false})));
+  }
+
+  // ── La Tierra. «fija» = luz de estudio en vez de la del sol (vistas de
+  //    mapa); «noche» = el planeta entero de noche, sólo las ciudades.
+  const sol={value:new THREE.Vector3(1,0,0)};
+  const tierraU={dia:{value:T[0]},noche:{value:T[1]},agua:{value:T[2]},sol,
+    fija:{value:0},todoNoche:{value:0},atenua:{value:1}};
+  grupo.add(new THREE.Mesh(new THREE.SphereGeometry(R,160,120),new THREE.ShaderMaterial({
+    uniforms:tierraU,
+    vertexShader:`varying vec2 vUv; varying vec3 vN; varying vec3 vP;
+      void main(){ vUv=uv; vN=normalize(mat3(modelMatrix)*normal);
+        vec4 w=modelMatrix*vec4(position,1.); vP=w.xyz;
+        gl_Position=projectionMatrix*viewMatrix*w; }`,
+    fragmentShader:`uniform sampler2D dia,noche,agua; uniform vec3 sol; uniform float fija,todoNoche,atenua;
+      varying vec2 vUv; varying vec3 vN; varying vec3 vP;
+      void main(){
+        vec3 n=normalize(vN), v=normalize(cameraPosition-vP);
+        vec3 c;
+        if(fija>.5){
+          // luz de estudio: sombreado suave desde arriba a la izquierda
+          float l=.55+.5*max(dot(n,normalize(v+vec3(-.5,.6,.2))),0.);
+          c=texture2D(dia,vUv).rgb*l*atenua;
+        } else {
+          float d=todoNoche>.5?-1.:dot(n,sol), luz=smoothstep(-.16,.2,d);
+          vec3 cDia=texture2D(dia,vUv).rgb*(.05+1.15*smoothstep(-.05,.6,d));
+          vec3 tn=texture2D(noche,vUv).rgb;
+          // noche oscura y las ciudades encendidas: se realzan sólo los píxeles claros
+          vec3 cNoche=tn*.28+pow(tn,vec3(2.2))*vec3(2.6,2.1,1.3)+vec3(.003,.006,.014);
+          float mar=texture2D(agua,vUv).r;
+          float brillo=pow(max(dot(reflect(-sol,n),v),0.),48.)*mar*.6;
+          c=mix(cNoche,cDia,luz)+brillo*vec3(1.,.93,.8)*luz;
+          c+=vec3(.5,.22,.06)*exp(-pow(d*16.,2.))*.12;
+          c+=pow(1.-max(dot(n,v),0.),3.)*vec3(.28,.55,1.)*(.05+.6*luz);
+        }
+        gl_FragColor=vec4(c,1.);
+        #include <colorspace_fragment>
+      }`})));
+
+  // ── Capas superpuestas: una esfera cada una, cargada al encenderla
+  function capaEsfera(r,frag,extra){
+    const u={t:{value:null},sol,fija:tierraU.fija,...(extra||{})};
+    const m=new THREE.Mesh(new THREE.SphereGeometry(R*r,160,120),new THREE.ShaderMaterial({
+      uniforms:u,transparent:true,depthWrite:false,
+      vertexShader:`varying vec2 vUv; varying vec3 vN; void main(){ vUv=uv;
+        vN=normalize(mat3(modelMatrix)*normal); gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.); }`,
+      fragmentShader:`uniform sampler2D t; uniform vec3 sol; uniform float fija,real; varying vec2 vUv; varying vec3 vN;
+        void main(){ float luz=fija>.5?1.:smoothstep(-.16,.2,dot(normalize(vN),sol));
+          vec4 m=texture2D(t,vUv); ${frag}
+          #include <colorspace_fragment>
+        }`}));
+    m.visible=false; grupo.add(m); return m;
+  }
+  // nubes reales: blanco y neutro (el Tíbet y los desiertos son claros pero pardos)
+  const nubes=capaEsfera(1.011,`float mn=min(m.r,min(m.g,m.b)), sat=max(m.r,max(m.g,m.b))-mn;
+          float a=real>.5?smoothstep(.42,.8,mn)*(1.-smoothstep(.05,.15,sat)):m.r;
+          gl_FragColor=vec4(vec3(.97)*(.08+.92*luz),a*(.16+.53*luz));`,{real:{value:0}});
+  nubes.material.uniforms.t.value=T[3];
+  const lluvia=capaEsfera(1.006,`gl_FragColor=vec4(m.rgb*(.45+.55*luz),m.a*(.22+.25*luz));`);
+  const calorSuelo=capaEsfera(1.003,`gl_FragColor=vec4(m.rgb,m.a*.9);`);
+  const calorMar=capaEsfera(1.002,`gl_FragColor=vec4(m.rgb,m.a*.9);`);
+  // el polvo sólo donde es denso: los tonos pálidos de la escala (aire limpio) no se pintan
+  const polvo=capaEsfera(1.008,`float denso=smoothstep(.72,.3,m.b);
+          gl_FragColor=vec4(m.rgb*(.55+.45*luz),m.a*denso*.8);`);
+  // focos de calor como brasas: naranja con núcleo claro, no manchas rojas
+  const fuego=capaEsfera(1.009,`gl_FragColor=vec4(vec3(1.,.5,.16)*1.25+m.a*.15,m.a*.9);`);
+  fuego.material.blending=THREE.AdditiveBlending;
+
+  const pedido={};
+  function gibs(clave,capaM,url,fuente,srgb){
+    if(pedido[clave]) return pedido[clave];
+    return pedido[clave]=tex(url,srgb).then(t=>{ capaM.material.uniforms.t.value=t; return fuente; });
+  }
+
+  // ── Atmósfera: halo por detrás, aditivo
+  esc.add(new THREE.Mesh(new THREE.SphereGeometry(R*1.1,64,48),new THREE.ShaderMaterial({
+    side:THREE.BackSide,blending:THREE.AdditiveBlending,transparent:true,depthWrite:false,
+    vertexShader:`varying vec3 vN; void main(){ vN=normalize(normalMatrix*normal);
+      gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.); }`,
+    fragmentShader:`varying vec3 vN; void main(){
+      float i=pow(max(.62-dot(vN,vec3(0,0,1.)),0.),3.2);
+      gl_FragColor=vec4(vec3(.36,.64,1.)*i*1.15,1.); }`})));
+
+  // ── Fronteras: todos los países, y el CCG y Japón resaltados
+  const sc=topo.transform.scale, tr=topo.transform.translate;
+  const arco=i=>{ let x=0,y=0; return topo.arcs[i<0?~i:i].map(([dx,dy])=>{
+    x+=dx; y+=dy; return [y*sc[1]+tr[1], x*sc[0]+tr[0]]; }); };
+  const lineas=(indices,r)=>{ const p=[];
+    for(const i of indices){ const a=arco(i);
+      for(let k=1;k<a.length;k++){ const u=aPos(a[k-1][0],a[k-1][1],r), w=aPos(a[k][0],a[k][1],r);
+        p.push(u.x,u.y,u.z,w.x,w.y,w.z); } }
+    const g=new THREE.BufferGeometry(); g.setAttribute('position',new THREE.Float32BufferAttribute(p,3));
+    return g; };
+  const plano=a=>Array.isArray(a)?a.flatMap(plano):[a];
+  const fronteras=new THREE.Group(); grupo.add(fronteras);
+  fronteras.add(new THREE.LineSegments(lineas(topo.arcs.map((_,i)=>i),R*1.0015),
+    new THREE.LineBasicMaterial({color:0xdfe9f2,transparent:true,opacity:.2,depthWrite:false})));
+  const CCG=['682','784','634','048','414','512'], JAPON='392';
+  const geos=topo.objects.countries.geometries;
+  const resalta=(ids,color)=>fronteras.add(new THREE.LineSegments(
+    lineas(geos.filter(g=>ids.includes(g.id)).flatMap(g=>plano(g.arcs)),R*1.0025),
+    new THREE.LineBasicMaterial({color,transparent:true,opacity:.95})));
+  resalta(CCG,0x5fe0c0); resalta([JAPON],0xf0c078);
+
+  // ── Brillo suave reutilizable (aviones, tráfico y ciudades)
+  const halo=(()=>{ const c=document.createElement('canvas'); c.width=c.height=64;
+    const g=c.getContext('2d'), gr=g.createRadialGradient(32,32,0,32,32,32);
+    gr.addColorStop(0,'rgba(255,255,255,1)'); gr.addColorStop(.25,'rgba(255,255,255,.45)');
+    gr.addColorStop(1,'rgba(255,255,255,0)'); g.fillStyle=gr; g.fillRect(0,0,64,64);
+    return new THREE.CanvasTexture(c); })();
+
+  // ── Ciudades: punto, anillo que late, rótulo y tiempo actual
+  const marcas=[], anillos=[], ciudades=[], rutas=new THREE.Group(); grupo.add(rutas);
+  function punto(la,lo,color,rad,nombre,clase){
+    const p=aPos(la,lo,R*1.004), nrm=p.clone().normalize();
+    const m=new THREE.Mesh(new THREE.SphereGeometry(rad,16,16),new THREE.MeshBasicMaterial({color}));
+    m.position.copy(p); rutas.add(m);
+    const an=new THREE.Mesh(new THREE.RingGeometry(rad*1.4,rad*1.8,48),
+      new THREE.MeshBasicMaterial({color,transparent:true,opacity:.6,side:THREE.DoubleSide,depthWrite:false}));
+    an.position.copy(aPos(la,lo,R*1.005));
+    an.quaternion.setFromUnitVectors(new THREE.Vector3(0,0,1),nrm);
+    rutas.add(an); anillos.push(an);
+    if(nombre){ const el=document.createElement('span');
+      el.className='nombre '+(clase||'');
+      el.innerHTML=`<b></b><small></small>`; el.firstChild.textContent=nombre;
+      capa.appendChild(el); marcas.push({p,el}); ciudades.push({la,lo,el}); }
+    return p;
+  }
+  Object.entries(PUERTAS).forEach(([k,p])=>
+    punto(p[0],p[1],0xf0c078,.022,k==='KIX'?'Osaka · Kansai':'Tokio','puerta'));
+
+  // ── Rutas: círculo máximo, degradado del Golfo (verde) a Japón (oro) y
+  //    una estela que corre en el sentido del vuelo
+  const VERDE=new THREE.Color(0x5fe0c0), ORO=new THREE.Color(0xf0c078);
+  const rutaMat=off=>new THREE.ShaderMaterial({transparent:true,depthWrite:false,
+    blending:THREE.AdditiveBlending,uniforms:{t:{value:0},off:{value:off},a:{value:VERDE},b:{value:ORO}},
+    vertexShader:`varying float s; void main(){ s=uv.x;
+      gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.); }`,
+    fragmentShader:`uniform float t,off; uniform vec3 a,b; varying float s; void main(){
+      float cab=fract(t*.06+off), d=cab-s; if(d<0.) d+=1.;
+      float estela=exp(-d*16.)*(1.-step(.45,d));
+      vec3 c=mix(a,b,smoothstep(0.,1.,s));
+      gl_FragColor=vec4(c*(.55+1.7*estela),.2+.8*estela); }`});
+  const rutasMat=[];
+  // Avión de línea visto desde arriba: fuselaje, ala en flecha, motores y cola
+  const formaAvion=(()=>{ const s=new THREE.Shape(), m=[
+      [0,1],[.035,.97],[.055,.9],[.06,.42],[.18,.3],[.2,.34],[.24,.34],[.25,.27],[.92,-.08],[.94,-.17],
+      [.3,-.06],[.06,-.1],[.05,-.66],[.32,-.84],[.33,-.92],[.04,-.86],[.02,-.98],[0,-1]];
+    const todo=[...m,...m.slice(0,-1).reverse().map(([x,y])=>[-x,y])];
+    todo.forEach(([x,y],i)=>i?s.lineTo(x,y):s.moveTo(x,y));
+    return new THREE.ShapeGeometry(s); })();
+  const trafico=new THREE.Group(); grupo.add(trafico);
+  function avion(color,glow,padre){
+    const g=new THREE.Group();
+    const cuerpo=new THREE.Mesh(formaAvion,new THREE.MeshBasicMaterial({color,side:THREE.DoubleSide}));
+    const sp=new THREE.Sprite(new THREE.SpriteMaterial({map:halo,color:glow,transparent:true,
+      opacity:.55,depthWrite:false,blending:THREE.AdditiveBlending}));
+    sp.scale.setScalar(3.2); sp.position.z=-.05;
+    g.add(sp); g.add(cuerpo); g.scale.setScalar(.02); padre.add(g); return g;
+  }
+  const orienta=(obj,pos,dir)=>{ // dir: hacia dónde apunta el morro
+    const Z=pos.clone().normalize(), Y=dir.clone().sub(Z.clone().multiplyScalar(dir.dot(Z))).normalize();
+    obj.position.copy(pos);
+    obj.quaternion.setFromRotationMatrix(new THREE.Matrix4().makeBasis(new THREE.Vector3().crossVectors(Y,Z),Y,Z));
+  };
+  const ilustrativos=[], vistos=new Set(); let iArco=0;
+  RUTAS.forEach(r=>{
+    const cd=r[1].match(/\(([A-Z]{3})\)/); const sig=cd?cd[1]:r[1];
+    if(!vistos.has(sig)){ vistos.add(sig);
+      punto(r[6],r[7],r[3]?0x5fe0c0:0x7d8a86,r[3]?.018:.014,r[1].replace(/\s*\(.*/,''),r[3]?'':'apagado');
+    }
+    if(!r[3])return;
+    const d=PUERTAS[r[4]]; if(!d)return;
+    const a=aPos(r[6],r[7],1).normalize(), b=aPos(d[0],d[1],1).normalize();
+    const ang=a.angleTo(b), alto=.08+.15*ang/Math.PI+(iArco++)*.011;
+    const pts=[];
+    for(let k=0;k<=120;k++){ const t=k/120;
+      // slerp entre los dos puntos: la ruta sigue el círculo máximo
+      const v=a.clone().multiplyScalar(Math.sin((1-t)*ang)/Math.sin(ang))
+        .add(b.clone().multiplyScalar(Math.sin(t*ang)/Math.sin(ang)));
+      pts.push(v.multiplyScalar(R*(1.004+alto*Math.sin(Math.PI*t)))); }
+    const cur=new THREE.CatmullRomCurve3(pts);
+    const anun=r[5]==='anunciada', gr=.0018+(r[3]/7)*.0028;
+    if(anun){
+      // lo anunciado va punteado en oro y sin aviones: todavía no vuela nadie
+      const sp=cur.getSpacedPoints(120);
+      for(let k=0;k<30;k+=2){
+        rutas.add(new THREE.Mesh(new THREE.TubeGeometry(
+          new THREE.CatmullRomCurve3(sp.slice(k*4,k*4+5)),6,gr*1.1,6,false),
+          new THREE.MeshBasicMaterial({color:0xf0c078,transparent:true,opacity:.8})));
+      }
+      return;
+    }
+    const mt=rutaMat(iArco*.29); rutasMat.push(mt);
+    rutas.add(new THREE.Mesh(new THREE.TubeGeometry(cur,200,gr,8,false),mt));
+    const n=Math.max(1,Math.round(r[3]/3));
+    for(let k=0;k<n;k++) ilustrativos.push({g:avion(0xffffff,0x9ff5e0,rutas),cur,
+      fase:(k+iArco*.37)/n%1,vuelta:k%2===1});
+  });
+
+  // ── Tráfico real: la instantánea de OpenSky
+  const reales=[];
+  fetch(TRAFICO_URL,{cache:'no-cache'}).then(r=>r.ok?r.json():Promise.reject()).then(d=>{
+    const edad=Date.now()/1000-d.t;
+    if(edad>6*3600) return Promise.reject(); // más de seis horas: ya no es «ahora»
+    const hora=hhmm(new Date(d.t*1000));
+    $('#hud-golfo').textContent=d.golfo.n; $('#hud-golfo-n').textContent=`OpenSky · ${hora} UTC`;
+    $('#hud-japon').textContent=d.japon.n; $('#hud-japon-n').textContent=`OpenSky · ${hora} UTC`;
+    // cada aeronave, un punto de luz a la altura de crucero
+    const pts=[...d.golfo.p,...d.japon.p], pos=new Float32Array(pts.length*3);
+    pts.forEach(([la,lo],i)=>{ const v=aPos(la,lo,R*1.008); pos.set([v.x,v.y,v.z],i*3); });
+    const g=new THREE.BufferGeometry(); g.setAttribute('position',new THREE.BufferAttribute(pos,3));
+    trafico.add(new THREE.Points(g,new THREE.PointsMaterial({map:halo,color:0xffe2a8,size:.028,
+      transparent:true,opacity:.95,depthWrite:false,blending:THREE.AdditiveBlending})));
+    // las aeronaves de compañías del Golfo sobre el corredor, como aviones
+    d.corredor.forEach(([cs,la,lo,rumbo,vel])=>reales.push({g:avion(0xffffff,0xffc56b,trafico),la,lo,rumbo,vel,t:d.t}));
+    ilustrativos.forEach(a=>{a.g.visible=false;});
+    FUENTE.trafico=`Tráfico: OpenSky, ${hora} UTC; ${d.corredor.length} aviones del Golfo sobre el corredor, adelantados con su rumbo y velocidad`;
+    aplica();
+  }).catch(()=>{ FUENTE.trafico='Aviones de las rutas: animación según la frecuencia (sin datos de tráfico)'; aplica(); });
+
+  // ── El tiempo que hace ahora en cada ciudad
+  fetch('https://api.open-meteo.com/v1/forecast?latitude='+ciudades.map(c=>c.la).join(',')
+    +'&longitude='+ciudades.map(c=>c.lo).join(',')+'&current=temperature_2m,weather_code')
+    .then(r=>r.ok?r.json():Promise.reject()).then(js=>{
+      (Array.isArray(js)?js:[js]).forEach((w,i)=>{ const c=ciudades[i]; if(!c||!w.current)return;
+        c.el.lastChild.textContent=`${Math.round(w.current.temperature_2m)}° ${CIELO(w.current.weather_code)}`; });
+      FUENTE.tiempo='Tiempo: Open-Meteo, actual'; aplica();
+    }).catch(()=>{});
+
+  /* ── Vistas y capas ────────────────────────────────────────────────────
+     Una vista fija el fondo y enciende las capas que tienen sentido con él;
+     luego cada capa se puede encender o apagar a mano. */
+  const ayer=diaUTC(1), anteayer=diaUTC(2), hace3=diaUTC(3);
+  const FUENTE={sol:'Sol calculado en vivo'};
+  const CAPAS={
+    nubes:{m:nubes, carga:()=>gibs('nubes',nubes,
+      `${GIBS}&LAYERS=VIIRS_NOAA20_CorrectedReflectance_TrueColor&FORMAT=image/jpeg&TIME=${ayer}`,
+      `Nubes: NASA VIIRS del ${fechaEs(ayer)}`).then(f=>{nubes.material.uniforms.real.value=1;return f;})
+      .catch(()=>'Nubes: capa genérica (NASA no respondió)')},
+    lluvia:{m:lluvia, carga:()=>gibs('lluvia',lluvia,
+      `${GIBS}&LAYERS=IMERG_Precipitation_Rate&FORMAT=image/png&TRANSPARENT=true`,
+      'Lluvia: NASA IMERG, últimas horas',true)},
+    calor:{m:[calorSuelo,calorMar], carga:()=>Promise.all([
+      gibs('suelo',calorSuelo,`${GIBS}&LAYERS=MODIS_Terra_Land_Surface_Temp_Day&FORMAT=image/png&TRANSPARENT=true&TIME=${hace3}`,'',true),
+      gibs('mar',calorMar,`${GIBS}&LAYERS=GHRSST_L4_MUR_Sea_Surface_Temperature&FORMAT=image/png&TRANSPARENT=true&TIME=${anteayer}`,'',true)])
+      .then(()=>`Calor: NASA MODIS (suelo, ${fechaEs(hace3)}) y GHRSST MUR (mar, ${fechaEs(anteayer)})`)},
+    polvo:{m:polvo, carga:()=>gibs('polvo',polvo,
+      `${GIBS}&LAYERS=MODIS_Combined_Value_Added_AOD&FORMAT=image/png&TRANSPARENT=true&TIME=${ayer}`,
+      `Polvo y aerosoles: NASA MODIS del ${fechaEs(ayer)}`,true)},
+    fuego:{m:fuego, carga:()=>gibs('fuego',fuego,
+      // a 4096 px: cada foco lo dibuja NASA como un punto de tamaño fijo y a 2048 se funden en manchas
+      `${GIBS.replace('WIDTH=2048&HEIGHT=1024','WIDTH=4096&HEIGHT=2048')}&LAYERS=VIIRS_SNPP_Thermal_Anomalies_375m_All&FORMAT=image/png&TRANSPARENT=true&TIME=${ayer}`,
+      `Incendios: NASA VIIRS del ${fechaEs(ayer)}`,true)},
+    trafico:{m:trafico}, rutas:{m:rutas}, fronteras:{m:fronteras}, rotulos:{el:capa},
+  };
+  let fotoTex=null, reliTex=null, poliTex=null;
+  const VISTAS={
+    real:{capas:['nubes','lluvia','trafico','rutas','fronteras','rotulos'],
+      pon:()=>{ tierraU.dia.value=T[0]; tierraU.fija.value=0; tierraU.todoNoche.value=0; }},
+    noche:{capas:['trafico','rutas','rotulos'],
+      pon:()=>{ tierraU.dia.value=T[0]; tierraU.fija.value=0; tierraU.todoNoche.value=1; }},
+    foto:{capas:['trafico','rutas','fronteras','rotulos'], fuente:`Superficie: foto NASA VIIRS del ${fechaEs(ayer)}`,
+      pon:async()=>{ fotoTex=fotoTex||await tex(`${GIBS}&LAYERS=VIIRS_NOAA20_CorrectedReflectance_TrueColor&FORMAT=image/jpeg&TIME=${ayer}`,true);
+        tierraU.dia.value=fotoTex; tierraU.fija.value=1; tierraU.atenua.value=1; tierraU.todoNoche.value=0; }},
+    relieve:{capas:['rutas','fronteras','rotulos'], fuente:'Relieve y fondo marino: NASA Blue Marble',
+      pon:async()=>{ reliTex=reliTex||await tex(`${GIBS}&LAYERS=BlueMarble_ShadedRelief_Bathymetry&FORMAT=image/jpeg`,true);
+        tierraU.dia.value=reliTex; tierraU.fija.value=1; tierraU.atenua.value=1; tierraU.todoNoche.value=0; }},
+    politica:{capas:['rutas','rotulos'], fuente:'Fronteras: Natural Earth 1:110 m',
+      pon:()=>{ if(!poliTex){ poliTex=new THREE.CanvasTexture(mapaPolitico(topo)); poliTex.colorSpace=THREE.SRGBColorSpace;
+          poliTex.anisotropy=Math.min(8,ren.capabilities.getMaxAnisotropy()); }
+        tierraU.dia.value=poliTex; tierraU.fija.value=1; tierraU.atenua.value=1; tierraU.todoNoche.value=0; }},
+    calor:{capas:['calor','rutas','fronteras','rotulos'],
+      pon:async()=>{ reliTex=reliTex||await tex(`${GIBS}&LAYERS=BlueMarble_ShadedRelief_Bathymetry&FORMAT=image/jpeg`,true);
+        tierraU.dia.value=reliTex; tierraU.fija.value=1; tierraU.atenua.value=.45; tierraU.todoNoche.value=0; }},
+  };
+  const activas=new Set();
+  let vista='real';
+  function aplica(){
+    for(const [k,c] of Object.entries(CAPAS)){
+      const on=activas.has(k);
+      if(c.el) c.el.style.display=on?'':'none';
+      [].concat(c.m||[]).forEach(m=>{ if(m) m.visible=on&&(!c.carga||c.listo); });
+    }
+    const f={...FUENTE};
+    if(!activas.has('trafico')) delete f.trafico;
+    if(!activas.has('rotulos')) delete f.tiempo;
+    if(VISTAS[vista].fuente) f.vista=VISTAS[vista].fuente;
+    if(vista==='noche'||tierraU.fija.value>.5) delete f.sol;
+    for(const k of ['nubes','lluvia','calor','polvo','fuego'])
+      if(activas.has(k)&&CAPAS[k].fuente) f[k]=CAPAS[k].fuente;
+    Object.keys(fuentes).forEach(k=>delete fuentes[k]); Object.assign(fuentes,f); pintaFuentes();
+    document.querySelectorAll('#globo-capas [data-capa]').forEach(b=>
+      b.setAttribute('aria-pressed',activas.has(b.dataset.capa)));
+    document.querySelectorAll('#globo-vistas [data-vista]').forEach(b=>
+      b.setAttribute('aria-pressed',b.dataset.vista===vista));
+    document.querySelectorAll('.globo-pie [data-ley]').forEach(el=>{el.hidden=!activas.has(el.dataset.ley);});
+    $('#globo-escala').hidden=!activas.has('calor')&&!activas.has('polvo');
+    $('#globo-escala').dataset.tipo=activas.has('calor')?'calor':'polvo';
+  }
+  function enciende(k,on){
+    const c=CAPAS[k]; if(!c) return;
+    on?activas.add(k):activas.delete(k);
+    if(on&&c.carga&&!c.listo&&!c.pidiendo){
+      c.pidiendo=true;
+      c.carga().then(f=>{ c.listo=true; c.fuente=f; aplica(); })
+        .catch(()=>{ activas.delete(k); aplica(); });
+    }
+    aplica();
+  }
+  async function ponVista(v){
+    vista=v; const V=VISTAS[v];
+    [...activas].forEach(k=>activas.delete(k)); V.capas.forEach(k=>enciende(k,true));
+    try{ await V.pon(); }catch(e){ if(v!=='real') return ponVista('real'); }
+    aplica();
+  }
+  $('#globo-vistas').addEventListener('click',e=>{ const b=e.target.closest('[data-vista]'); if(b) ponVista(b.dataset.vista); });
+  $('#globo-capas').addEventListener('click',e=>{ const b=e.target.closest('[data-capa]');
+    if(b) enciende(b.dataset.capa,!activas.has(b.dataset.capa)); });
+
+  /* ── Orientación, navegación y zoom
+     Un punto se pone de cara con el norte arriba girando primero en longitud
+     (eje Y) y luego en latitud (eje X), sin balanceo lateral. */
+  const eY=new THREE.Vector3(0,1,0), eX=new THREE.Vector3(1,0,0);
+  const deCara=(la,lo)=>{ const c=aPos(la,lo,1).normalize();
+    const q=new THREE.Quaternion().setFromAxisAngle(eY,-Math.atan2(c.x,c.z));
+    return q.premultiply(new THREE.Quaternion().setFromAxisAngle(eX,Math.atan2(c.y,Math.hypot(c.x,c.z))-.08)); };
+  // a medio camino entre los dos extremos del corredor
+  const DESTINOS={corredor:[31,95,6.3],golfo:[25.5,51,3.6],japon:[35,137,3.4],mundo:[20,70,8.2]};
+  const base=deCara(31,95), objetivo=base.clone();
+  let dist=6.3, distObj=6.3;
+  function ir(k){ const [la,lo,z]=DESTINOS[k]; objetivo.copy(deCara(la,lo)); distObj=z; giroX=giroY=0;
+    document.querySelectorAll('#globo-ir [data-ir]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.ir===k)); }
+  $('#globo-ir').addEventListener('click',e=>{ const b=e.target.closest('[data-ir]'); if(b) ir(b.dataset.ir);
+    const z=e.target.closest('[data-zoom]'); if(z) distObj=Math.max(2.35,Math.min(9,distObj*(z.dataset.zoom==='+'?.78:1.28))); });
+  cv.addEventListener('dblclick',()=>{ distObj=Math.max(2.35,distObj*.7); });
+
+  // ── Arrastre; en reposo la esfera se balancea un poco alrededor de la vista
+  let arr=false,px=0,py=0,giroX=0,giroY=0,reposo=0;
+  const baja=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  cv.style.cursor='grab';
+  const abajo=e=>{arr=true;const t=e.touches?e.touches[0]:e;px=t.clientX;py=t.clientY;cv.style.cursor='grabbing';};
+  const mueve=e=>{if(!arr)return;const t=e.touches?e.touches[0]:e;
+    // de cerca se gira más despacio: el mismo gesto recorre menos mundo
+    const k=dist/6.3;
+    giroY+=(t.clientX-px)*.0035*k; giroX=Math.max(-1.1,Math.min(1.1,giroX+(t.clientY-py)*.0028*k));
+    px=t.clientX;py=t.clientY; if(e.cancelable)e.preventDefault();};
+  const arriba=()=>{if(arr)reposo=performance.now();arr=false;cv.style.cursor='grab';};
+  cv.addEventListener('pointerdown',abajo); addEventListener('pointermove',mueve);
+  addEventListener('pointerup',arriba);
+  cv.addEventListener('touchstart',abajo,{passive:true});
+  cv.addEventListener('touchmove',mueve,{passive:false});
+  cv.addEventListener('touchend',arriba);
+
+  let aspecto=1;
+  function talla(){
+    const w=cv.clientWidth||600,h=cv.clientHeight||400;
+    // la capa de rótulos sigue al lienzo, que en el móvil no empieza arriba de la caja
+    Object.assign(capa.style,{top:cv.offsetTop+'px',height:h+'px',bottom:'auto'});
+    ren.setPixelRatio(Math.min(devicePixelRatio,2)); ren.setSize(w,h,false);
+    cam.aspect=w/h; aspecto=w/h<1?1/Math.max(w/h,.62):1; cam.updateProjectionMatrix();
+  }
+  addEventListener('resize',talla); talla();
+
+  // ── La hora del sol: ahora, o la que elija el visitante con el control
+  const solObj=new THREE.Vector3(); let desfase=0;
+  const ponSol=()=>{ const d=new Date(Date.now()+desfase*36e5), [la,lo]=subsolar(d);
+    solObj.copy(aPos(la,lo,1)).normalize();
+    $('#globo-hora-v').textContent=desfase?`${desfase>0?'+':'−'}${Math.abs(desfase)} h · ${hhmm(d)} UTC`:`ahora · ${hhmm(d)} UTC`; };
+  ponSol(); setInterval(ponSol,60000);
+  $('#globo-hora').addEventListener('input',e=>{ desfase=+e.target.value; ponSol(); });
+
+  // día más nítido cuando alguien se acerca: la textura grande se pide entonces
+  let diaGrande=false;
+
+  let visible=true;
+  new IntersectionObserver(es=>{visible=es[0].isIntersecting;}).observe(caja);
+
+  const v=new THREE.Vector3(), qY=new THREE.Quaternion(), qX=new THREE.Quaternion();
+  const P=new THREE.Vector3(), D=new THREE.Vector3();
+  const t0=performance.now();
+  ponVista('real');
+  (function pinta(ahora){ requestAnimationFrame(pinta);
+    if(!visible) return;
+    const t=((ahora||t0)-t0)/1000, mov=!baja;
+    base.slerp(objetivo,mov?.06:1); dist+=(distObj-dist)*(mov?.08:1);
+    cam.position.set(0,0,dist*aspecto); cam.lookAt(0,0,0);
+    if(!diaGrande&&dist<4){ diaGrande=true;
+      tex('img/dia-4k.jpg',true).then(t=>{ T[0]=t; if(vista==='real'||vista==='noche') tierraU.dia.value=t; }).catch(()=>{}); }
+    const vaiven=(mov&&!arr&&ahora-reposo>2500)?Math.sin(t*.09)*.16*Math.min(1,dist/6.3):0;
+    qY.setFromAxisAngle(eY,giroY+vaiven); qX.setFromAxisAngle(eX,giroX);
+    grupo.quaternion.copy(base).premultiply(qY).premultiply(qX);
+    if(mov){ rutasMat.forEach(m=>{m.uniforms.t.value=t;});
+      const lat=1+.35*Math.sin(t*2.4); anillos.forEach(a=>a.scale.setScalar(lat)); }
+    sol.value.copy(solObj).applyQuaternion(grupo.quaternion);
+    grupo.updateMatrixWorld();
+    for(const a of ilustrativos){ if(!a.g.visible) continue;
+      // unos catorce segundos por trayecto: el ritmo, no la velocidad real
+      let s=(a.fase+(mov?t/14:0))%1; if(a.vuelta) s=1-s;
+      a.cur.getPointAt(s,P); a.cur.getTangentAt(s,D); if(a.vuelta) D.negate();
+      orienta(a.g,P,D);
+    }
+    const seg=Date.now()/1000;
+    for(const a of reales){
+      // posición real adelantada desde la instantánea, como mucho una hora
+      const km=a.vel*Math.min(seg-a.t,3600)/1000;
+      const [la,lo]=avanza(a.la,a.lo,a.rumbo,km), [la2,lo2]=avanza(la,lo,a.rumbo,40);
+      P.copy(aPos(la,lo,R*1.012)); D.copy(aPos(la2,lo2,R*1.012)).sub(P);
+      orienta(a.g,P,D);
+    }
+    ren.render(esc,cam);
+    if(!activas.has('rotulos')) return;
+    const w=cv.clientWidth,h=cv.clientHeight,vis=[];
+    for(const m of marcas){
+      v.copy(m.p).applyMatrix4(grupo.matrixWorld);
+      const delante=v.clone().sub(cam.position).normalize().dot(v.clone().normalize())<-.12;
+      v.project(cam);
+      const x=(v.x*.5+.5)*w, y=(-v.y*.5+.5)*h;
+      m.el.style.opacity=delante?1:0;
+      if(delante) vis.push({m,x,y});
+    }
+    /* Seis ciudades del Golfo caben en unos pocos grados: sus rótulos se pisan.
+       Se ordenan por altura y se empujan hacia abajo hasta que ninguno quede a
+       menos de dos líneas del anterior (nombre y tiempo). */
+    vis.sort((a,b)=>a.y-b.y);
+    for(let i=1;i<vis.length;i++) if(vis[i].y-vis[i-1].y<30) vis[i].y=vis[i-1].y+30;
+    for(const {m,x,y} of vis) m.el.style.transform=`translate(${x+9}px,${y-8}px)`;
+  })();
+}
+
+/* ── Gráficos en 3D ───────────────────────────────────────────────────────
+   Los tres gráficos principales tienen una versión en volumen con los mismos
+   datos, no otros: la serie mensual como un perfil de columnas por año, la
+   estacionalidad como un reloj de doce meses y el gasto como torres. La vista
+   plana sigue ahí, a un botón, y es la que se imprime. Sin WebGL, sólo plana.
+   Los rótulos son HTML proyectado, para que usen la tipografía de la página, y
+   al pasar el ratón por una pieza aparece su cifra exacta. */
+function escena3D(fig,svg,{alto=390,dist=11,fi=.5,te=-.45,objetivo=[0,1.2,0],aviso}={},construye){
+  // fi = elevación de la cámara (radianes), te = giro alrededor del eje vertical
+  if(typeof THREE==='undefined') return;
+  const caja=document.createElement('div'); caja.className='tres';
+  caja.setAttribute('role','img'); caja.setAttribute('aria-label',svg.getAttribute('aria-label')||'');
+  const cv=document.createElement('canvas'); caja.appendChild(cv);
+  const capa=document.createElement('div'); capa.className='tres-rotulos'; caja.appendChild(capa);
+  const tip=document.createElement('div'); tip.className='tres-tip'; tip.hidden=true; caja.appendChild(tip);
+  if(aviso){ const a=document.createElement('div'); a.className='tres-aviso'; a.textContent=aviso; caja.appendChild(a); }
+  let ren;
+  try{ ren=new THREE.WebGLRenderer({canvas:cv,antialias:true,alpha:true}); }catch(e){ return; }
+  ren.outputColorSpace=THREE.SRGBColorSpace;
+  svg.before(caja);
+
+  // conmutador 3D / plano
+  const modo=document.createElement('div'); modo.className='tres-modo'; modo.setAttribute('role','group');
+  modo.innerHTML='<button aria-pressed="true">3D</button><button aria-pressed="false">Plano</button>';
+  fig.appendChild(modo);
+  const pon=tresD=>{ caja.hidden=!tresD; svg.style.display=tresD?'none':'';
+    modo.children[0].setAttribute('aria-pressed',tresD); modo.children[1].setAttribute('aria-pressed',!tresD); };
+  modo.children[0].onclick=()=>pon(true); modo.children[1].onclick=()=>pon(false);
+  pon(true);
+
+  const esc=new THREE.Scene();
+  esc.add(new THREE.HemisphereLight(0xeef6f3,0x1a2a30,1.15));
+  const sol=new THREE.DirectionalLight(0xffffff,1.6); sol.position.set(6,10,7); esc.add(sol);
+  const cam=new THREE.PerspectiveCamera(34,1,.1,200);
+  const centro=new THREE.Vector3(...objetivo);
+  const rotulos=[], piezas=[];
+  const rotulo=(txt,pos,clase)=>{ const el=document.createElement('span'); el.className='r '+(clase||'');
+    el.textContent=txt; capa.appendChild(el); rotulos.push({el,p:pos.clone()}); return el; };
+  const mat=(color,extra)=>new THREE.MeshStandardMaterial({color,roughness:.55,metalness:.08,...(extra||{})});
+  const pieza=(geo,material,tipTxt)=>{ const m=new THREE.Mesh(geo,material); m.userData.tip=tipTxt;
+    esc.add(m); if(tipTxt) piezas.push(m); return m; };
+  construye({esc,THREE,rotulo,mat,pieza});
+
+  // órbita: arrastre horizontal gira, vertical inclina; en reposo, giro lento
+  let arr=false,px=0,py=0,reposo=-1e9;
+  const baja=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  cv.addEventListener('pointerdown',e=>{arr=true;px=e.clientX;py=e.clientY;cv.setPointerCapture(e.pointerId);});
+  cv.addEventListener('pointerup',()=>{arr=false;reposo=performance.now();});
+  const ray=new THREE.Raycaster(), ptr=new THREE.Vector2();
+  cv.addEventListener('pointermove',e=>{
+    if(arr){ te-=(e.clientX-px)*.008; fi=Math.max(.12,Math.min(1.35,fi+(e.clientY-py)*.006));
+      px=e.clientX; py=e.clientY; tip.hidden=true; return; }
+    const r=cv.getBoundingClientRect();
+    ptr.set((e.clientX-r.left)/r.width*2-1,-(e.clientY-r.top)/r.height*2+1);
+    ray.setFromCamera(ptr,cam); const h=ray.intersectObjects(piezas)[0];
+    if(h){ tip.hidden=false; tip.innerHTML=h.object.userData.tip;
+      tip.style.transform=`translate(${e.clientX-r.left+14}px,${e.clientY-r.top-10}px)`; cv.style.cursor='crosshair'; }
+    else { tip.hidden=true; cv.style.cursor='grab'; }
+  });
+  cv.addEventListener('pointerleave',()=>{tip.hidden=true;});
+  cv.style.touchAction='pan-y';
+
+  function talla(){ const w=caja.clientWidth||700; cv.style.height=alto+'px';
+    ren.setPixelRatio(Math.min(devicePixelRatio,2)); ren.setSize(w,alto,false);
+    cam.aspect=w/alto; cam.updateProjectionMatrix(); }
+  addEventListener('resize',talla); talla();
+  let visible=false;
+  new IntersectionObserver(es=>{visible=es[0].isIntersecting;}).observe(caja);
+  const v=new THREE.Vector3(), t0=performance.now();
+  (function pinta(ahora){ requestAnimationFrame(pinta);
+    if(!visible||caja.hidden) return;
+    // en reposo se balancea alrededor de la vista buena, sin dar la vuelta: de espaldas no se lee
+    const vaiven=(!arr&&!baja&&ahora-reposo>3000)?Math.sin((ahora-t0)/1000*.25)*.28:0;
+    // en pantallas estrechas la cámara se aleja para que quepa todo
+    const d=dist*Math.max(1,1.25/Math.max(cam.aspect,.5));
+    const g=te+vaiven;
+    cam.position.set(centro.x+d*Math.sin(g)*Math.cos(fi),centro.y+d*Math.sin(fi),centro.z+d*Math.cos(g)*Math.cos(fi));
+    cam.lookAt(centro); ren.render(esc,cam);
+    const w=cv.clientWidth,h=cv.clientHeight;
+    for(const r of rotulos){ v.copy(r.p).project(cam);
+      r.el.style.transform=`translate(-50%,-50%) translate(${(v.x*.5+.5)*w}px,${(-v.y*.5+.5)*h}px)`;
+      r.el.style.opacity=v.z<1?1:0; }
+  })(t0);
+}
+
+const MERCADOS_GASTO=[['México',514900,false],['Oriente Medio',482836,true],['Australia',446000,false],
+  ['Reino Unido',392000,false],['España',348700,false],['Francia',341000,false],
+  ['Italia',298000,false],['EE. UU.',291000,false],['Media general',244500,false]];
+const miles=v=>v.toLocaleString('es-ES',{useGrouping:true}).replace(/^(\d)(\d{3})$/,'$1.$2');
+
+function graficos3D(){
+  const VERDE=0x3fbfa3, ORO=0xd9a45c, CORAL=0xe0735c, GRIS=0x6d7d80;
+
+  // 1 · Serie mensual: una fila de columnas por año, 2026 en verde
+  { const svg=$('#g-serie'); if(svg) escena3D(svg.closest('figure'),svg,
+      {dist:15.5,fi:.55,te:-.38,objetivo:[.3,.9,0],aviso:'Sólo el Golfo · España, en la vista plana'},
+      ({THREE,rotulo,mat,pieza})=>{
+      const anos=[2023,2024,2025,2026], H=v=>v/9000*4.2;
+      pieza(new THREE.BoxGeometry(13.4,.08,6.4),mat(0x223239,{transparent:true,opacity:.35})).position.y=-.04;
+      anos.forEach((a,j)=>{ const z=(j-1.5)*1.45;
+        rotulo(String(a),new THREE.Vector3(6.95,.1,z),a===2026?'fuerte':'');
+        SERIE[a].forEach((val,m)=>{ if(val==null) return;
+          const h=H(val), x=(m-5.5)*1.08;
+          const color=a===2026?(m>=1&&m<=3?CORAL:VERDE):GRIS;
+          const b=pieza(new THREE.BoxGeometry(.72,h,.9),
+            mat(color,{transparent:a!==2026,opacity:a===2026?1:.35+j*.17}),
+            `<b>${MES[m]} ${a}</b>${miles(val)} llegadas`);
+          b.position.set(x,h/2,z);
+        });
+      });
+      for(let m=0;m<12;m++) rotulo(MES[m],new THREE.Vector3((m-5.5)*1.08,.05,3.55));
+      rotulo('abr 2026 · 1.819 (−71,2 %)',new THREE.Vector3((3-5.5)*1.08,H(6322)+.7,1.5*1.45),'alerta');
+    }); }
+
+  // 2 · Estacionalidad: reloj de doce meses, Golfo dentro y España fuera
+  { const svg=$('#g-estacion'); if(svg) escena3D(svg.closest('figure'),svg,
+      {dist:12.5,fi:.95,te:.35,objetivo:[0,.6,0],aviso:'Golfo, anillo interior · España, exterior · Ramadán 2027 en coral'},({THREE,rotulo,mat,pieza})=>{
+      const H=v=>v/180*3.2, ang=m=>m/12*Math.PI*2;
+      const pos=(m,r)=>new THREE.Vector3(Math.sin(ang(m))*r,0,-Math.cos(ang(m))*r);
+      // suelo y Ramadán como sectores del reloj
+      pieza(new THREE.CylinderGeometry(4.3,4.3,.06,72),mat(0x223239,{transparent:true,opacity:.3})).position.y=-.03;
+      for(const m of MESES_RAM){
+        // el cilindro de three pone θ en (sen θ, cos θ); los meses van en (sen a, −cos a): θ = π − a
+        pieza(new THREE.CylinderGeometry(3.7,3.7,.07,24,1,false,Math.PI-ang(m)-Math.PI/12,Math.PI/6),
+          mat(CORAL,{transparent:true,opacity:.35}),`<b>${MES[m]}</b>Ramadán 2027`);
+      }
+      // el disco del 100: la referencia que da sentido al índice
+      const disco=pieza(new THREE.CylinderGeometry(3.7,3.7,.02,72),
+        new THREE.MeshBasicMaterial({color:0xdfe9f2,transparent:true,opacity:.1,depthWrite:false}));
+      disco.position.y=H(100);
+      rotulo('100 · mes medio',new THREE.Vector3(0,H(100)+.15,-3.9),'suave');
+      for(let m=0;m<12;m++){
+        const tipTxt=`<b>${MES[m]}</b>Golfo ${IDX_G[m]} · España ${IDX_E[m]}`;
+        const g=pieza(new THREE.BoxGeometry(.4,H(IDX_G[m]),.4),mat(VERDE),tipTxt);
+        g.position.copy(pos(m,2.15)).setY(H(IDX_G[m])/2); g.rotation.y=-ang(m);
+        const e=pieza(new THREE.BoxGeometry(.36,H(IDX_E[m]),.36),mat(ORO,{transparent:true,opacity:.8}),tipTxt);
+        e.position.copy(pos(m,3.05)).setY(H(IDX_E[m])/2); e.rotation.y=-ang(m);
+        rotulo(MES[m],pos(m,4.45).setY(.05),MESES_RAM.has(m)?'alerta':'');
+      }
+      rotulo('Golfo',new THREE.Vector3(0,.1,0),'fuerte');
+    }); }
+
+  // 3 · Gasto por visitante: torres, Oriente Medio en verde
+  { const svg=$('#g-gasto'); if(svg) escena3D(svg.closest('figure'),svg,
+      {dist:14,fi:.36,te:-.3,objetivo:[0,1.5,0]},({THREE,rotulo,mat,pieza})=>{
+      const n=MERCADOS_GASTO.length, H=v=>v/560000*4.4;
+      pieza(new THREE.BoxGeometry(n*1.4+.6,.08,2.2),mat(0x223239,{transparent:true,opacity:.3})).position.y=-.04;
+      MERCADOS_GASTO.forEach(([nom,val,dest],i)=>{
+        const x=(i-(n-1)/2)*1.4, h=H(val), media=nom==='Media general';
+        const t=pieza(new THREE.BoxGeometry(.8,h,.8),
+          mat(dest?VERDE:media?0xb8c4c2:GRIS,{transparent:!dest,opacity:dest?1:media?.5:.6,
+            emissive:dest?0x0d3a31:0x000000}),`<b>${nom}</b>${miles(val)} ¥ por visitante`);
+        t.position.set(x,h/2,0);
+        rotulo(nom,new THREE.Vector3(x,.05,1.35),dest?'fuerte':'');
+        if(dest||media) rotulo(`${miles(val)} ¥`,new THREE.Vector3(x,h+.4,0),dest?'fuerte':'suave');
+      });
+    }); }
+}
+
+/* ── Portada: el corredor ahora mismo ──────────────────────────────────────
+   La misma instantánea de OpenSky que usa el globo. Si no llega o tiene más
+   de seis horas, la franja no aparece: mejor nada que un «ahora» viejo. */
+function ahoraPortada(){
+  const horas=()=>{ const d=new Date(); $('#ahora-horas').textContent=
+    `Dubái ${hhmm(d,'Asia/Dubai')} · Osaka ${hhmm(d,'Asia/Tokyo')}`; };
+  fetch(TRAFICO_URL,{cache:'no-cache'}).then(r=>r.ok?r.json():Promise.reject()).then(d=>{
+    if(Date.now()/1000-d.t>6*3600) return;
+    $('#ahora-golfo').textContent=d.golfo.n; $('#ahora-japon').textContent=d.japon.n;
+    horas(); setInterval(horas,20000); $('#ahora').hidden=false;
+  }).catch(()=>{});
+}
+
+/* ── Movimiento de la página: barra de lectura, aparición y cifras ─────────
+   Sólo se añade con JavaScript: si el script falla, todo se ve igual que sin
+   él. Y quien pide menos movimiento en su sistema no recibe ninguno. */
+function vida(){
+  const barra=document.createElement('div'); barra.className='lectura'; document.body.appendChild(barra);
+  const lee=()=>{ const h=document.documentElement;
+    barra.style.transform=`scaleX(${h.scrollTop/Math.max(1,h.scrollHeight-h.clientHeight)})`; };
+  addEventListener('scroll',lee,{passive:true}); lee();
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const piezas=[...document.querySelectorAll('section .env > *:not(header)')];
+  piezas.forEach(el=>el.classList.add('revela'));
+  const io=new IntersectionObserver(es=>es.forEach(e=>{ if(!e.isIntersecting) return;
+    e.target.classList.add('visto'); io.unobserve(e.target); }),{rootMargin:'0px 0px -8% 0px'});
+  piezas.forEach(el=>io.observe(el));
+  // las cifras grandes cuentan desde cero, conservando su formato (55.924, −38,6 %)
+  const cifras=[...document.querySelectorAll('.tarj .v')].filter(el=>el.childElementCount===0);
+  const io2=new IntersectionObserver(es=>es.forEach(e=>{ if(!e.isIntersecting) return; io2.unobserve(e.target);
+    const el=e.target, txt=el.textContent, m=txt.match(/[\d.]+(,\d+)?/); if(!m) return;
+    const dec=(m[1]||'').length-1, fin=parseFloat(m[0].replace(/\./g,'').replace(',','.'));
+    if(!isFinite(fin)) return;
+    const fmt=v=>txt.replace(m[0],v.toLocaleString('es-ES',{minimumFractionDigits:Math.max(0,dec),
+      maximumFractionDigits:Math.max(0,dec),useGrouping:true}).replace(/^(\d)(\d{3})$/,'$1.$2'));
+    const t0=performance.now();
+    (function paso(ahora){ const k=Math.min(1,(ahora-t0)/1100), e3=1-Math.pow(1-k,3);
+      el.textContent=fmt(fin*e3); if(k<1) requestAnimationFrame(paso); else el.textContent=txt; })(t0);
+  }),{threshold:.6});
+  cifras.forEach(el=>io2.observe(el));
+}
+
+/* ── Índice que sigue el scroll ────────────────────────────────────────── */
+function indiceVivo(){
+  const enlaces=[...document.querySelectorAll('.rail a')];
+  const secs=enlaces.map(a=>document.querySelector(a.getAttribute('href'))).filter(Boolean);
+  const io=new IntersectionObserver(es=>{
+    es.forEach(e=>{ if(!e.isIntersecting)return;
+      enlaces.forEach(a=>a.classList.toggle('aqui',
+        a.getAttribute('href')==='#'+e.target.id)); });
+  },{rootMargin:'-15% 0px -70% 0px'});
+  secs.forEach(s=>io.observe(s));
+}
+
+/* ── Tema ──────────────────────────────────────────────────────────────── */
+$('#tema').addEventListener('click',()=>{
+  const r=document.documentElement;
+  const oscuro=r.getAttribute('data-theme')==='dark'
+    || (!r.getAttribute('data-theme') && matchMedia('(prefers-color-scheme: dark)').matches);
+  r.setAttribute('data-theme',oscuro?'light':'dark');
+  requestAnimationFrame(()=>{serie();estacion();gasto();});
+});
+
+/* Cifras sueltas del texto que salen de los datos y no se teclean: el escenario
+   base (para-web.json) y cuántas partidas y supuestos tiene la tabla de tarifas. */
+function pintaCifrasTexto(){
+  const e=GOLFO.escenario_base;
+  $('#base-viajes').textContent=e.viajes;
+  $('#base-margen').textContent=yenC(e.margen_operador);
+  $('#base-hon').textContent=yenC(e.honorarios);
+  document.querySelectorAll('.n-partidas').forEach(n=>n.textContent=TARIFAS.length);
+  document.querySelectorAll('.n-sup').forEach(n=>
+    n.textContent=TARIFAS.filter(t=>t[4]==='supuesto').length);
+}
+
+/* ── Arranque ──────────────────────────────────────────────────────────── */
+$('#f-prog').innerHTML=Object.entries(PROG)
+  .map(([k,p])=>`<option value="${k}">${p.n}</option>`).join('');
+$('#f-prog').value='clasica8';
+$('#mandos').addEventListener('input',e=>{
+  if(e.target.id==='f-prog'){const p=PROG[e.target.value];
+    $('#f-pax').value=p.pax; $('#f-hab').value=p.hab;}
+  cotiza();
+});
+document.addEventListener('click',e=>{
+  const m=e.target.closest('[data-m]'); if(m){mesSel=+m.dataset.m;pintaMeses();}
+});
+$('#bajar').addEventListener('click',descargar);
+$('#copiar').addEventListener('click',()=>copiar());
+
+pintaMeses(); pintaHiyri(); pintaRutas(); pintaProductos(); pintaTarifas(); pintaHalal();
+pintaRobustez(); pintaUmbrales(); pintaDivisa(); pintaCifrasTexto();
+cotiza(); serie(); estacion(); gasto(); indiceVivo(); vida(); ahoraPortada(); graficos3D();
+setTimeout(globo,60);
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/SplitText.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.3.11/dist/lenis.min.js" defer></script>
+<script src="js/cuadros.js" defer></script>
+<script src="js/movimiento.js" defer></script>
+</body>
+</html>

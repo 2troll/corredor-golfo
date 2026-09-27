@@ -149,8 +149,8 @@
   // ── escenarios: lo que deja cada nivel de actividad (apartado 16) ─────────────
   const ESCENARIOS = [
     ['Conservador', [1037800, 1816200], [622700, 1089700], [4, 7]],
-    ['Base', [3443900, 6122500], [2066300, 3673500], [9, 16]],
-    ['Optimista', [7003900, 12256800], [4202300, 7354100], [16, 28]],
+    ['Base', [3478300, 6183600], [2087000, 3710100], [9, 16]],
+    ['Optimista', [7090000, 12407500], [4254000, 7444500], [16, 28]],
   ]
   const opcEscenarios = p => {
     const cats = ESCENARIOS.flatMap(([n]) => [`${n}\naño 1`, `${n}\naño 2`])

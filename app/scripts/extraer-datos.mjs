@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Extrae los datos de la experiencia del propio estudio (../index.html).
+// Extrae los datos de la experiencia del propio estudio (../estudio.html).
 //
 // No se copian cifras a mano: se leen las constantes que comprobar.py ya
 // contrasta con JNTO y con el modelo, y se ejecutan en un contexto aislado
@@ -11,7 +11,7 @@ import { dirname, join } from 'node:path'
 import vm from 'node:vm'
 
 const aqui = dirname(fileURLToPath(import.meta.url))
-const html = readFileSync(join(aqui, '../../index.html'), 'utf8')
+const html = readFileSync(join(aqui, '../../estudio.html'), 'utf8')
 
 /** Texto de un bloque que abre en `desde` con [ { ( y cierra en su pareja. */
 function bloque(desde) {
@@ -29,13 +29,13 @@ function bloque(desde) {
 
 function constante(nombre) {
   const m = new RegExp(`const ${nombre}\\s*=\\s*`).exec(html)
-  if (!m) throw new Error(`no encuentro const ${nombre} en index.html`)
+  if (!m) throw new Error(`no encuentro const ${nombre} en estudio.html`)
   return vm.runInNewContext(`(${bloque(m.index + m[0].length)})`)
 }
 
 function funcion(nombre) {
   const i = html.indexOf(`function ${nombre}(`)
-  if (i < 0) throw new Error(`no encuentro function ${nombre} en index.html`)
+  if (i < 0) throw new Error(`no encuentro function ${nombre} en estudio.html`)
   return html.slice(i, i + bloque(html.indexOf('{', i)).length + (html.indexOf('{', i) - i))
 }
 
@@ -60,7 +60,7 @@ if (!titular || !entradilla) throw new Error('no encuentro el titular o la entra
 const datos = {
   titular, entradilla,
   generado: new Date().toISOString(),
-  fuente: 'Extraído de ../index.html por scripts/extraer-datos.mjs',
+  fuente: 'Extraído de ../estudio.html por scripts/extraer-datos.mjs',
   serie: constante('SERIE'),
   idxGolfo: constante('IDX_G'),
   idxEspana: constante('IDX_E'),

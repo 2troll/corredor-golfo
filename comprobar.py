@@ -30,12 +30,12 @@ DATOS = os.path.expanduser('~/projects/golfo-datos')
 
 
 def bloques():
-    with open(os.path.join(BASE, 'index.html'), encoding='utf-8') as f:
+    with open(os.path.join(BASE, 'estudio.html'), encoding='utf-8') as f:
         html = f.read()
     serie = re.search(r'const SERIE=\{(.*?)\n\};', html, re.S)
     golfo = re.search(r'const GOLFO=(\{.*?\});\n', html, re.S)
     if not serie or not golfo:
-        sys.exit('no encuentro const SERIE o const GOLFO en index.html')
+        sys.exit('no encuentro const SERIE o const GOLFO en estudio.html')
     web = {}
     for anio, cuerpo in re.findall(r'(\d{4}):\[([^\]]+)\]', serie.group(1)):
         web[int(anio)] = [None if x.strip() == 'null' else int(x)

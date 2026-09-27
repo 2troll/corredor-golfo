@@ -208,8 +208,8 @@ export function Cierre() {
       <p data-revela>Veintiún apartados, el simulador de costes, el globo con capas de NASA y el anexo con
         cada consulta y su respuesta.</p>
       <div className="acciones" data-entra>
-        <a className="boton" href="../">Leer el estudio completo</a>
-        <a className="boton claro" href="../#corredor">Abrir el globo en vivo</a>
+        <a className="boton" href="../estudio.html">Leer el estudio completo</a>
+        <a className="boton claro" href="../estudio.html#corredor">Abrir el globo en vivo</a>
       </div>
       <p className="contacto" data-entra>Tony Kansai Guide · <a href="mailto:tony@tonykansaiguide.com">tony@tonykansaiguide.com</a></p>
       <p className="nota">Datos en vivo: OpenSky Network, Open-Meteo y NASA. Cifras del mercado: JNTO y Agencia de Turismo de Japón, vía el estudio. Fotos del viaje: Wikimedia Commons, con autor y licencia en cada una.</p>
